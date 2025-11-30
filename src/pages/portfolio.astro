@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroScene from "../components/HeroScene";
+import HomeSection from "../components/sections/HomeSection";
+import AboutSection from "../components/sections/AboutSection";
+import SkillsSection from "../components/sections/SkillsSection";
+import ProjectsSection from "../components/sections/ProjectsSection";
+import ExperienceSection from "../components/sections/ExperienceSection";
+import ContactSection from "../components/sections/ContactSection";
+---
+
+<Layout title="Anthony's Portfolio">
+  <div id="three-background">
+    <HeroScene client:only="react" />
+  </div>
+
+  <div id="content-sections">
+    <HomeSection client:only="react" />
+    <AboutSection client:only="react" />
+    <SkillsSection client:only="react" />
+    <ProjectsSection client:only="react" />
+    <ExperienceSection client:only="react" />
+    <ContactSection client:only="react" />
+  </div>
+
+  <style is:global>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
+      }
+    }
+
+    #three-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #content-sections {
+      position: relative;
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .section-container {
+      min-height: 100vh;
+      width: 100%;
+      background: rgba(0, 0, 20, 0.319);
+      backdrop-filter: blur(0.5px);
+      position: relative;
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(110, 198, 255, 0.7) rgba(0, 0, 20, 1);
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(110, 198, 255, 0.7);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(140, 220, 255, 1);
+    }
+  </style>
+</Layout>
