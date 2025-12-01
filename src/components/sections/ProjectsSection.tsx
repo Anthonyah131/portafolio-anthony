@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ScrollFade from "../ScrollFade";
 
 const projects = [
   {
@@ -57,16 +58,9 @@ export default function ProjectsSection() {
   return (
     <section 
       id="projects" 
-      className="section-container"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '4rem 2rem',
-        position: 'relative',
-      }}
+      className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-8 lg:py-0 relative overflow-auto"
     >
+      <ScrollFade>
       <div style={{ 
         maxWidth: '1200px',
         width: '100%',
@@ -271,6 +265,7 @@ export default function ProjectsSection() {
           </div>
         )}
       </div>
+      </ScrollFade>
     </section>
   );
 }
