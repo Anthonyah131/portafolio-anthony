@@ -1,36 +1,43 @@
-import { X, ExternalLink, Github } from "lucide-react"
-import { useEffect } from "react"
-import { createPortal } from "react-dom"
+import { X, ExternalLink, Github } from "lucide-react";
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface ProjectModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
   project: {
-    title: string
-    description: string
-    image: string
-    tech: string[]
-    link: string
-    githubLink?: string
-  } | null
+    title: string;
+    description: string;
+    image: string;
+    tech: string[];
+    link: string;
+    githubLink?: string;
+  } | null;
 }
 
-export default function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
+export default function ProjectModal({
+  isOpen,
+  onClose,
+  project,
+}: ProjectModalProps) {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isOpen])
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
-  if (!isOpen || !project) return null
+  if (!isOpen || !project) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-200 flex items-center justify-center p-4 sm:p-6 md:p-8" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-200 flex items-center justify-center p-4 sm:p-6 md:p-8"
+      onClick={onClose}
+    >
       {/* Backdrop minimalista casi transparente */}
       <div className="fixed inset-0 bg-black/70 backdrop-blur-md" />
 
@@ -64,7 +71,9 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
           {/* Content minimalista */}
           <div className="p-6 sm:p-8 space-y-6">
             {/* Title */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-50">{project.title}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-50">
+              {project.title}
+            </h2>
 
             {/* Description */}
             <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
@@ -73,7 +82,9 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
 
             {/* Tech Stack minimalista */}
             <div className="space-y-3">
-              <h3 className="text-xs font-medium text-zinc-500 dark:text-zinc-500 uppercase tracking-wide">Stack</h3>
+              <h3 className="text-xs font-medium text-zinc-500 dark:text-zinc-500 uppercase tracking-wide">
+                Stack
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <span
@@ -115,6 +126,6 @@ export default function ProjectModal({ isOpen, onClose, project }: ProjectModalP
         </div>
       </div>
     </div>,
-    document.body,
-  )
+    document.body
+  );
 }

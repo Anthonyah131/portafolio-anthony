@@ -20,7 +20,6 @@ export default function HothScene({
   const groupRef = useRef<any>(null);
 
   useEffect(() => {
-    // Buscar las naves Snowspeeder en el modelo
     const snowspeeders: Object3D[] = [];
 
     scene.traverse((child: Object3D) => {
@@ -30,17 +29,10 @@ export default function HothScene({
         child.name === "Snowspeeder03"
       ) {
         snowspeeders.push(child);
-        console.log("✈️ Encontrada nave:", child.name);
       }
     });
 
-    if (snowspeeders.length === 0) {
-      console.warn("⚠️ No se encontraron naves Snowspeeder en el modelo");
-    }
-
-    // Agregar eventos de puntero a cada nave
     snowspeeders.forEach((ship) => {
-      // @ts-ignore - Three.js permite agregar propiedades personalizadas
       ship.userData.isInteractive = true;
     });
   }, [scene]);
@@ -49,25 +41,15 @@ export default function HothScene({
     e.stopPropagation();
     const objectName = e.object?.name || "";
 
-    console.log("👉 PointerEnter en:", objectName);
-
-    // Si es una nave
     if (
       objectName === "Snowspeeder01" ||
       objectName === "Snowspeeder02" ||
       objectName === "Snowspeeder03"
     ) {
-      // Solo manejar hover de naves si NO estamos en modo planeta (Contact)
       if (!onPlanetHover) {
-        console.log("🚀 Hover ENTER en nave:", objectName);
         onShipHover(true);
-      } else {
-        console.log("✈️ Nave ignorada (estamos en Contact)");
       }
-    }
-    // Si NO es una nave, es el planeta - activar controles de rotación
-    else if (onPlanetHover) {
-      console.log("🌍 Hover sobre planeta - activando controles");
+    } else if (onPlanetHover) {
       onPlanetHover(true);
     }
   };
@@ -76,33 +58,29 @@ export default function HothScene({
     e.stopPropagation();
     const objectName = e.object?.name || "";
 
-    // Solo manejar salida de hover de naves si NO estamos en Contact
     if (
       (objectName === "Snowspeeder01" ||
         objectName === "Snowspeeder02" ||
         objectName === "Snowspeeder03") &&
       !onPlanetHover
     ) {
-      console.log("🚀 Hover LEAVE de nave:", objectName);
       onShipHover(false);
     }
-    // No desactivamos los controles del planeta al salir del hover
-    // Solo se desactivan al salir de la sección Contact
   };
 
   // Usar el editable group si está disponible, sino usar group normal
-  const GroupComponent = editableGroup || 'group';
+  const GroupComponent = editableGroup || "group";
   const groupProps: any = editableGroup
-    ? { 
+    ? {
         theatreKey: "HothPlanet",
         ref: groupRef,
         position: [0, 0, 0] as [number, number, number],
-        scale: 3
+        scale: 3,
       }
-    : { 
+    : {
         ref: groupRef,
         position: [0, 0, 0] as [number, number, number],
-        scale: 3
+        scale: 3,
       };
 
   return (

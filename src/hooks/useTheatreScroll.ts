@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import type { ISheet } from '@theatre/core';
+import { useEffect } from "react";
+import type { ISheet } from "@theatre/core";
 
 interface UseTheatreScrollOptions {
   sheet: ISheet | null;
@@ -11,10 +11,10 @@ interface UseTheatreScrollOptions {
  * Hook para sincronizar el scroll con Theatre.js
  * Controla la animación 3D basada en el scroll de la página
  */
-export function useTheatreScroll({ 
-  sheet, 
-  editorMode, 
-  animationDuration = 12 
+export function useTheatreScroll({
+  sheet,
+  editorMode,
+  animationDuration = 12,
 }: UseTheatreScrollOptions) {
   useEffect(() => {
     if (editorMode || !sheet) return;
@@ -40,12 +40,12 @@ export function useTheatreScroll({
       animationFrameId = requestAnimationFrame(smoothUpdate);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     smoothUpdate();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
   }, [sheet, editorMode, animationDuration]);

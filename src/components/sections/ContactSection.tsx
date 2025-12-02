@@ -9,11 +9,11 @@ import {
   Send,
 } from "lucide-react";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 export default function ContactSection() {
   useScrollAnimation();
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +21,7 @@ export default function ContactSection() {
   });
   const [copied, setCopied] = useState(false);
   const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const myEmail = "anthonyah131@gmail.com";
   const whatsappNumber = "50685983050"; // Formato: código país + número sin espacios
@@ -30,33 +30,29 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    setStatus('idle');
+    setStatus("idle");
 
     try {
       const result = await emailjs.send(
-        'service_n32ow8a',
-        'template_mpinvfr',
+        "service_n32ow8a",
+        "template_mpinvfr",
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
           to_email: myEmail,
         },
-        'tjYwlu5aiKPvOrHAz'
+        "tjYwlu5aiKPvOrHAz"
       );
 
-      console.log('Email sent successfully:', result.text);
-      setStatus('success');
+      setStatus("success");
       setFormData({ name: "", email: "", message: "" });
-      
-      // Limpiar mensaje de éxito después de 5 segundos
-      setTimeout(() => setStatus('idle'), 5000);
+
+      setTimeout(() => setStatus("idle"), 5000);
     } catch (error) {
-      console.error('Error sending email:', error);
-      setStatus('error');
-      
-      // Limpiar mensaje de error después de 5 segundos
-      setTimeout(() => setStatus('idle'), 5000);
+      setStatus("error");
+
+      setTimeout(() => setStatus("idle"), 5000);
     } finally {
       setSending(false);
     }
@@ -83,13 +79,17 @@ export default function ContactSection() {
       className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-12 lg:py-0 relative overflow-hidden"
     >
       {/* Hint central - Solo visible en pantallas grandes */}
-      <div data-scroll="fade-down" className="hidden lg:block fixed bottom-10 left-1/2 -translate-x-1/2 z-10 animate-pulse">
+      <div
+        data-scroll="fade-down"
+        className="hidden lg:block fixed bottom-10 left-1/2 -translate-x-1/2 z-10 animate-pulse"
+      >
         <div className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-2xl">
           <p className="text-white font-medium text-center flex flex-col items-center gap-2">
             <span className="text-3xl animate-bounce">🌍</span>
             <span className="text-sm">
-              <span className="text-cyan-400 font-bold">Hover</span> over the planet and{" "}
-              <span className="text-purple-400 font-bold">drag</span> to rotate it!
+              <span className="text-cyan-400 font-bold">Hover</span> over the
+              planet and <span className="text-purple-400 font-bold">drag</span>{" "}
+              to rotate it!
             </span>
           </p>
         </div>
@@ -181,14 +181,18 @@ export default function ContactSection() {
             </button>
 
             {/* Status Messages */}
-            {status === 'success' && (
+            {status === "success" && (
               <div className="p-3 bg-green-500/20 border border-green-400/40 rounded-lg">
-                <p className="text-sm text-green-400 text-center">✓ Message sent successfully!</p>
+                <p className="text-sm text-green-400 text-center">
+                  ✓ Message sent successfully!
+                </p>
               </div>
             )}
-            {status === 'error' && (
+            {status === "error" && (
               <div className="p-3 bg-red-500/20 border border-red-400/40 rounded-lg">
-                <p className="text-sm text-red-400 text-center">✗ Error sending message. Try WhatsApp or Email.</p>
+                <p className="text-sm text-red-400 text-center">
+                  ✗ Error sending message. Try WhatsApp or Email.
+                </p>
               </div>
             )}
           </form>

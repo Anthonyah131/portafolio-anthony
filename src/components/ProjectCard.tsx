@@ -59,7 +59,9 @@ export default function ProjectCard({
               </span>
             ))}
             {tech.length > 3 && (
-              <span className="text-[9px] sm:text-[10px] text-white/40">+{tech.length - 3}</span>
+              <span className="text-[9px] sm:text-[10px] text-white/40">
+                +{tech.length - 3}
+              </span>
             )}
           </div>
         </div>

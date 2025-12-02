@@ -15,7 +15,13 @@ export default function PortfolioWrapper({ children }: PortfolioWrapperProps) {
   return (
     <>
       {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
-      <div className={isLoading ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>
+      <div
+        className={
+          isLoading
+            ? "opacity-0"
+            : "opacity-100 transition-opacity duration-500"
+        }
+      >
         {children}
       </div>
     </>

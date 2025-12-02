@@ -12,7 +12,9 @@ interface HeroSceneProps {
   editorMode?: boolean;
 }
 
-export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps) {
+export default function HeroSceneDynamic({
+  editorMode = false,
+}: HeroSceneProps) {
   const [isHoveringShip, setIsHoveringShip] = useState(false);
   const [planetRotationEnabled, setPlanetRotationEnabled] = useState(false);
   const [theatreLoaded, setTheatreLoaded] = useState(false);
@@ -20,35 +22,36 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   const [project, setProject] = useState<any>(null);
   const [sheet, setSheet] = useState<any>(null);
   const [mountKey, setMountKey] = useState(0);
-  
+
   const isInAboutSection = useAboutSection();
   const isInContactSection = useContactSection();
 
   // Usar useCallback para mantener la referencia estable
   const handleShipHover = useCallback((isHovering: boolean) => {
-    console.log('🎯 handleShipHover called:', isHovering);
     setIsHoveringShip(isHovering);
   }, []);
 
-  const handlePlanetHover = useCallback((isHovering: boolean) => {
-    if (isInContactSection && isHovering && !planetRotationEnabled) {
-      setTimeout(() => {
-        setPlanetRotationEnabled(true);
-        console.log("🔓 Rotación del planeta activada por hover");
-      }, 100);
-    }
-  }, [isInContactSection, planetRotationEnabled]);
+  const handlePlanetHover = useCallback(
+    (isHovering: boolean) => {
+      if (isInContactSection && isHovering && !planetRotationEnabled) {
+        setTimeout(() => {
+          setPlanetRotationEnabled(true);
+        }, 100);
+      }
+    },
+    [isInContactSection, planetRotationEnabled]
+  );
 
   // Forzar re-mount después de carga de Theatre.js
   useEffect(() => {
     if (theatreLoaded) {
-      setMountKey(prev => prev + 1);
+      setMountKey((prev) => prev + 1);
     }
   }, [theatreLoaded]);
 
   // Cargar Theatre.js dinámicamente solo en el cliente
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     let mounted = true;
 
@@ -119,12 +122,12 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
       animationFrameId = requestAnimationFrame(smoothUpdate);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     smoothUpdate();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
   }, [sheet, editorMode, theatreLoaded]);
@@ -133,17 +136,10 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   useEffect(() => {
     if (!isInContactSection && planetRotationEnabled) {
       setPlanetRotationEnabled(false);
-      console.log("🔒 Rotación deshabilitada (salió de Contact)");
     }
   }, [isInContactSection, planetRotationEnabled]);
 
-  // Mostrar modal solo cuando estamos en About Y hay hover sobre una nave
   const showProfileModal = isInAboutSection && isHoveringShip;
-
-  // Log para debug
-  useEffect(() => {
-    console.log('🔍 Estado actual:', { isInAboutSection, isHoveringShip, showProfileModal });
-  }, [isInAboutSection, isHoveringShip, showProfileModal]);
 
   // Renderizar fallback mientras Theatre.js se carga
   if (!theatreLoaded || !TheatreComponents) {
@@ -157,12 +153,12 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
         }}
       >
         <ProfileModal show={showProfileModal} />
-        
+
         <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
           <color attach="background" args={["#070F19"]} />
           <ambientLight intensity={0.1} color="#5da8c3" />
           <ColoredLights />
-          
+
           <group>
             <StarsField count={2000} radius={100} />
           </group>
@@ -195,7 +191,12 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
     );
   }
 
-  const { PerspectiveCamera, RefreshSnapshot, editable: e, SheetProvider } = TheatreComponents;
+  const {
+    PerspectiveCamera,
+    RefreshSnapshot,
+    editable: e,
+    SheetProvider,
+  } = TheatreComponents;
 
   return (
     <div

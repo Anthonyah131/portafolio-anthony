@@ -51,7 +51,7 @@ export default function ScrollFade({
 
   const getTransform = () => {
     if (isVisible) return "translate(0, 0)";
-    
+
     switch (direction) {
       case "up":
         return "translate(0, 50px)";

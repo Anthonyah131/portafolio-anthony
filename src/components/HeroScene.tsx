@@ -47,16 +47,13 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
   useEffect(() => {
     if (!isInContactSection && planetRotationEnabled) {
       setPlanetRotationEnabled(false);
-      console.log("🔒 Rotación deshabilitada (salió de Contact)");
     }
   }, [isInContactSection, planetRotationEnabled]);
 
   const handlePlanetHover = (isHovering: boolean) => {
     if (isInContactSection && isHovering && !planetRotationEnabled) {
-      // Pequeño delay para asegurar que los controles se inicialicen correctamente
       setTimeout(() => {
         setPlanetRotationEnabled(true);
-        console.log("🔓 Rotación del planeta activada por hover");
       }, 100);
     }
   };

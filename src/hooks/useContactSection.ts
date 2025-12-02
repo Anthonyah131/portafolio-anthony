@@ -16,7 +16,8 @@ export function useContactSection() {
 
       // Consideramos que estamos en Contact si la sección está visible
       // al menos un 30% en el viewport
-      const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      const visibleHeight =
+        Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
       const visiblePercentage = visibleHeight / windowHeight;
 
       setIsInContactSection(visiblePercentage > 0.3);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 /**
  * Hook para detectar cuando estamos en la sección About
@@ -10,25 +10,18 @@ export function useAboutSection() {
   useEffect(() => {
     // Esperar a que el DOM esté completamente cargado
     const initObserver = () => {
-      const aboutSection = document.getElementById('about');
-      
+      const aboutSection = document.getElementById("about");
+
       if (!aboutSection) {
-        console.warn('⚠️ Sección About no encontrada, reintentando...');
         setTimeout(initObserver, 100);
         return;
       }
 
-      console.log('✅ Sección About encontrada, iniciando observer');
-
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            const inAbout = entry.isIntersecting && entry.intersectionRatio > 0.2;
-            console.log('📍 About IntersectionObserver:', {
-              isIntersecting: entry.isIntersecting,
-              ratio: entry.intersectionRatio,
-              inAbout
-            });
+            const inAbout =
+              entry.isIntersecting && entry.intersectionRatio > 0.2;
             setIsInAboutSection(inAbout);
           });
         },
@@ -36,17 +29,17 @@ export function useAboutSection() {
       );
 
       observer.observe(aboutSection);
-      
+
       // Trigger inicial manual
       const rect = aboutSection.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
       if (isVisible) {
         const ratio = Math.min(
-          (Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)) / rect.height,
+          (Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)) /
+            rect.height,
           1
         );
         if (ratio > 0.2) {
-          console.log('📍 Trigger inicial - About visible con ratio:', ratio);
           setIsInAboutSection(true);
         }
       }
