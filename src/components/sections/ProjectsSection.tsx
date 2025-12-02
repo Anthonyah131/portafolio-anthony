@@ -3,8 +3,11 @@ import ProjectCard from "../ProjectCard";
 import CertificateCard from "../CertificateCard";
 import { projects } from "../../data/projects";
 import { certificates } from "../../data/certificates";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 export default function ProjectsSection() {
+  useScrollAnimation();
+  
   const [activeTab, setActiveTab] = useState<"projects" | "certificates">(
     "projects"
   );
@@ -42,7 +45,7 @@ export default function ProjectsSection() {
       id="projects"
       className="section-container min-h-screen lg:h-screen flex items-center justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-0 relative overflow-hidden"
     >
-      <div className="w-full lg:w-[60%] max-w-5xl mx-auto lg:mx-0">
+      <div data-scroll="fade-up" className="w-full lg:w-[60%] max-w-5xl mx-auto lg:mx-0">
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 md:mb-5 text-center lg:text-left font-starwars tracking-wider">
           <span className="text-white">Projects &</span>{" "}

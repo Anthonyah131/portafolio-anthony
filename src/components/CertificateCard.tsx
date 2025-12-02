@@ -14,10 +14,10 @@ export default function CertificateCard({
   credentialId,
 }: CertificateCardProps) {
   const CardContent = (
-    <div className="h-full group relative bg-linear-to-br from-white/2 to-white/8 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10 hover:border-purple-400/50 transition-all duration-500 overflow-hidden flex flex-col">
-      {/* Destello morado estilo Star Wars */}
-      <div className="absolute inset-0 bg-linear-to-br from-purple-500/0 via-purple-400/0 to-fuchsia-500/0 group-hover:from-purple-500/20 group-hover:via-purple-400/15 group-hover:to-fuchsia-500/20 transition-all duration-500"></div>
-      
+    <div className="h-full group relative bg-linear-to-br from-white/2 to-white/8 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10 hover:border-purple-400/50 transition-all duration-300 overflow-hidden flex flex-col will-change-transform">
+      {/* Destello morado estilo Star Wars - solo en desktop */}
+      <div className="absolute inset-0 bg-linear-to-br from-purple-500/0 via-purple-400/0 to-fuchsia-500/0 lg:group-hover:from-purple-500/20 lg:group-hover:via-purple-400/15 lg:group-hover:to-fuchsia-500/20 transition-all duration-300"></div>
+
       <div className="relative flex items-start justify-between gap-2 sm:gap-3 flex-1">
         {/* Icon */}
         <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-linear-to-br from-purple-500/20 to-fuchsia-500/20 rounded-lg flex items-center justify-center border border-purple-400/30">

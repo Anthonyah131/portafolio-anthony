@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import {
   Sparkles,
   ArrowRight,
@@ -13,13 +14,16 @@ export default function HomeSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const roles = [
-    "Artificial Intelligence",
-    "Full Stack Developer",
-    "Creative Technologist",
-    "3D Web Designer",
-  ];
+  // Activar animaciones de scroll
+  useScrollAnimation();
 
+  const roles = [
+    "Software Engineer",
+    "Full-Stack Developer",
+    "Backend Developer",
+    "Mobile App Developer",
+    "Frontend Developer",
+  ];
   useEffect(() => {
     const currentRole = roles[currentIndex];
     const timeout = setTimeout(
@@ -48,9 +52,10 @@ export default function HomeSection() {
   return (
     <section
       id="home"
+      data-scroll="slide-left"
       className="section-container min-h-screen lg:h-screen flex items-center relative px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-8 lg:py-0"
     >
-      <div className="w-full max-w-6xl mx-auto animate-fade-in-up">
+      <div className="w-full max-w-6xl mx-auto">
         <div className="text-white">
           {/* Title */}
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold my-6 leading-tight font-starwars tracking-wider">
@@ -65,9 +70,12 @@ export default function HomeSection() {
 
           {/* Description */}
           <p className="text-base md:text-lg leading-relaxed text-gray-300 mb-10 max-w-2xl">
-            I'm an AI student and web developer. I'm passionate about creating,
-            learning, and bringing my ideas to life through programming and
-            creativity.
+            I’m a full-stack developer with experience designing, building, and
+            shipping web and mobile applications. I enjoy working across the
+            stack — backend APIs, database design, authentication, deployment —
+            while also crafting intuitive and responsive UI experiences. My
+            approach combines engineering discipline with clean design and
+            product thinking.
           </p>
 
           {/* CTA Buttons */}
@@ -81,8 +89,8 @@ export default function HomeSection() {
             </a>
 
             <a
-              href="/cv.pdf"
-              download
+              href="/cv/CV_I_Anthony_Avila_H.pdf"
+              download="Anthony_Avila_CV.pdf"
               className="group px-8 py-3 bg-black text-white border border-white/20 rounded-full font-semibold inline-flex items-center gap-2 transition-all duration-300 hover:bg-white/10 hover:border-white"
             >
               <Download className="w-4 h-4" />
@@ -97,7 +105,7 @@ export default function HomeSection() {
             </span>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/anthah_131"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"
@@ -105,7 +113,7 @@ export default function HomeSection() {
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/anthonyah-webdev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"
@@ -113,7 +121,7 @@ export default function HomeSection() {
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/Anthonyah131"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"

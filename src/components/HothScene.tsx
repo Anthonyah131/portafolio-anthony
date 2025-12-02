@@ -1,35 +1,27 @@
 import { useGLTF } from "@react-three/drei";
 import { editable as e } from "@theatre/r3f";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { Object3D } from "three";
-import { useFrame } from "@react-three/fiber";
 
 interface HothSceneProps {
-  onShipHover: (hovering: boolean) => void;
-  enableRotation: boolean;
-  onRotationStart?: () => void;
-  onRotationEnd?: () => void;
+  onShipHover: (isHovering: boolean) => void;
+  onPlanetHover?: (isHovering: boolean) => void;
 }
 
 /**
  * Componente que renderiza el planeta Hoth y detecta hover sobre las naves Snowspeeder
  */
-export default function HothScene({ 
-  onShipHover, 
-  enableRotation,
-  onRotationStart,
-  onRotationEnd 
+export default function HothScene({
+  onShipHover,
+  onPlanetHover,
 }: HothSceneProps) {
   const { scene } = useGLTF("/models/hothPlanet.glb");
   const groupRef = useRef<any>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [previousMouseX, setPreviousMouseX] = useState(0);
-  const rotationSpeed = useRef(0);
 
   useEffect(() => {
     // Buscar las naves Snowspeeder en el modelo
     const snowspeeders: Object3D[] = [];
-    
+
     scene.traverse((child: Object3D) => {
       if (
         child.name === "Snowspeeder01" ||
@@ -50,102 +42,59 @@ export default function HothScene({
       // @ts-ignore - Three.js permite agregar propiedades personalizadas
       ship.userData.isInteractive = true;
     });
-
   }, [scene]);
-
-  // Animar rotación del planeta
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-
-    // Si estamos arrastrando, no aplicar inercia aún
-    if (isDragging) return;
-
-    // Aplicar inercia (desaceleración gradual)
-    if (Math.abs(rotationSpeed.current) > 0.001) {
-      groupRef.current.rotation.y += rotationSpeed.current;
-      rotationSpeed.current *= 0.95; // Factor de fricción
-    } else {
-      rotationSpeed.current = 0;
-    }
-  });
 
   const handlePointerEnter = (e: any) => {
     e.stopPropagation();
     const objectName = e.object?.name || "";
-    
-    // Solo manejar hover de naves en About section
+
+    console.log("👉 PointerEnter en:", objectName);
+
+    // Si es una nave
     if (
-      !enableRotation &&
-      (objectName === "Snowspeeder01" ||
+      objectName === "Snowspeeder01" ||
       objectName === "Snowspeeder02" ||
-      objectName === "Snowspeeder03")
+      objectName === "Snowspeeder03"
     ) {
-      console.log("🚀 Hover ENTER en nave:", objectName);
-      onShipHover(true);
+      // Solo manejar hover de naves si NO estamos en modo planeta (Contact)
+      if (!onPlanetHover) {
+        console.log("🚀 Hover ENTER en nave:", objectName);
+        onShipHover(true);
+      } else {
+        console.log("✈️ Nave ignorada (estamos en Contact)");
+      }
+    }
+    // Si NO es una nave, es el planeta - activar controles de rotación
+    else if (onPlanetHover) {
+      console.log("🌍 Hover sobre planeta - activando controles");
+      onPlanetHover(true);
     }
   };
 
   const handlePointerLeave = (e: any) => {
     e.stopPropagation();
     const objectName = e.object?.name || "";
-    
-    // Solo manejar hover de naves en About section
+
+    // Solo manejar salida de hover de naves si NO estamos en Contact
     if (
-      !enableRotation &&
       (objectName === "Snowspeeder01" ||
-      objectName === "Snowspeeder02" ||
-      objectName === "Snowspeeder03")
+        objectName === "Snowspeeder02" ||
+        objectName === "Snowspeeder03") &&
+      !onPlanetHover
     ) {
       console.log("🚀 Hover LEAVE de nave:", objectName);
       onShipHover(false);
     }
-  };
-
-  const handlePointerDown = (e: any) => {
-    // Si no está habilitada la rotación, no hacer nada
-    if (!enableRotation) return;
-    
-    console.log("🌍 Click detectado en planeta - enableRotation:", enableRotation);
-    e.stopPropagation();
-    setIsDragging(true);
-    setPreviousMouseX(e.clientX);
-    onRotationStart?.();
-    console.log("🌍 Rotación del planeta habilitada - isDragging:", true);
-  };
-
-  const handlePointerMove = (e: any) => {
-    if (!isDragging) return;
-    
-    const deltaX = e.clientX - previousMouseX;
-    
-    if (groupRef.current) {
-      // Rotar el planeta basado en el movimiento del mouse
-      const rotationDelta = deltaX * 0.01;
-      groupRef.current.rotation.y += rotationDelta;
-      rotationSpeed.current = rotationDelta;
-      console.log("🌍 Rotando planeta - deltaX:", deltaX, "rotation:", groupRef.current.rotation.y);
-    }
-    
-    setPreviousMouseX(e.clientX);
-  };
-
-  const handlePointerUp = (e: any) => {
-    if (!isDragging) return;
-    
-    console.log("🌍 Soltando planeta");
-    setIsDragging(false);
-    onRotationEnd?.();
+    // No desactivamos los controles del planeta al salir del hover
+    // Solo se desactivan al salir de la sección Contact
   };
 
   return (
-    <e.group 
+    <e.group
       ref={groupRef}
-      theatreKey="HothPlanet" 
-      position={[0, 0, 0]} 
+      theatreKey="HothPlanet"
+      position={[0, 0, 0]}
       scale={3}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
     >
       {/* Glow del planeta */}
       <mesh scale={3.2}>
@@ -154,8 +103,8 @@ export default function HothScene({
       </mesh>
 
       {/* Modelo del planeta y naves con eventos de hover */}
-      <primitive 
-        object={scene} 
+      <primitive
+        object={scene}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       />

@@ -6,12 +6,13 @@ import HomeSection from "../components/sections/HomeSection";
 import AboutSection from "../components/sections/AboutSection";
 import SkillsSection from "../components/sections/SkillsSection";
 import ProjectsSection from "../components/sections/ProjectsSection";
-import ExperienceSection from "../components/sections/ExperienceSection";
 import ContactSection from "../components/sections/ContactSection";
+import PortfolioWrapper from "../components/PortfolioWrapper";
 ---
 
 <Layout title="Anthony's Portfolio">
-  <Header client:only="react" />
+  <PortfolioWrapper client:only="react">
+    <Header client:only="react" />
 
   <!-- Canvas 3D solo en desktop (lg y superior) -->
   <div id="three-background" class="hidden lg:block">
@@ -40,6 +41,7 @@ import ContactSection from "../components/sections/ContactSection";
     <ProjectsSection client:only="react" />
     <ContactSection client:only="react" />
   </div>
+  </PortfolioWrapper>
 
   <style is:global>
     html,
@@ -97,9 +99,15 @@ import ContactSection from "../components/sections/ContactSection";
       min-height: 100vh;
       width: 100%;
       background: rgba(0, 0, 20, 0);
-      backdrop-filter: blur(0.5px);
       position: relative;
       pointer-events: auto; /* Pero cada sección sí acepta eventos */
+    }
+
+    /* En desktop, agregar blur sutil */
+    @media (min-width: 1024px) {
+      .section-container {
+        backdrop-filter: blur(0.5px);
+      }
     }
 
     /* En móviles, agregar separadores visuales sutiles entre secciones */

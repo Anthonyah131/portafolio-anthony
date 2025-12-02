@@ -45,7 +45,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-3 left-1/2 -translate-x-1/2 z-50 px-2 py-1.5 bg-white/95 backdrop-blur-xl rounded-full shadow-lg border border-white/40 animate-slide-down">
+    <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-2 py-1.5 bg-white/95 backdrop-blur-xl rounded-full shadow-lg border border-white/40 lg:animate-slide-down">
       <nav className="flex gap-1.5 md:gap-3 items-center">
         {navItems.map((item) => {
           const Icon = item.icon;

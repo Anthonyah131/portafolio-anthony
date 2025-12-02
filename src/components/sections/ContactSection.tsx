@@ -1,7 +1,18 @@
 import { useState } from "react";
-import { Mail, Copy, CheckCircle, Linkedin, Github, MessageCircle, Send } from "lucide-react";
+import {
+  Mail,
+  Copy,
+  CheckCircle,
+  Linkedin,
+  Github,
+  MessageCircle,
+  Send,
+} from "lucide-react";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 export default function ContactSection() {
+  useScrollAnimation();
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -9,9 +20,9 @@ export default function ContactSection() {
   });
   const [copied, setCopied] = useState(false);
 
-  const myEmail = "your.email@example.com";
-  const whatsappNumber = "1234567890"; // Formato: código país + número sin espacios
-  const telegramUsername = "yourusername";
+  const myEmail = "anthonyah131@gmail.com";
+  const whatsappNumber = "50685983050"; // Formato: código país + número sin espacios
+  const telegramUsername = "AnthonyAH";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,19 +50,34 @@ export default function ContactSection() {
       id="contact"
       className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-12 lg:py-0 relative overflow-hidden"
     >
-      {/* Contenedor con 2 columnas laterales y centro libre */}
-      <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-[26%_48%_26%] gap-6 lg:gap-0 relative z-10 pointer-events-none">
-        
+      {/* Hint central - Solo visible en pantallas grandes */}
+      <div data-scroll="fade-down" className="hidden lg:block fixed bottom-10 left-1/2 -translate-x-1/2 z-10 animate-pulse">
+        <div className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-2xl">
+          <p className="text-white font-medium text-center flex flex-col items-center gap-2">
+            <span className="text-3xl animate-bounce">🌍</span>
+            <span className="text-sm">
+              <span className="text-cyan-400 font-bold">Hover</span> over the planet and{" "}
+              <span className="text-purple-400 font-bold">drag</span> to rotate it!
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {/* Contenedor responsivo: Grid en móvil, Absolute positioning en desktop */}
+      <div data-scroll="zoom" className="w-full mx-auto relative">
         {/* COLUMNA IZQUIERDA - Formulario */}
-        <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.08] backdrop-blur-sm rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto">
+        <div className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] mb-6 lg:mb-0 relative z-10">
           <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white font-starwars tracking-wider">
-            Send Message
+            send message
           </h2>
           <p className="text-sm text-white/60 mb-6">Quick contact form</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm text-white/80 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm text-white/80 mb-2"
+              >
                 Name
               </label>
               <input
@@ -61,13 +87,16 @@ export default function ContactSection() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all"
                 placeholder="Your name"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm text-white/80 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm text-white/80 mb-2"
+              >
                 Email
               </label>
               <input
@@ -77,13 +106,16 @@ export default function ContactSection() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all"
                 placeholder="your@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm text-white/80 mb-2">
+              <label
+                htmlFor="message"
+                className="block text-sm text-white/80 mb-2"
+              >
                 Message
               </label>
               <textarea
@@ -93,14 +125,14 @@ export default function ContactSection() {
                 onChange={handleChange}
                 required
                 rows={4}
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-2 focus:ring-blue-400/20 transition-all resize-none"
+                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all resize-none"
                 placeholder="Your message..."
               />
             </div>
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg text-white font-medium transition-colors duration-300"
             >
               <Send className="w-4 h-4" />
               Send Message
@@ -108,15 +140,13 @@ export default function ContactSection() {
           </form>
         </div>
 
-        {/* COLUMNA CENTRAL - Vacía para el planeta */}
-        <div className="hidden lg:block">
-          {/* Espacio libre para interactuar con el planeta 3D */}
-        </div>
+        {/* COLUMNA CENTRAL - Espacio libre (sin contenedor, sin pointer-events) */}
+        {/* El centro queda completamente vacío para que los eventos pasen al Canvas 3D */}
 
         {/* COLUMNA DERECHA - Contacto directo */}
-        <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.08] backdrop-blur-sm rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto">
+        <div className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] relative z-10">
           <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white font-starwars tracking-wider">
-            Get In Touch
+            get in touch
           </h2>
           <p className="text-sm text-white/60 mb-6">Direct contact options</p>
 
@@ -150,7 +180,7 @@ export default function ContactSection() {
               href={`mailto:${myEmail}`}
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300 group"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 flex-shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 shrink-0">
                 <Mail className="w-4 h-4 text-blue-400" />
               </div>
               <div className="flex-1 min-w-0">
@@ -165,11 +195,13 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-green-400/40 rounded-lg transition-all duration-300 group"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-400/30 group-hover:border-green-400/50 flex-shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-400/30 group-hover:border-green-400/50 shrink-0">
                 <MessageCircle className="w-4 h-4 text-green-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">WhatsApp</p>
+                <p className="text-xs font-medium text-white truncate">
+                  WhatsApp
+                </p>
                 <p className="text-[10px] text-white/50">Chat now</p>
               </div>
             </a>
@@ -180,41 +212,47 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-cyan-400/40 rounded-lg transition-all duration-300 group"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:border-cyan-400/50 flex-shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:border-cyan-400/50 shrink-0">
                 <Send className="w-4 h-4 text-cyan-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">Telegram</p>
+                <p className="text-xs font-medium text-white truncate">
+                  Telegram
+                </p>
                 <p className="text-[10px] text-white/50">Message me</p>
               </div>
             </a>
 
             <a
-              href="https://linkedin.com/in/your-profile"
+              href="https://www.linkedin.com/in/anthonyah-webdev"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300 group"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 flex-shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 shrink-0">
                 <Linkedin className="w-4 h-4 text-blue-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">LinkedIn</p>
+                <p className="text-xs font-medium text-white truncate">
+                  LinkedIn
+                </p>
                 <p className="text-[10px] text-white/50">Connect</p>
               </div>
             </a>
 
             <a
-              href="https://github.com/your-username"
+              href="https://github.com/Anthonyah131"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-purple-400/40 rounded-lg transition-all duration-300 group sm:col-span-2"
             >
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-400/30 group-hover:border-purple-400/50 flex-shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-400/30 group-hover:border-purple-400/50 shrink-0">
                 <Github className="w-4 h-4 text-purple-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">GitHub</p>
+                <p className="text-xs font-medium text-white truncate">
+                  GitHub
+                </p>
                 <p className="text-[10px] text-white/50">View profile</p>
               </div>
             </a>

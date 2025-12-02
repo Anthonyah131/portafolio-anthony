@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ScrollFade from "../ScrollFade";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import {
   Brain,
   MessageCircle,
@@ -151,13 +152,14 @@ const softSkills = [
 
 export default function SkillsSection() {
   const [activeTab, setActiveTab] = useState<"technical" | "soft">("technical");
+  useScrollAnimation();
 
   return (
     <section
       id="skills"
       className="section-container min-h-screen lg:h-screen flex items-center justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 lg:py-0 relative overflow-hidden"
     >
-      <div className="w-full lg:w-[70%] max-w-5xl">
+      <div data-scroll="slide-left" className="w-full lg:w-[70%] max-w-5xl">
         {/* Title */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 md:mb-5 text-center lg:text-left font-starwars tracking-wider">
           <span className="text-white">Skills &</span>{" "}

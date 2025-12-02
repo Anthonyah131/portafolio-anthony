@@ -25,13 +25,13 @@ export default function ProfileModal({ show }: ProfileModalProps) {
           <img
             src="/imgs/AnthonyPerfil.jpg"
             alt="Anthony"
-            className="rounded-xl shadow-2xl w-48 h-48 object-cover"
+            className="rounded-xl shadow-2xl w-56 h-56 object-cover"
           />
           <p className="text-white text-center mt-3 font-semibold text-base">
-            Anthony
+            Anthony Avila
           </p>
           <p className="text-gray-400 text-center text-xs">
-            AI Student & Developer
+            Software Engineer & Full-Stack Developer
           </p>
         </div>
       </div>
