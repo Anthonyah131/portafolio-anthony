@@ -1,4 +1,4 @@
-import { useEffect, Suspense, useState } from "react";
+import { useEffect, Suspense, useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import StarsField from "./StarsField";
@@ -23,6 +23,21 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   
   const isInAboutSection = useAboutSection();
   const isInContactSection = useContactSection();
+
+  // Usar useCallback para mantener la referencia estable
+  const handleShipHover = useCallback((isHovering: boolean) => {
+    console.log('🎯 handleShipHover called:', isHovering);
+    setIsHoveringShip(isHovering);
+  }, []);
+
+  const handlePlanetHover = useCallback((isHovering: boolean) => {
+    if (isInContactSection && isHovering && !planetRotationEnabled) {
+      setTimeout(() => {
+        setPlanetRotationEnabled(true);
+        console.log("🔓 Rotación del planeta activada por hover");
+      }, 100);
+    }
+  }, [isInContactSection, planetRotationEnabled]);
 
   // Forzar re-mount después de carga de Theatre.js
   useEffect(() => {
@@ -122,17 +137,13 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
     }
   }, [isInContactSection, planetRotationEnabled]);
 
-  const handlePlanetHover = (isHovering: boolean) => {
-    if (isInContactSection && isHovering && !planetRotationEnabled) {
-      setTimeout(() => {
-        setPlanetRotationEnabled(true);
-        console.log("🔓 Rotación del planeta activada por hover");
-      }, 100);
-    }
-  };
-
   // Mostrar modal solo cuando estamos en About Y hay hover sobre una nave
   const showProfileModal = isInAboutSection && isHoveringShip;
+
+  // Log para debug
+  useEffect(() => {
+    console.log('🔍 Estado actual:', { isInAboutSection, isHoveringShip, showProfileModal });
+  }, [isInAboutSection, isHoveringShip, showProfileModal]);
 
   // Renderizar fallback mientras Theatre.js se carga
   if (!theatreLoaded || !TheatreComponents) {
@@ -159,7 +170,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
           <Suspense fallback={null}>
             <HothScene
               key="hoth-fallback"
-              onShipHover={setIsHoveringShip}
+              onShipHover={handleShipHover}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
               editableGroup={undefined}
             />
@@ -238,7 +249,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
             {editorMode && <RefreshSnapshot />}
             <HothScene
               key={`hoth-theatre-${mountKey}`}
-              onShipHover={setIsHoveringShip}
+              onShipHover={handleShipHover}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
               editableGroup={e.group}
             />
