@@ -152,6 +152,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
             <HothScene
               onShipHover={setIsHoveringShip}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
+              editableGroup={undefined}
             />
           </Suspense>
 
@@ -229,6 +230,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
             <HothScene
               onShipHover={setIsHoveringShip}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
+              editableGroup={e.group}
             />
           </Suspense>
         </SheetProvider>

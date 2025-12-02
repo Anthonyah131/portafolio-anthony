@@ -1,10 +1,11 @@
 import { useGLTF } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { Object3D } from "three";
 
 interface HothSceneProps {
   onShipHover: (isHovering: boolean) => void;
   onPlanetHover?: (isHovering: boolean) => void;
+  editableGroup?: any;
 }
 
 /**
@@ -13,33 +14,10 @@ interface HothSceneProps {
 export default function HothScene({
   onShipHover,
   onPlanetHover,
+  editableGroup,
 }: HothSceneProps) {
   const { scene } = useGLTF("/models/hothPlanet.glb");
   const groupRef = useRef<any>(null);
-  const [EditableGroup, setEditableGroup] = useState<any>(null);
-
-  // Cargar Theatre.js editable dinámicamente
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadEditable() {
-      try {
-        const r3f = await import("@theatre/r3f");
-        if (mounted) {
-          setEditableGroup(() => r3f.editable.group);
-        }
-      } catch (error) {
-        console.error("Error loading Theatre.js editable:", error);
-        setEditableGroup(null);
-      }
-    }
-
-    loadEditable();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   useEffect(() => {
     // Buscar las naves Snowspeeder en el modelo
@@ -112,18 +90,18 @@ export default function HothScene({
     // Solo se desactivan al salir de la sección Contact
   };
 
-  // Usar group normal si Theatre.js no está cargado
-  const GroupComponent = EditableGroup || 'group';
-  const groupProps: any = EditableGroup
+  // Usar el editable group si está disponible, sino usar group normal
+  const GroupComponent = editableGroup || 'group';
+  const groupProps: any = editableGroup
     ? { 
         theatreKey: "HothPlanet",
         ref: groupRef,
-        position: [0, 0, 0],
+        position: [0, 0, 0] as [number, number, number],
         scale: 3
       }
     : { 
         ref: groupRef,
-        position: [0, 0, 0],
+        position: [0, 0, 0] as [number, number, number],
         scale: 3
       };
 
