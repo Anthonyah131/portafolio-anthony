@@ -36,7 +36,7 @@ export function useScrollAnimation() {
         });
       },
       {
-        threshold: 0.4,
+        threshold: 0.3,
         rootMargin: '0px'
       }
     );

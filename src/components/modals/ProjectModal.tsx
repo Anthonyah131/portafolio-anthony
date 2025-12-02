@@ -1,5 +1,3 @@
-"use client"
-
 import { X, ExternalLink, Github } from "lucide-react"
 import { useEffect } from "react"
 import { createPortal } from "react-dom"

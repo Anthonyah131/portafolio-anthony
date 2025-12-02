@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Home, User, Code2, Briefcase, Mail } from "lucide-react";
 
