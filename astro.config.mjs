@@ -11,5 +11,11 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['@theatre/core', '@theatre/r3f'],
+    },
+    ssr: {
+      noExternal: ['@theatre/core', '@theatre/r3f', '@theatre/studio'],
+    },
   },
 });
