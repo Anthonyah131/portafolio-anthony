@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import StarsField from "./StarsField";
 import ColoredLights from "./ColoredLights";
-import HothSceneDynamic from "./HothSceneDynamic";
+import HothScene from "./HothScene";
 import ProfileModal from "./ProfileModal";
 import { useAboutSection } from "../hooks/useAboutSection";
 import { useContactSection } from "../hooks/useContactSection";
@@ -61,7 +61,6 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
         setTheatreLoaded(true);
       } catch (error) {
         console.error("Error loading Theatre.js:", error);
-        // Fallback: permitir que el canvas se renderice sin Theatre.js
         setTheatreLoaded(false);
       }
     }
@@ -84,7 +83,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
     const handleScroll = () => {
       const scrollProgress =
         window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      targetPosition = scrollProgress * 12; // animationDuration = 12
+      targetPosition = scrollProgress * 12;
     };
 
     const smoothUpdate = () => {
@@ -116,47 +115,46 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   }, [isInContactSection, planetRotationEnabled]);
 
   const handlePlanetHover = (isHovering: boolean) => {
-    if (!planetRotationEnabled && isHovering) {
-      setPlanetRotationEnabled(true);
-      console.log("🔓 Rotación habilitada (hover en planeta)");
+    if (isInContactSection && isHovering && !planetRotationEnabled) {
+      setTimeout(() => {
+        setPlanetRotationEnabled(true);
+        console.log("🔓 Rotación del planeta activada por hover");
+      }, 100);
     }
   };
 
-  // Renderizar loading o fallback mientras Theatre.js se carga
+  // Mostrar modal solo cuando estamos en About Y hay hover sobre una nave
+  const showProfileModal = isInAboutSection && isHoveringShip;
+
+  // Renderizar fallback mientras Theatre.js se carga
   if (!theatreLoaded || !TheatreComponents) {
     return (
-      <div className="w-full h-screen">
-        <Canvas
-          dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true }}
-          camera={{
-            position: [0, 0, 80],
-            fov: 50,
-            near: 0.1,
-            far: 1000,
-          }}
-        >
-          {/* Color de fondo */}
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "relative",
+          cursor: showProfileModal ? "pointer" : "default",
+        }}
+      >
+        <ProfileModal show={showProfileModal} />
+        
+        <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
           <color attach="background" args={["#070F19"]} />
-
-          {/* Luces */}
           <ambientLight intensity={0.1} color="#5da8c3" />
           <ColoredLights />
+          
+          <group>
+            <StarsField count={2000} radius={100} />
+          </group>
 
-          {/* Estrellas */}
-          <StarsField count={2000} radius={100} />
-
-          {/* Planeta Hoth sin Theatre.js */}
           <Suspense fallback={null}>
-            <group position={[0, 0, 0]}>
-              <HothSceneDynamic
-                onShipHover={setIsHoveringShip}
-                onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
-              />
-            </group>
+            <HothScene
+              onShipHover={setIsHoveringShip}
+              onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
+            />
           </Suspense>
 
-          {/* OrbitControls en Contact */}
           {planetRotationEnabled && (
             <OrbitControls
               makeDefault={true}
@@ -172,13 +170,6 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
             />
           )}
         </Canvas>
-
-        {isInAboutSection && (
-          <ProfileModal
-            isOpen={isInAboutSection}
-            isHoveringShip={isHoveringShip}
-          />
-        )}
       </div>
     );
   }
@@ -186,26 +177,30 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   const { PerspectiveCamera, RefreshSnapshot, editable: e, SheetProvider } = TheatreComponents;
 
   return (
-    <div className="w-full h-screen">
-      <Canvas
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-        frameloop="always"
-      >
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        cursor: showProfileModal ? "pointer" : "default",
+      }}
+    >
+      <ProfileModal show={showProfileModal} />
+
+      <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
         <SheetProvider sheet={sheet}>
           <PerspectiveCamera
             theatreKey="Camera"
             makeDefault={!planetRotationEnabled}
-            position={[0, 0, 80]}
-            fov={50}
+            position={[0, 8.653, 94.21300000000018]}
+            fov={45}
             near={0.1}
-            far={1000}
+            far={2000}
             attachArray={undefined}
             attachObject={undefined}
             attachFns={undefined}
           />
 
-          {/* OrbitControls: solo activos en Contact Y después de hacer hover */}
           {planetRotationEnabled && (
             <OrbitControls
               makeDefault={true}
@@ -221,35 +216,23 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
             />
           )}
 
-          {/* Color de fondo */}
           <color attach="background" args={["#070F19"]} />
-
-          {/* Luces */}
           <ambientLight intensity={0.1} color="#5da8c3" />
           <ColoredLights />
 
-          {/* Estrellas */}
           <e.group theatreKey="Stars">
             <StarsField count={2000} radius={100} />
           </e.group>
 
-          {/* Planeta Hoth y naves Snowspeeder */}
           <Suspense fallback={null}>
             {editorMode && <RefreshSnapshot />}
-            <HothSceneDynamic
+            <HothScene
               onShipHover={setIsHoveringShip}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
             />
           </Suspense>
         </SheetProvider>
       </Canvas>
-
-      {isInAboutSection && (
-        <ProfileModal
-          isOpen={isInAboutSection}
-          isHoveringShip={isHoveringShip}
-        />
-      )}
     </div>
   );
 }
