@@ -29,15 +29,7 @@ export default function ExperienceSection() {
   return (
     <section 
       id="experience" 
-      className="section-container"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '4rem 2rem',
-        position: 'relative',
-      }}
+      className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-8 lg:py-0 relative"
     >
       <div style={{ 
         maxWidth: '900px',

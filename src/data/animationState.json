@@ -1029,7 +1029,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": -15.722295190824404
+                    "value": -13.9579244775793
                   },
                   {
                     "id": "h5K6fLAJb6",
@@ -1100,7 +1100,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 10.975297773471821
+                    "value": 15.043465779856392
                   },
                   {
                     "id": "uEprQmy5rR",
@@ -1171,7 +1171,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 18.63179700116403
+                    "value": 17.13204290049891
                   },
                   {
                     "id": "3ejjr1XCQH",
@@ -1242,7 +1242,7 @@
                       0.46
                     ],
                     "type": "bezier",
-                    "value": -2.3243912500384853
+                    "value": -2.410642923809048
                   },
                   {
                     "id": "soTFO48poP",
@@ -1313,7 +1313,7 @@
                       0.46
                     ],
                     "type": "bezier",
-                    "value": -0.7490229154297006
+                    "value": -0.5230710805501619
                   },
                   {
                     "id": "1t12JrftaZ",
@@ -1384,7 +1384,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 2.37131614345373
+                    "value": 1.9634294288307315
                   }
                 ]
               },
@@ -1537,7 +1537,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 1.8800000000000008
+                    "value": 1.5300000000000005
                   },
                   {
                     "id": "UOwi5Rxflx",
@@ -2702,6 +2702,7 @@
   },
   "definitionVersion": "0.4.0",
   "revisionHistory": [
+    "kJrMHCREcjlQZH6Y",
     "PpWAxq88T9HV-Ugy",
     "qcHeg7CGQ9aV-sq-",
     "TXSjo1wOwW2L0dWW",

@@ -8,6 +8,7 @@ import ColoredLights from "./ColoredLights";
 import HothScene from "./HothScene";
 import ProfileModal from "./ProfileModal";
 import { useAboutSection } from "../hooks/useAboutSection";
+import { useContactSection } from "../hooks/useContactSection";
 import { useTheatreScroll } from "../hooks/useTheatreScroll";
 import animationState from "../data/animationState.json";
 import { OrbitControls } from "@react-three/drei";
@@ -18,7 +19,9 @@ interface HeroSceneProps {
 
 export default function HeroScene({ editorMode = false }: HeroSceneProps) {
   const [isHoveringShip, setIsHoveringShip] = useState(false);
+  const [planetRotationEnabled, setPlanetRotationEnabled] = useState(false);
   const isInAboutSection = useAboutSection();
+  const isInContactSection = useContactSection();
 
   const project = editorMode
     ? getProject("Portfolio")
@@ -40,8 +43,23 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
     animationDuration: 12,
   });
 
+  // Deshabilitar rotación del planeta si salimos de Contact
+  useEffect(() => {
+    if (!isInContactSection && planetRotationEnabled) {
+      setPlanetRotationEnabled(false);
+      console.log("🔒 Rotación del planeta deshabilitada (fuera de Contact)");
+    }
+  }, [isInContactSection, planetRotationEnabled]);
+
   // Mostrar modal solo cuando estamos en About Y hay hover sobre una nave
   const showProfileModal = isInAboutSection && isHoveringShip;
+
+  const handleRotationStart = () => {
+    if (isInContactSection) {
+      setPlanetRotationEnabled(true);
+      console.log("🔓 Rotación del planeta activada");
+    }
+  };
 
   return (
     <div
@@ -49,7 +67,7 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
         width: "100vw",
         height: "100vh",
         position: "relative",
-        cursor: showProfileModal ? "pointer" : "default",
+        cursor: showProfileModal ? "pointer" : planetRotationEnabled ? "grab" : "default",
       }}
     >
       {/* Modal de perfil */}
@@ -72,9 +90,9 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
           />
 
           {/* OrbitControls para modo editor */}
-          {editorMode && (
+          {/* {editorMode && (
             <OrbitControls makeDefault enableDamping dampingFactor={0.05} />
-          )}
+          )} */}
 
           {/* Color de fondo */}
           <color attach="background" args={["#070F19"]} />
@@ -91,7 +109,12 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
           {/* Planeta Hoth y naves Snowspeeder */}
           <Suspense fallback={null}>
             {editorMode && <RefreshSnapshot />}
-            <HothScene onShipHover={setIsHoveringShip} />
+            <HothScene 
+              onShipHover={setIsHoveringShip}
+              enableRotation={isInContactSection}
+              onRotationStart={handleRotationStart}
+              onRotationEnd={() => console.log("🎯 Drag finalizado")}
+            />
           </Suspense>
         </SheetProvider>
       </Canvas>

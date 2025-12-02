@@ -1,0 +1,66 @@
+import type { Project } from "../types/portfolio";
+
+export const projects: Project[] = [
+  {
+    id: 1,
+    title: "Project Alpha",
+    description:
+      "A revolutionary web application built with React and Three.js",
+    image: "/placeholder-project.jpg",
+    tech: ["React", "Three.js", "TypeScript", "Node.js"],
+    link: "#",
+    githubLink: "#",
+  },
+  {
+    id: 2,
+    title: "Project Beta",
+    description: "Full-stack e-commerce platform with real-time features",
+    image: "/placeholder-project.jpg",
+    tech: ["Node.js", "React", "MongoDB", "Express"],
+    link: "#",
+    githubLink: "#",
+  },
+  {
+    id: 3,
+    title: "Project Gamma",
+    description: "AI-powered analytics dashboard for data visualization",
+    image: "/placeholder-project.jpg",
+    tech: ["Python", "React", "TensorFlow", "FastAPI"],
+    link: "#",
+    githubLink: "#",
+  },
+  {
+    id: 4,
+    title: "Project Delta",
+    description: "Mobile app for task management with offline support",
+    image: "/placeholder-project.jpg",
+    tech: ["React Native", "Firebase", "TypeScript"],
+    link: "#",
+  },
+  {
+    id: 5,
+    title: "Project Epsilon",
+    description: "Real-time collaboration tool for remote teams",
+    image: "/placeholder-project.jpg",
+    tech: ["Next.js", "WebSocket", "PostgreSQL", "Redis"],
+    link: "#",
+    githubLink: "#",
+  },
+  {
+    id: 6,
+    title: "Project Zeta",
+    description: "Smart home automation system with IoT integration",
+    image: "/placeholder-project.jpg",
+    tech: ["Python", "MQTT", "React", "Raspberry Pi", "Node.js", "TypeScript", "Docker"],
+    link: "#",
+  },
+  {
+    id: 7,
+    title: "Project Eta",
+    description: "Blockchain-based voting platform for secure elections",
+    image: "/placeholder-project.jpg",
+    tech: ["Solidity", "Ethereum", "React", "Node.js"],
+    link: "#",
+    githubLink: "#",
+  },
+];

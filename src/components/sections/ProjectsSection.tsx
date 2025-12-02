@@ -1,271 +1,197 @@
-import { useState } from 'react';
-import ScrollFade from "../ScrollFade";
-
-const projects = [
-  {
-    id: 1,
-    title: 'Project Alpha',
-    description: 'A revolutionary web application built with React and Three.js',
-    image: '/placeholder-project.jpg',
-    tech: ['React', 'Three.js', 'TypeScript'],
-    link: '#',
-  },
-  {
-    id: 2,
-    title: 'Project Beta',
-    description: 'Full-stack e-commerce platform with real-time features',
-    image: '/placeholder-project.jpg',
-    tech: ['Node.js', 'React', 'MongoDB'],
-    link: '#',
-  },
-  {
-    id: 3,
-    title: 'Project Gamma',
-    description: 'AI-powered analytics dashboard for data visualization',
-    image: '/placeholder-project.jpg',
-    tech: ['Python', 'React', 'TensorFlow'],
-    link: '#',
-  },
-];
-
-const certificates = [
-  {
-    id: 1,
-    title: 'AWS Certified Developer',
-    issuer: 'Amazon Web Services',
-    date: '2024',
-    link: '#',
-  },
-  {
-    id: 2,
-    title: 'React Advanced Patterns',
-    issuer: 'Frontend Masters',
-    date: '2024',
-    link: '#',
-  },
-  {
-    id: 3,
-    title: 'Three.js Journey',
-    issuer: 'Bruno Simon',
-    date: '2023',
-    link: '#',
-  },
-];
+import { useState } from "react";
+import ProjectCard from "../ProjectCard";
+import CertificateCard from "../CertificateCard";
+import { projects } from "../../data/projects";
+import { certificates } from "../../data/certificates";
 
 export default function ProjectsSection() {
-  const [activeTab, setActiveTab] = useState<'projects' | 'certificates'>('projects');
+  const [activeTab, setActiveTab] = useState<"projects" | "certificates">(
+    "projects"
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const itemsPerPage = 6;
+
+  // Calcular items para la página actual
+  const getCurrentItems = <T,>(items: T[]): T[] => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return items.slice(startIndex, endIndex);
+  };
+
+  const totalPages = <T,>(items: T[]): number =>
+    Math.ceil(items.length / itemsPerPage);
+
+  // Reset página cuando cambias de tab
+  const handleTabChange = (tab: "projects" | "certificates") => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
+
+  // Cambiar página con animación
+  const handlePageChange = (newPage: number) => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentPage(newPage);
+      setIsTransitioning(false);
+    }, 200);
+  };
 
   return (
-    <section 
-      id="projects" 
-      className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-8 lg:py-0 relative overflow-auto"
+    <section
+      id="projects"
+      className="section-container min-h-screen lg:h-screen flex items-center justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-0 relative overflow-hidden"
     >
-      <ScrollFade>
-      <div style={{ 
-        maxWidth: '1200px',
-        width: '100%',
-        color: 'white',
-        zIndex: 10,
-        position: 'relative',
-      }}>
-        <h2 style={{ 
-          fontSize: 'clamp(2rem, 5vw, 3rem)', 
-          marginBottom: '3rem',
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, #6ec6ff 0%, #9f7aea 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>
-          Projects & Achievements
+      <div className="w-full lg:w-[60%] max-w-5xl mx-auto lg:mx-0">
+        {/* Title */}
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 md:mb-5 text-center lg:text-left font-starwars tracking-wider">
+          <span className="text-white">Projects &</span>{" "}
+          <span className="text-gray-400">Achievements</span>
         </h2>
 
         {/* Tab Buttons */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '1rem', 
-          justifyContent: 'center',
-          marginBottom: '3rem',
-        }}>
+        <div className="flex gap-2 sm:gap-3 justify-center lg:justify-start mb-3 sm:mb-4">
           <button
-            onClick={() => setActiveTab('projects')}
-            style={{
-              padding: '0.75rem 2rem',
-              background: activeTab === 'projects' ? 'rgba(110, 198, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
-              border: `2px solid ${activeTab === 'projects' ? '#6ec6ff' : 'rgba(255, 255, 255, 0.2)'}`,
-              borderRadius: '8px',
-              color: 'white',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontSize: '1rem',
-            }}
+            onClick={() => handleTabChange("projects")}
+            className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
+              activeTab === "projects"
+                ? "bg-blue-500/30 border-2 border-blue-400 text-white shadow-lg shadow-blue-500/50"
+                : "bg-white/5 border-2 border-white/20 text-gray-300 hover:bg-white/10"
+            }`}
           >
             Projects
           </button>
           <button
-            onClick={() => setActiveTab('certificates')}
-            style={{
-              padding: '0.75rem 2rem',
-              background: activeTab === 'certificates' ? 'rgba(110, 198, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
-              border: `2px solid ${activeTab === 'certificates' ? '#6ec6ff' : 'rgba(255, 255, 255, 0.2)'}`,
-              borderRadius: '8px',
-              color: 'white',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontSize: '1rem',
-            }}
+            onClick={() => handleTabChange("certificates")}
+            className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
+              activeTab === "certificates"
+                ? "bg-purple-500/30 border-2 border-purple-400 text-white shadow-lg shadow-purple-500/50"
+                : "bg-white/5 border-2 border-white/20 text-gray-300 hover:bg-white/10"
+            }`}
           >
             Certificates
           </button>
         </div>
 
         {/* Projects Grid */}
-        {activeTab === 'projects' && (
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
-          }}>
-            {projects.map((project) => (
-              <div 
-                key={project.id}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(110, 198, 255, 0.2)',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.borderColor = 'rgba(110, 198, 255, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.borderColor = 'rgba(110, 198, 255, 0.2)';
-                }}
-              >
-                <div style={{
-                  width: '100%',
-                  height: '200px',
-                  background: 'linear-gradient(135deg, rgba(110, 198, 255, 0.2) 0%, rgba(159, 122, 234, 0.2) 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '3rem',
-                }}>
-                  📱
-                </div>
-                <div style={{ padding: '1.5rem' }}>
-                  <h3 style={{ 
-                    fontSize: '1.5rem', 
-                    marginBottom: '0.5rem',
-                    color: '#6ec6ff',
-                  }}>
-                    {project.title}
-                  </h3>
-                  <p style={{ 
-                    opacity: 0.8, 
-                    marginBottom: '1rem',
-                    lineHeight: '1.6',
-                  }}>
-                    {project.description}
-                  </p>
-                  <div style={{ 
-                    display: 'flex', 
-                    gap: '0.5rem', 
-                    flexWrap: 'wrap',
-                    marginBottom: '1rem',
-                  }}>
-                    {project.tech.map((tech) => (
-                      <span 
-                        key={tech}
-                        style={{
-                          padding: '0.25rem 0.75rem',
-                          background: 'rgba(110, 198, 255, 0.2)',
-                          borderRadius: '4px',
-                          fontSize: '0.875rem',
-                        }}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <a 
-                    href={project.link}
-                    style={{
-                      color: '#6ec6ff',
-                      textDecoration: 'none',
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    View Project →
-                  </a>
-                </div>
+        {activeTab === "projects" && (
+          <>
+            {/* Grid optimizado para acordeones */}
+            <div className="mb-4">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+              {getCurrentItems(projects).map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  title={project.title}
+                  description={project.description}
+                  image={project.image}
+                  tech={project.tech}
+                  link={project.link}
+                  githubLink={project.githubLink}
+                />
+              ))}
               </div>
-            ))}
-          </div>
+            </div>
+
+            {/* Paginación para Projects */}
+            {totalPages(projects) > 1 && (
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="group relative w-10 h-10 rounded-full border-2 border-white/20 hover:border-blue-400 disabled:border-white/10 disabled:cursor-not-allowed transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 group-disabled:bg-transparent transition-colors duration-300"></div>
+                  <span className="relative text-lg text-white/70 group-hover:text-blue-400 group-disabled:text-white/30 transition-colors duration-300">‹</span>
+                </button>
+                {Array.from(
+                  { length: totalPages(projects) },
+                  (_, i) => i + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className="group relative transition-all duration-300"
+                  >
+                    <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      currentPage === page
+                        ? 'bg-blue-400 w-8 shadow-lg shadow-blue-500/50'
+                        : 'bg-white/30 group-hover:bg-white/60 group-hover:scale-125'
+                    }`}></div>
+                  </button>
+                ))}
+                <button
+                  onClick={() => handlePageChange(Math.min(totalPages(projects), currentPage + 1))}
+                  disabled={currentPage === totalPages(projects)}
+                  className="group relative w-10 h-10 rounded-full border-2 border-white/20 hover:border-blue-400 disabled:border-white/10 disabled:cursor-not-allowed transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 group-disabled:bg-transparent transition-colors duration-300"></div>
+                  <span className="relative text-lg text-white/70 group-hover:text-blue-400 group-disabled:text-white/30 transition-colors duration-300">›</span>
+                </button>
+              </div>
+            )}
+          </>
         )}
 
-        {/* Certificates List */}
-        {activeTab === 'certificates' && (
-          <div style={{ 
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
-            maxWidth: '700px',
-            margin: '0 auto',
-          }}>
-            {certificates.map((cert) => (
-              <div 
-                key={cert.id}
-                style={{
-                  padding: '1.5rem',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(110, 198, 255, 0.2)',
-                  borderRadius: '8px',
-                  transition: 'all 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                }}
-              >
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between',
-                  alignItems: 'start',
-                  gap: '1rem',
-                }}>
-                  <div>
-                    <h3 style={{ 
-                      fontSize: '1.25rem', 
-                      marginBottom: '0.5rem',
-                      color: '#6ec6ff',
-                    }}>
-                      {cert.title}
-                    </h3>
-                    <p style={{ opacity: 0.8 }}>
-                      {cert.issuer}
-                    </p>
-                  </div>
-                  <span style={{
-                    padding: '0.25rem 0.75rem',
-                    background: 'rgba(110, 198, 255, 0.2)',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {cert.date}
-                  </span>
-                </div>
+        {/* Certificates Grid */}
+        {activeTab === "certificates" && (
+          <>
+            {/* Grid de certificados */}
+            <div className="mb-4">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+              {getCurrentItems(certificates).map((cert) => (
+                <CertificateCard
+                  key={cert.id}
+                  title={cert.title}
+                  issuer={cert.issuer}
+                  date={cert.date}
+                  link={cert.link}
+                  credentialId={cert.credentialId}
+                />
+              ))}
               </div>
-            ))}
-          </div>
+            </div>
+
+            {/* Paginación para Certificates */}
+            {totalPages(certificates) > 1 && (
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="group relative w-10 h-10 rounded-full border-2 border-white/20 hover:border-purple-400 disabled:border-white/10 disabled:cursor-not-allowed transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-purple-500/0 group-hover:bg-purple-500/10 group-disabled:bg-transparent transition-colors duration-300"></div>
+                  <span className="relative text-lg text-white/70 group-hover:text-purple-400 group-disabled:text-white/30 transition-colors duration-300">‹</span>
+                </button>
+                {Array.from(
+                  { length: totalPages(certificates) },
+                  (_, i) => i + 1
+                ).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className="group relative transition-all duration-300"
+                  >
+                    <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      currentPage === page
+                        ? 'bg-purple-400 w-8 shadow-lg shadow-purple-500/50'
+                        : 'bg-white/30 group-hover:bg-white/60 group-hover:scale-125'
+                    }`}></div>
+                  </button>
+                ))}
+                <button
+                  onClick={() => handlePageChange(Math.min(totalPages(certificates), currentPage + 1))}
+                  disabled={currentPage === totalPages(certificates)}
+                  className="group relative w-10 h-10 rounded-full border-2 border-white/20 hover:border-purple-400 disabled:border-white/10 disabled:cursor-not-allowed transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-purple-500/0 group-hover:bg-purple-500/10 group-disabled:bg-transparent transition-colors duration-300"></div>
+                  <span className="relative text-lg text-white/70 group-hover:text-purple-400 group-disabled:text-white/30 transition-colors duration-300">›</span>
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
-      </ScrollFade>
     </section>
   );
 }
