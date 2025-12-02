@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProjectCard from "../ProjectCard";
 import CertificateCard from "../CertificateCard";
+import ProjectModal from "../modals/ProjectModal";
 import { projects } from "../../data/projects";
 import { certificates } from "../../data/certificates";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
@@ -13,6 +14,8 @@ export default function ProjectsSection() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 6;
 
   // Calcular items para la página actual
@@ -38,6 +41,18 @@ export default function ProjectsSection() {
       setCurrentPage(newPage);
       setIsTransitioning(false);
     }, 200);
+  };
+
+  // Abrir modal con proyecto seleccionado
+  const handleProjectClick = (project: typeof projects[0]) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  // Cerrar modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedProject(null), 300);
   };
 
   return (
@@ -91,6 +106,7 @@ export default function ProjectsSection() {
                   tech={project.tech}
                   link={project.link}
                   githubLink={project.githubLink}
+                  onClick={() => handleProjectClick(project)}
                 />
               ))}
               </div>
@@ -195,6 +211,13 @@ export default function ProjectsSection() {
           </>
         )}
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        project={selectedProject}
+      />
     </section>
   );
 }

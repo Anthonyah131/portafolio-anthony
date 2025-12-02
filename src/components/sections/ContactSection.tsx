@@ -9,6 +9,7 @@ import {
   Send,
 } from "lucide-react";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
+import emailjs from '@emailjs/browser';
 
 export default function ContactSection() {
   useScrollAnimation();
@@ -19,15 +20,46 @@ export default function ContactSection() {
     message: "",
   });
   const [copied, setCopied] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const myEmail = "anthonyah131@gmail.com";
   const whatsappNumber = "50685983050"; // Formato: código país + número sin espacios
   const telegramUsername = "AnthonyAH";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Aquí puedes integrar EmailJS o similar
+    setSending(true);
+    setStatus('idle');
+
+    try {
+      const result = await emailjs.send(
+        'service_n32ow8a',
+        'template_mpinvfr',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: myEmail,
+        },
+        'tjYwlu5aiKPvOrHAz'
+      );
+
+      console.log('Email sent successfully:', result.text);
+      setStatus('success');
+      setFormData({ name: "", email: "", message: "" });
+      
+      // Limpiar mensaje de éxito después de 5 segundos
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setStatus('error');
+      
+      // Limpiar mensaje de error después de 5 segundos
+      setTimeout(() => setStatus('idle'), 5000);
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleChange = (
@@ -132,11 +164,33 @@ export default function ContactSection() {
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 rounded-lg text-white font-medium transition-colors duration-300"
+              disabled={sending}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-colors duration-300"
             >
-              <Send className="w-4 h-4" />
-              Send Message
+              {sending ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </>
+              )}
             </button>
+
+            {/* Status Messages */}
+            {status === 'success' && (
+              <div className="p-3 bg-green-500/20 border border-green-400/40 rounded-lg">
+                <p className="text-sm text-green-400 text-center">✓ Message sent successfully!</p>
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="p-3 bg-red-500/20 border border-red-400/40 rounded-lg">
+                <p className="text-sm text-red-400 text-center">✗ Error sending message. Try WhatsApp or Email.</p>
+              </div>
+            )}
           </form>
         </div>
 

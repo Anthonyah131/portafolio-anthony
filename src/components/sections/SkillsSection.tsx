@@ -182,7 +182,7 @@ export default function SkillsSection() {
             onClick={() => setActiveTab("soft")}
             className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
               activeTab === "soft"
-                ? "bg-blue-500/30 border-2 border-blue-400 text-white shadow-lg shadow-blue-500/50"
+                ? "bg-purple-500/30 border-2 border-purple-400 text-white shadow-lg shadow-purple-500/50"
                 : "bg-white/5 border-2 border-white/20 text-gray-300 hover:bg-white/10"
             }`}
           >

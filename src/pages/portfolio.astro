@@ -137,13 +137,14 @@ import PortfolioWrapper from "../components/PortfolioWrapper";
       pointer-events: auto;
     }
 
+    /* Simple black scrollbar */
     * {
       scrollbar-width: thin;
-      scrollbar-color: rgba(110, 198, 255, 0.7) rgba(0, 0, 20, 1);
+      scrollbar-color: rgba(15, 36, 150, 0.5) rgba(0, 0, 0, 1);
     }
 
     ::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
     }
 
     ::-webkit-scrollbar-track {
@@ -151,12 +152,12 @@ import PortfolioWrapper from "../components/PortfolioWrapper";
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(110, 198, 255, 0.7);
-      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(140, 220, 255, 1);
+      background: rgba(0, 0, 0, 0.7);
     }
   </style>
 </Layout>
