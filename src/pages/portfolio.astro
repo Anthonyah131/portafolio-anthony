@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import HeroScene from "../components/HeroScene";
+import HeroSceneDynamic from "../components/HeroSceneDynamic";
 import Header from "../components/Header";
 import HomeSection from "../components/sections/HomeSection";
 import AboutSection from "../components/sections/AboutSection";
@@ -16,7 +16,7 @@ import PortfolioWrapper from "../components/PortfolioWrapper";
 
   <!-- Canvas 3D solo en desktop (lg y superior) -->
   <div id="three-background" class="hidden lg:block">
-    <HeroScene client:only="react" />
+    <HeroSceneDynamic client:only="react" />
   </div>
 
   <!-- Fondo degradado para móviles/tablets -->
