@@ -19,14 +19,17 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   const [TheatreComponents, setTheatreComponents] = useState<any>(null);
   const [project, setProject] = useState<any>(null);
   const [sheet, setSheet] = useState<any>(null);
+  const [mountKey, setMountKey] = useState(0);
   
   const isInAboutSection = useAboutSection();
   const isInContactSection = useContactSection();
 
-  // Debug logging
+  // Forzar re-mount después de carga de Theatre.js
   useEffect(() => {
-    console.log('🔍 isInAboutSection:', isInAboutSection, 'isHoveringShip:', isHoveringShip);
-  }, [isInAboutSection, isHoveringShip]);
+    if (theatreLoaded) {
+      setMountKey(prev => prev + 1);
+    }
+  }, [theatreLoaded]);
 
   // Cargar Theatre.js dinámicamente solo en el cliente
   useEffect(() => {
@@ -155,6 +158,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
 
           <Suspense fallback={null}>
             <HothScene
+              key="hoth-fallback"
               onShipHover={setIsHoveringShip}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
               editableGroup={undefined}
@@ -233,6 +237,7 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
           <Suspense fallback={null}>
             {editorMode && <RefreshSnapshot />}
             <HothScene
+              key={`hoth-theatre-${mountKey}`}
               onShipHover={setIsHoveringShip}
               onPlanetHover={isInContactSection ? handlePlanetHover : undefined}
               editableGroup={e.group}
