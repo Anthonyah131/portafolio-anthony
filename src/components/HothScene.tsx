@@ -1,6 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import { editable as e } from "@theatre/r3f";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Object3D } from "three";
 
 interface HothSceneProps {
@@ -17,6 +16,30 @@ export default function HothScene({
 }: HothSceneProps) {
   const { scene } = useGLTF("/models/hothPlanet.glb");
   const groupRef = useRef<any>(null);
+  const [EditableGroup, setEditableGroup] = useState<any>(null);
+
+  // Cargar Theatre.js editable dinámicamente
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadEditable() {
+      try {
+        const r3f = await import("@theatre/r3f");
+        if (mounted) {
+          setEditableGroup(() => r3f.editable.group);
+        }
+      } catch (error) {
+        console.error("Error loading Theatre.js editable:", error);
+        setEditableGroup(null);
+      }
+    }
+
+    loadEditable();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     // Buscar las naves Snowspeeder en el modelo
@@ -89,13 +112,23 @@ export default function HothScene({
     // Solo se desactivan al salir de la sección Contact
   };
 
+  // Usar group normal si Theatre.js no está cargado
+  const GroupComponent = EditableGroup || 'group';
+  const groupProps: any = EditableGroup
+    ? { 
+        theatreKey: "HothPlanet",
+        ref: groupRef,
+        position: [0, 0, 0],
+        scale: 3
+      }
+    : { 
+        ref: groupRef,
+        position: [0, 0, 0],
+        scale: 3
+      };
+
   return (
-    <e.group
-      ref={groupRef}
-      theatreKey="HothPlanet"
-      position={[0, 0, 0]}
-      scale={3}
-    >
+    <GroupComponent {...groupProps}>
       {/* Glow del planeta */}
       <mesh scale={3.2}>
         <sphereGeometry args={[1, 64, 64]} />
@@ -108,6 +141,6 @@ export default function HothScene({
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       />
-    </e.group>
+    </GroupComponent>
   );
 }
