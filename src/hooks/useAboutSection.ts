@@ -14,11 +14,12 @@ export function useAboutSection() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const inAbout = entry.isIntersecting && entry.intersectionRatio > 0.5;
+          const inAbout = entry.isIntersecting && entry.intersectionRatio > 0.2;
+          console.log('📍 About section - isIntersecting:', entry.isIntersecting, 'ratio:', entry.intersectionRatio, 'inAbout:', inAbout);
           setIsInAboutSection(inAbout);
         });
       },
-      { threshold: [0, 0.5, 1] }
+      { threshold: [0, 0.2, 0.5, 1] }
     );
 
     observer.observe(aboutSection);

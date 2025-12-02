@@ -23,6 +23,11 @@ export default function HeroSceneDynamic({ editorMode = false }: HeroSceneProps)
   const isInAboutSection = useAboutSection();
   const isInContactSection = useContactSection();
 
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 isInAboutSection:', isInAboutSection, 'isHoveringShip:', isHoveringShip);
+  }, [isInAboutSection, isHoveringShip]);
+
   // Cargar Theatre.js dinámicamente solo en el cliente
   useEffect(() => {
     if (typeof window === 'undefined') return;

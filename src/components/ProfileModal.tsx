@@ -3,6 +3,8 @@ interface ProfileModalProps {
 }
 
 export default function ProfileModal({ show }: ProfileModalProps) {
+  console.log('🖼️ ProfileModal - show:', show);
+  
   if (!show) return null;
 
   const modalLeft = "25%"; // Distancia desde la izquierda
