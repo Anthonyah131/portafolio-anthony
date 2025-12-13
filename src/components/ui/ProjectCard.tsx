@@ -37,6 +37,9 @@ export default function ProjectCard({
                 src={image}
                 alt={title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
               />
             </div>
             {/* Overlay oscuro con gradiente */}

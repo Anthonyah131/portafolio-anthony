@@ -86,6 +86,8 @@ export default function ProjectModal({
                 src={project.image || "/placeholder.svg"}
                 alt={project.title}
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           )}

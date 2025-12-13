@@ -2,8 +2,18 @@ import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef, useMemo } from "react";
 import type { Object3D } from "three";
 
+// Preload solo en desktop
 if (typeof window !== "undefined" && window.innerWidth >= 1024) {
-  useGLTF.preload("/models/hothPlanet.glb");
+  // Preload diferido para no bloquear la carga inicial
+  const preloadModel = () => {
+    useGLTF.preload("/models/hothPlanet.glb");
+  };
+  
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(preloadModel, { timeout: 2000 });
+  } else {
+    setTimeout(preloadModel, 1000);
+  }
 }
 
 interface HothSceneProps {
