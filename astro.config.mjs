@@ -21,6 +21,7 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks: (id) => {
+            // NO separar React/React-DOM - deben estar en el chunk principal para hidratación
             // Separar Three.js y dependencias relacionadas
             if (id.includes('three') || id.includes('@react-three')) {
               return 'three';
@@ -33,13 +34,12 @@ export default defineConfig({
             if (id.includes('lucide-react')) {
               return 'lucide';
             }
-            // Separar node_modules grandes
-            if (id.includes('node_modules')) {
-              if (id.includes('react') || id.includes('react-dom')) {
-                return 'react-vendor';
-              }
+            // Separar otros node_modules (pero NO react/react-dom)
+            if (id.includes('node_modules') && !id.includes('react') && !id.includes('react-dom')) {
               return 'vendor';
             }
+            // Dejar React y React-DOM en el chunk principal (undefined = chunk principal)
+            return undefined;
           },
         },
       },
