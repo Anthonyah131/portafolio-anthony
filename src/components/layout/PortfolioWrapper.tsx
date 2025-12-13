@@ -1,5 +1,7 @@
 import { useState } from "react";
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "../ui/LoadingScreen";
+import PerformanceMonitor from "../PerformanceMonitor";
+import { useScrollbarVisibility } from "../../hooks/useScrollbarVisibility";
 
 interface PortfolioWrapperProps {
   children: React.ReactNode;
@@ -7,6 +9,8 @@ interface PortfolioWrapperProps {
 
 export default function PortfolioWrapper({ children }: PortfolioWrapperProps) {
   const [isLoading, setIsLoading] = useState(true);
+  
+  useScrollbarVisibility();
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
@@ -15,6 +19,7 @@ export default function PortfolioWrapper({ children }: PortfolioWrapperProps) {
   return (
     <>
       {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
+      <PerformanceMonitor />
       <div
         className={
           isLoading

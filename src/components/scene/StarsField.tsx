@@ -1,7 +1,7 @@
 import { Points, PointMaterial } from "@react-three/drei";
 import { useMemo } from "react";
 
-export default function StarsField({ count = 3000, radius = 150 }) {
+export default function StarsField({ count = 1200, radius = 150 }) {
   const positions = useMemo(() => {
     const pts = [];
 
@@ -24,7 +24,7 @@ export default function StarsField({ count = 3000, radius = 150 }) {
     <Points positions={positions} stride={3}>
       <PointMaterial
         color="#ffffff"
-        size={0.06}
+        size={0.08}
         sizeAttenuation
         transparent
         depthWrite={false}

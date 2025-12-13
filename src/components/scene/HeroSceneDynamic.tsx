@@ -4,9 +4,9 @@ import { OrbitControls } from "@react-three/drei";
 import StarsField from "./StarsField";
 import ColoredLights from "./ColoredLights";
 import HothScene from "./HothScene";
-import ProfileModal from "./ProfileModal";
-import { useAboutSection } from "../hooks/useAboutSection";
-import { useContactSection } from "../hooks/useContactSection";
+import ProfileModal from "../ui/ProfileModal";
+import { useAboutSection } from "../../hooks/useAboutSection";
+import { useContactSection } from "../../hooks/useContactSection";
 
 interface HeroSceneProps {
   editorMode?: boolean;
@@ -26,7 +26,6 @@ export default function HeroSceneDynamic({
   const isInAboutSection = useAboutSection();
   const isInContactSection = useContactSection();
 
-  // Usar useCallback para mantener la referencia estable
   const handleShipHover = useCallback((isHovering: boolean) => {
     setIsHoveringShip(isHovering);
   }, []);
@@ -42,14 +41,12 @@ export default function HeroSceneDynamic({
     [isInContactSection, planetRotationEnabled]
   );
 
-  // Forzar re-mount después de carga de Theatre.js
   useEffect(() => {
     if (theatreLoaded) {
       setMountKey((prev) => prev + 1);
     }
   }, [theatreLoaded]);
 
-  // Cargar Theatre.js dinámicamente solo en el cliente
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -60,14 +57,13 @@ export default function HeroSceneDynamic({
         const [core, r3f, animationState] = await Promise.all([
           import("@theatre/core"),
           import("@theatre/r3f"),
-          import("../data/animationState.json"),
+          import("../../data/animationState.json"),
         ]);
 
         if (!mounted) return;
 
-        // Cargar studio solo en modo editor
         if (editorMode) {
-          await import("../theatre/studio");
+          await import("../../theatre/studio");
         }
 
         const proj = editorMode
@@ -98,37 +94,67 @@ export default function HeroSceneDynamic({
     };
   }, [editorMode]);
 
-  // Sincronizar scroll con Theatre.js
   useEffect(() => {
     if (editorMode || !sheet || !theatreLoaded) return;
 
     let currentPosition = 0;
     let targetPosition = 0;
     let animationFrameId: number;
+    let lastScrollTime = 0;
+    let isUpdating = false;
+    const scrollThrottle = 16;
 
     const handleScroll = () => {
+      const now = performance.now();
+      if (now - lastScrollTime < scrollThrottle) return;
+      lastScrollTime = now;
+
       const scrollProgress =
         window.scrollY / (document.body.scrollHeight - window.innerHeight);
       targetPosition = scrollProgress * 12;
     };
 
     const smoothUpdate = () => {
-      currentPosition += (targetPosition - currentPosition) * 0.1;
+      const diff = targetPosition - currentPosition;
+      const absDiff = Math.abs(diff);
 
-      if (sheet.sequence) {
-        sheet.sequence.position = currentPosition;
+      if (absDiff > 0.001) {
+        const lerpFactor = absDiff > 1 ? 0.15 : 0.08;
+        currentPosition += diff * lerpFactor;
+
+        if (sheet.sequence) {
+          sheet.sequence.position = currentPosition;
+        }
+
+        animationFrameId = requestAnimationFrame(smoothUpdate);
+        isUpdating = true;
+      } else {
+        isUpdating = false;
+        if (sheet.sequence) {
+          sheet.sequence.position = targetPosition;
+        }
       }
+    };
 
-      animationFrameId = requestAnimationFrame(smoothUpdate);
+    const startUpdateLoop = () => {
+      if (!isUpdating) {
+        isUpdating = true;
+        smoothUpdate();
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", startUpdateLoop, { passive: true });
     handleScroll();
-    smoothUpdate();
+    startUpdateLoop();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("scroll", startUpdateLoop);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      isUpdating = false;
     };
   }, [sheet, editorMode, theatreLoaded]);
 
@@ -141,7 +167,6 @@ export default function HeroSceneDynamic({
 
   const showProfileModal = isInAboutSection && isHoveringShip;
 
-  // Renderizar fallback mientras Theatre.js se carga
   if (!theatreLoaded || !TheatreComponents) {
     return (
       <div
@@ -154,13 +179,13 @@ export default function HeroSceneDynamic({
       >
         <ProfileModal show={showProfileModal} />
 
-        <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
+        <Canvas gl={{ antialias: true, alpha: false }}>
           <color attach="background" args={["#070F19"]} />
           <ambientLight intensity={0.1} color="#5da8c3" />
           <ColoredLights />
 
           <group>
-            <StarsField count={2000} radius={100} />
+            <StarsField count={1200} radius={100} />
           </group>
 
           <Suspense fallback={null}>
@@ -209,7 +234,7 @@ export default function HeroSceneDynamic({
     >
       <ProfileModal show={showProfileModal} />
 
-      <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
+      <Canvas gl={{ antialias: true, alpha: false }}>
         <SheetProvider sheet={sheet}>
           <PerspectiveCamera
             theatreKey="Camera"
@@ -243,7 +268,7 @@ export default function HeroSceneDynamic({
           <ColoredLights />
 
           <e.group theatreKey="Stars">
-            <StarsField count={2000} radius={100} />
+            <StarsField count={1200} radius={100} />
           </e.group>
 
           <Suspense fallback={null}>

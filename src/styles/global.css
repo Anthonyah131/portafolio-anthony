@@ -20,29 +20,21 @@ html, body {
   font-family: 'Starjedi', sans-serif;
 }
 
-/* ============================================
-   SCROLL ANIMATIONS - W3.CSS & TAILWIND INSPIRED
-   Usage: Add data-scroll="fade-up" to any element
-   ============================================ */
-
-/* Base animation setup */
 [data-scroll] {
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
-/* Estado inicial - oculto */
 [data-scroll]:not(.is-visible) {
   opacity: 0;
 }
 
-/* Estado visible */
 [data-scroll].is-visible {
   opacity: 1;
-  transform: none !important;
+  transform: translateZ(0) !important;
 }
-
-/* Fade Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -74,7 +66,6 @@ html, body {
   }
 }
 
-/* Slide Animations */
 @keyframes slideInLeft {
   from {
     opacity: 0;
@@ -119,7 +110,6 @@ html, body {
   }
 }
 
-/* Zoom Animation */
 @keyframes zoomIn {
   from {
     opacity: 0;
@@ -131,7 +121,6 @@ html, body {
   }
 }
 
-/* Special Animations */
 @keyframes slideDown {
   from {
     top: -100px;
@@ -148,14 +137,7 @@ html, body {
   51%, 100% { opacity: 0; }
 }
 
-/* ============================================
-   SCROLL ANIMATION CLASSES
-   Desktop only (lg breakpoint)
-   ============================================ */
-
-/* Transforms aplicados cuando NO está visible */
 @media (min-width: 1024px) {
-  /* Fade animations - estado oculto */
   [data-scroll="fade"]:not(.is-visible) {
     opacity: 0;
   }
@@ -170,7 +152,6 @@ html, body {
     transform: translateY(-40px);
   }
 
-  /* Slide animations - estado oculto */
   [data-scroll="slide-left"]:not(.is-visible) {
     opacity: 0;
     transform: translateX(-80px);
@@ -191,24 +172,71 @@ html, body {
     transform: translateY(80px);
   }
 
-  /* Zoom animation - estado oculto */
   [data-scroll="zoom"]:not(.is-visible) {
     opacity: 0;
     transform: scale(0.7);
   }
-}
 
-/* Mobile: show content immediately without animation */
-@media (max-width: 1023px) {
   [data-scroll] {
-    opacity: 1 !important;
-    transform: none !important;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-scroll].is-visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
   }
 }
 
-/* ============================================
-   UTILITY ANIMATION CLASSES
-   ============================================ */
+@media (max-width: 1023px) {
+  [data-scroll="fade"]:not(.is-visible) {
+    opacity: 0;
+  }
+
+  [data-scroll="fade-up"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(10px) translateZ(0);
+  }
+
+  [data-scroll="fade-down"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(-10px) translateZ(0);
+  }
+
+  [data-scroll="slide-left"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateX(-20px) translateZ(0);
+  }
+
+  [data-scroll="slide-right"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateX(20px) translateZ(0);
+  }
+
+  [data-scroll="slide-top"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(-20px) translateZ(0);
+  }
+
+  [data-scroll="slide-bottom"]:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(20px) translateZ(0);
+  }
+
+  [data-scroll="zoom"]:not(.is-visible) {
+    opacity: 0;
+    transform: scale(0.95) translateZ(0);
+  }
+
+  [data-scroll] {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  [data-scroll].is-visible {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1) translateZ(0);
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 1s ease-out forwards;
 }
@@ -219,4 +247,130 @@ html, body {
 
 .animate-blink {
   animation: blink 1s infinite;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+html:hover ::-webkit-scrollbar-thumb,
+body:hover ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html:hover ::-webkit-scrollbar-thumb:hover,
+body:hover ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+html.is-scrolling ::-webkit-scrollbar-thumb,
+body.is-scrolling ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html.is-scrolling ::-webkit-scrollbar-thumb:hover,
+body.is-scrolling ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 1023px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  html:hover ::-webkit-scrollbar-thumb,
+  body:hover ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  html:hover ::-webkit-scrollbar-thumb:hover,
+  body:hover ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  html.is-scrolling ::-webkit-scrollbar-thumb,
+  body.is-scrolling ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  html.is-scrolling ::-webkit-scrollbar-thumb:hover,
+  body.is-scrolling ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+}
+
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+  
+  html:hover ::-webkit-scrollbar-thumb,
+  body:hover ::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+  }
+  
+  html:hover ::-webkit-scrollbar-thumb:hover,
+  body:hover ::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+  }
+  
+  html.is-scrolling ::-webkit-scrollbar-thumb,
+  body.is-scrolling ::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.6);
+  }
+  
+  html.is-scrolling ::-webkit-scrollbar-thumb:hover,
+  body.is-scrolling ::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.8);
+  }
+  
+  * {
+    scrollbar-color: rgba(59, 130, 246, 0.5) #000000;
+  }
+  
+  html:hover *,
+  body:hover *,
+  html.is-scrolling *,
+  body.is-scrolling * {
+    scrollbar-color: rgba(59, 130, 246, 0.7) #000000;
+  }
 }

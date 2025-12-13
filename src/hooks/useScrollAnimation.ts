@@ -3,9 +3,7 @@ import { useEffect } from "react";
 /**
  * Hook para activar animaciones al hacer scroll
  * Basado en W3.CSS y Tailwind animations
- *
- * Las animaciones solo se activan en desktop (>= 1024px)
- * En mobile, el contenido se muestra sin animación
+ * Funciona en desktop y móviles
  *
  * @example
  * useScrollAnimation();
@@ -17,10 +15,12 @@ import { useEffect } from "react";
  */
 export function useScrollAnimation() {
   useEffect(() => {
-    // Solo activar en desktop
-    if (window.innerWidth < 1024) return;
-
     const elements = document.querySelectorAll("[data-scroll]");
+
+    // Ajustar threshold según el tamaño de pantalla
+    const isMobile = window.innerWidth < 768;
+    const threshold = isMobile ? 0.2 : 0.3;
+    const rootMargin = isMobile ? "0px 0px -50px 0px" : "0px";
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,8 +36,8 @@ export function useScrollAnimation() {
         });
       },
       {
-        threshold: 0.3,
-        rootMargin: "0px",
+        threshold,
+        rootMargin,
       }
     );
 

@@ -19,16 +19,13 @@ export default function Header() {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY < lastScrollY || currentScrollY < 100) {
-        // Scrolling up o cerca del top - mostrar header
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down y no en el top - ocultar header
         setIsVisible(false);
       }
 
       setLastScrollY(currentScrollY);
 
-      // Detectar sección activa
       const sections = navItems.map((item) => item.id);
       const scrollPosition = window.scrollY + window.innerHeight / 2;
 
@@ -48,7 +45,6 @@ export default function Header() {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Si el mouse está en los primeros 100px de la pantalla, mostrar header
       if (e.clientY < 100) {
         setIsVisible(true);
       }
@@ -75,13 +71,14 @@ export default function Header() {
   return (
     <header
       className={`
-        fixed top-5 left-1/2 -translate-x-1/2 z-40 px-2 py-1.5 
-        bg-white/95 backdrop-blur-xl rounded-full shadow-lg border border-white/40
+        fixed top-3 sm:top-4 md:top-5 left-1/2 -translate-x-1/2 z-40 px-1.5 sm:px-2 py-1 sm:py-1.5 
+        bg-white/95 lg:bg-white/95 backdrop-blur-xl rounded-full shadow-lg border border-white/40 lg:border-white/40
         transition-all duration-300 ease-in-out
         ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"}
+        max-w-[95vw] sm:max-w-none
       `}
     >
-      <nav className="flex gap-1.5 md:gap-3 items-center">
+      <nav className="flex gap-1 sm:gap-1.5 md:gap-3 items-center">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -89,9 +86,9 @@ export default function Header() {
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={`
-                group relative px-2.5 py-1.5 md:px-4 md:py-2 rounded-full
+                group relative px-2 sm:px-2.5 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-full
                 transition-all duration-300 ease-out
-                flex items-center gap-2
+                flex items-center gap-1 sm:gap-1.5 md:gap-2
                 ${
                   activeSection === item.id
                     ? "bg-black text-white shadow-lg"
@@ -99,12 +96,12 @@ export default function Header() {
                 }
               `}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span className="hidden lg:inline text-sm font-semibold">
                 {item.label}
               </span>
               {/* Tooltip para móvil y tablet */}
-              <span className="lg:hidden absolute -bottom-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+              <span className="lg:hidden absolute -bottom-10 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-1 sm:py-1.5 bg-black text-white text-[10px] sm:text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
                 {item.label}
               </span>
             </button>

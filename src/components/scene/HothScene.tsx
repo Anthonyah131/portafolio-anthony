@@ -1,6 +1,10 @@
 import { useGLTF } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import type { Object3D } from "three";
+
+if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+  useGLTF.preload("/models/hothPlanet.glb");
+}
 
 interface HothSceneProps {
   onShipHover: (isHovering: boolean) => void;
@@ -19,22 +23,19 @@ export default function HothScene({
   const { scene } = useGLTF("/models/hothPlanet.glb");
   const groupRef = useRef<any>(null);
 
-  useEffect(() => {
-    const snowspeeders: Object3D[] = [];
-
+  const snowspeeders = useMemo(() => {
+    const ships: Object3D[] = [];
     scene.traverse((child: Object3D) => {
       if (
         child.name === "Snowspeeder01" ||
         child.name === "Snowspeeder02" ||
         child.name === "Snowspeeder03"
       ) {
-        snowspeeders.push(child);
+        ships.push(child);
+        child.userData.isInteractive = true;
       }
     });
-
-    snowspeeders.forEach((ship) => {
-      ship.userData.isInteractive = true;
-    });
+    return ships;
   }, [scene]);
 
   const handlePointerEnter = (e: any) => {
@@ -66,9 +67,8 @@ export default function HothScene({
     ) {
       onShipHover(false);
     }
-  };
+      };
 
-  // Usar el editable group si está disponible, sino usar group normal
   const GroupComponent = editableGroup || "group";
   const groupProps: any = editableGroup
     ? {
@@ -85,13 +85,11 @@ export default function HothScene({
 
   return (
     <GroupComponent {...groupProps}>
-      {/* Glow del planeta */}
       <mesh scale={3.2}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial color="#6ec6ff" opacity={0.1} transparent />
       </mesh>
 
-      {/* Modelo del planeta y naves con eventos de hover */}
       <primitive
         object={scene}
         onPointerEnter={handlePointerEnter}

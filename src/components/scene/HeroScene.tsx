@@ -6,11 +6,11 @@ import { getProject } from "@theatre/core";
 import StarsField from "./StarsField";
 import ColoredLights from "./ColoredLights";
 import HothScene from "./HothScene";
-import ProfileModal from "./ProfileModal";
-import { useAboutSection } from "../hooks/useAboutSection";
-import { useContactSection } from "../hooks/useContactSection";
-import { useTheatreScroll } from "../hooks/useTheatreScroll";
-import animationState from "../data/animationState.json";
+import ProfileModal from "../ui/ProfileModal";
+import { useAboutSection } from "../../hooks/useAboutSection";
+import { useContactSection } from "../../hooks/useContactSection";
+import { useTheatreScroll } from "../../hooks/useTheatreScroll";
+import animationState from "../../data/animationState.json";
 import { OrbitControls } from "@react-three/drei";
 
 interface HeroSceneProps {
@@ -29,21 +29,18 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
 
   const sheet = project.sheet("Scene");
 
-  // Cargar Theatre.js Studio en modo editor
   useEffect(() => {
     if (editorMode) {
-      import("../theatre/studio");
+      import("../../theatre/studio");
     }
   }, [editorMode]);
 
-  // Sincronizar scroll con animación Theatre.js
   useTheatreScroll({
     sheet,
     editorMode,
     animationDuration: 12,
   });
 
-  // Reiniciar rotación del planeta al salir de Contact
   useEffect(() => {
     if (!isInContactSection && planetRotationEnabled) {
       setPlanetRotationEnabled(false);
@@ -58,7 +55,6 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
     }
   };
 
-  // Mostrar modal solo cuando estamos en About Y hay hover sobre una nave
   const showProfileModal = isInAboutSection && isHoveringShip;
 
   return (
@@ -69,14 +65,11 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
         position: "relative",
         cursor: showProfileModal ? "pointer" : "default",
       }}
-    >
-      {/* Modal de perfil */}
+      >
       <ProfileModal show={showProfileModal} />
 
-      {/* Canvas 3D */}
-      <Canvas shadows gl={{ preserveDrawingBuffer: true }}>
+      <Canvas gl={{ antialias: true, alpha: false }}>
         <SheetProvider sheet={sheet}>
-          {/* Cámara */}
           <PerspectiveCamera
             theatreKey="Camera"
             makeDefault={!planetRotationEnabled}
@@ -89,7 +82,6 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
             attachFns={undefined}
           />
 
-          {/* OrbitControls: solo activos en Contact Y después de hacer hover */}
           {planetRotationEnabled && (
             <OrbitControls
               makeDefault={true}
@@ -105,19 +97,15 @@ export default function HeroScene({ editorMode = false }: HeroSceneProps) {
             />
           )}
 
-          {/* Color de fondo */}
           <color attach="background" args={["#070F19"]} />
 
-          {/* Luces */}
           <ambientLight intensity={0.1} color="#5da8c3" />
           <ColoredLights />
 
-          {/* Estrellas */}
           <e.group theatreKey="Stars">
-            <StarsField count={2000} radius={100} />
+            <StarsField count={1200} radius={100} />
           </e.group>
 
-          {/* Planeta Hoth y naves Snowspeeder */}
           <Suspense fallback={null}>
             {editorMode && <RefreshSnapshot />}
             <HothScene

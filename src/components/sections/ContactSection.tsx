@@ -76,7 +76,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="section-container min-h-screen lg:h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-12 lg:py-0 relative overflow-hidden"
+      className="section-container min-h-screen lg:min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-12 sm:py-16 md:py-20 lg:py-16 xl:py-20 relative overflow-hidden"
     >
       {/* Hint central - Solo visible en pantallas grandes */}
       <div
@@ -95,14 +95,18 @@ export default function ContactSection() {
         </div>
       </div>
 
-      {/* Contenedor responsivo: Grid en móvil, Absolute positioning en desktop */}
-      <div data-scroll="zoom" className="w-full mx-auto relative">
-        {/* COLUMNA IZQUIERDA - Formulario */}
-        <div className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] mb-6 lg:mb-0 relative z-10">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white font-starwars tracking-wider">
+      <div className="w-full max-w-6xl sm:max-w-7xl mx-auto relative px-2 sm:px-4">
+        <div 
+          data-scroll="slide-left"
+          className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-3 sm:p-4 md:p-5 lg:p-6 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] mb-6 lg:mb-0 relative z-10 w-full lg:w-auto"
+        >
+          <h2 
+            data-scroll="fade-up"
+            className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-white font-starwars tracking-wider text-center lg:text-left block"
+          >
             send message
           </h2>
-          <p className="text-sm text-white/60 mb-6">Quick contact form</p>
+          <p className="text-xs sm:text-sm text-white/60 mb-4 sm:mb-5 md:mb-6 text-center lg:text-left block">Quick contact form</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -201,12 +205,17 @@ export default function ContactSection() {
         {/* COLUMNA CENTRAL - Espacio libre (sin contenedor, sin pointer-events) */}
         {/* El centro queda completamente vacío para que los eventos pasen al Canvas 3D */}
 
-        {/* COLUMNA DERECHA - Contacto directo */}
-        <div className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-4 sm:p-5 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] relative z-10">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-white font-starwars tracking-wider">
+        <div 
+          data-scroll="slide-right"
+          className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-3 sm:p-4 md:p-5 lg:p-6 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] relative z-10 w-full lg:w-auto"
+        >
+          <h2 
+            data-scroll="fade-up"
+            className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-white font-starwars tracking-wider text-center lg:text-left block"
+          >
             get in touch
           </h2>
-          <p className="text-sm text-white/60 mb-6">Direct contact options</p>
+          <p className="text-xs sm:text-sm text-white/60 mb-4 sm:mb-5 md:mb-6 text-center lg:text-left block">Direct contact options</p>
 
           {/* Email con botón copiar */}
           <div className="mb-6">
@@ -233,7 +242,7 @@ export default function ContactSection() {
           </div>
 
           {/* Botones de contacto directo */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-md mx-auto lg:mx-0">
             <a
               href={`mailto:${myEmail}`}
               className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300 group"

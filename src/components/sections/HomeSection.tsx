@@ -14,7 +14,6 @@ export default function HomeSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Activar animaciones de scroll
   useScrollAnimation();
 
   const roles = [
@@ -52,25 +51,30 @@ export default function HomeSection() {
   return (
     <section
       id="home"
-      data-scroll="slide-left"
-      className="section-container min-h-screen lg:h-screen flex items-center relative px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-8 lg:py-0"
+      className="section-container min-h-screen lg:min-h-screen flex items-center relative px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-12 sm:py-16 md:py-20 lg:py-12 xl:py-16"
     >
-      <div className="w-full max-w-6xl mx-auto">
+      <div className="w-full max-w-5xl mx-auto text-center lg:text-left px-2 sm:px-4">
         <div className="text-white">
-          {/* Title */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold my-6 leading-tight font-starwars tracking-wider">
+          <h1 
+            data-scroll="fade-up"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold my-4 sm:my-5 md:my-6 leading-tight font-starwars tracking-wider block"
+          >
             hi, i'm <span className="text-gray-400">anthony</span>
           </h1>
 
-          {/* Typewriter */}
-          <div className="text-2xl md:text-3xl lg:text-4xl font-light mb-8 min-h-12 inline-flex items-center border backdrop-blur-sm px-6 py-3 rounded-lg">
+          <div 
+            data-scroll="fade-up"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-light mb-6 sm:mb-7 md:mb-8 min-h-[2.5rem] sm:min-h-12 flex items-center justify-center lg:justify-start border border-white/20 backdrop-blur-sm px-3 sm:px-4 md:px-5 lg:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg w-fit mx-auto lg:mx-0"
+          >
             <span>{displayText}</span>
-            <span className="w-0.5 h-8 md:h-10 bg-white animate-blink ml-1"></span>
+            <span className="w-0.5 h-5 sm:h-6 md:h-7 lg:h-8 xl:h-10 bg-white animate-blink ml-1"></span>
           </div>
 
-          {/* Description */}
-          <p className="text-base md:text-lg leading-relaxed text-gray-300 mb-10 max-w-2xl">
-            I’m a full-stack developer with experience designing, building, and
+          <p 
+            data-scroll="fade-up"
+            className="text-sm sm:text-base md:text-lg leading-relaxed text-gray-300 mb-8 sm:mb-9 md:mb-10 max-w-2xl mx-auto lg:mx-0 block"
+          >
+            I'm a full-stack developer with experience designing, building, and
             shipping web and mobile applications. I enjoy working across the
             stack — backend APIs, database design, authentication, deployment —
             while also crafting intuitive and responsive UI experiences. My
@@ -78,11 +82,13 @@ export default function HomeSection() {
             product thinking.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 mb-12">
+          <div 
+            data-scroll="fade-up"
+            className="flex flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12 justify-center lg:justify-start w-full"
+          >
             <a
               href="#contact"
-              className="group px-8 py-3 bg-white text-black rounded-full font-semibold inline-flex items-center gap-2 transition-all duration-300 hover:bg-gray-100 hover:shadow-lg"
+              className="group px-5 sm:px-6 md:px-7 lg:px-8 py-2 sm:py-2.5 md:py-3 bg-white text-black rounded-full font-semibold inline-flex items-center gap-2 transition-all duration-300 hover:bg-gray-100 hover:shadow-lg text-sm sm:text-base"
             >
               <ArrowRight className="w-4 h-4" />
               <span>Hire Me</span>
@@ -91,42 +97,44 @@ export default function HomeSection() {
             <a
               href="/cv/CV_I_Anthony_Avila_H.pdf"
               download="Anthony_Avila_CV.pdf"
-              className="group px-8 py-3 bg-black text-white border border-white/20 rounded-full font-semibold inline-flex items-center gap-2 transition-all duration-300 hover:bg-white/10 hover:border-white"
+              className="group px-5 sm:px-6 md:px-7 lg:px-8 py-2 sm:py-2.5 md:py-3 bg-black text-white border border-white/20 rounded-full font-semibold inline-flex items-center gap-2 transition-all duration-300 hover:bg-white/10 hover:border-white text-sm sm:text-base"
             >
               <Download className="w-4 h-4" />
               <span>Download CV</span>
             </a>
           </div>
 
-          {/* Social Links */}
-          <div className="flex gap-3 items-center">
-            <span className="text-gray-500 text-xs font-medium uppercase tracking-wider">
+          <div 
+            data-scroll="fade-up"
+            className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-center sm:items-center justify-center lg:justify-start w-full"
+          >
+            <span className="text-gray-400 sm:text-gray-500 text-xs font-medium uppercase tracking-wider">
               FOLLOW ME
             </span>
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <a
                 href="https://www.instagram.com/anthah_131"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 hover:border-white/20 transition-all duration-300 hover:text-white"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a
                 href="https://www.linkedin.com/in/anthonyah-webdev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 hover:border-white/20 transition-all duration-300 hover:text-white"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
               <a
                 href="https://github.com/Anthonyah131"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent text-gray-400 border border-gray-700 transition-all duration-300 hover:bg-white/5 hover:text-white hover:border-gray-500"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 hover:border-white/20 transition-all duration-300 hover:text-white"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
             </div>
           </div>

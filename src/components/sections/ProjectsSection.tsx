@@ -1,6 +1,6 @@
-import { useState } from "react";
-import ProjectCard from "../ProjectCard";
-import CertificateCard from "../CertificateCard";
+import { useState, useEffect, useRef } from "react";
+import ProjectCard from "../ui/ProjectCard";
+import CertificateCard from "../ui/CertificateCard";
 import ProjectModal from "../modals/ProjectModal";
 import { projects } from "../../data/projects";
 import { certificates } from "../../data/certificates";
@@ -8,6 +8,7 @@ import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 export default function ProjectsSection() {
   useScrollAnimation();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const [activeTab, setActiveTab] = useState<"projects" | "certificates">(
     "projects"
@@ -20,7 +21,6 @@ export default function ProjectsSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 6;
 
-  // Calcular items para la página actual
   const getCurrentItems = <T,>(items: T[]): T[] => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -30,13 +30,59 @@ export default function ProjectsSection() {
   const totalPages = <T,>(items: T[]): number =>
     Math.ceil(items.length / itemsPerPage);
 
-  // Reset página cuando cambias de tab
   const handleTabChange = (tab: "projects" | "certificates") => {
     setActiveTab(tab);
     setCurrentPage(1);
   };
 
-  // Cambiar página con animación
+  useEffect(() => {
+    let observer: IntersectionObserver | null = null;
+    
+    const timer = setTimeout(() => {
+      if (gridRef.current) {
+        const elements = gridRef.current.querySelectorAll("[data-scroll]");
+        
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                entry.target.classList.remove("is-hidden");
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "0px",
+          }
+        );
+        
+        elements.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          const isInViewport = 
+            rect.top < window.innerHeight &&
+            rect.bottom > 0 &&
+            rect.left < window.innerWidth &&
+            rect.right > 0;
+          
+          if (isInViewport) {
+            el.classList.add("is-visible");
+            el.classList.remove("is-hidden");
+          }
+          
+          observer?.observe(el);
+        });
+      }
+    }, 100);
+    
+    return () => {
+      clearTimeout(timer);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [activeTab, currentPage]);
+
   const handlePageChange = (newPage: number) => {
     setIsTransitioning(true);
     setTimeout(() => {
@@ -45,13 +91,11 @@ export default function ProjectsSection() {
     }, 200);
   };
 
-  // Abrir modal con proyecto seleccionado
   const handleProjectClick = (project: (typeof projects)[0]) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   };
 
-  // Cerrar modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTimeout(() => setSelectedProject(null), 300);
@@ -60,20 +104,21 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="section-container min-h-screen lg:h-screen flex items-center justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-0 relative overflow-hidden"
+      className="section-container min-h-screen lg:min-h-screen flex items-center justify-center lg:justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-16 md:py-20 lg:py-12 xl:py-16 relative overflow-hidden"
     >
-      <div
-        data-scroll="fade-up"
-        className="w-full lg:w-[60%] max-w-5xl mx-auto lg:mx-0"
-      >
-        {/* Title */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 md:mb-5 text-center lg:text-left font-starwars tracking-wider">
+      <div className="w-full lg:w-[60%] max-w-4xl sm:max-w-5xl mx-auto lg:mx-0 px-2 sm:px-4">
+        <h2 
+          data-scroll="fade-up"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-5 sm:mb-6 md:mb-7 text-center lg:text-left font-starwars tracking-wider block"
+        >
           <span className="text-white">Projects &</span>{" "}
           <span className="text-gray-400">Achievements</span>
         </h2>
 
-        {/* Tab Buttons */}
-        <div className="flex gap-2 sm:gap-3 justify-center lg:justify-start mb-3 sm:mb-4">
+        <div 
+          data-scroll="fade-up"
+          className="flex gap-2 sm:gap-3 justify-center lg:justify-start mb-3 sm:mb-4"
+        >
           <button
             onClick={() => handleTabChange("projects")}
             className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm ${
@@ -99,24 +144,28 @@ export default function ProjectsSection() {
         {/* Projects Grid */}
         {activeTab === "projects" && (
           <>
-            {/* Grid optimizado para acordeones */}
             <div className="mb-4">
               <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 ${
+                ref={gridRef}
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 max-w-4xl sm:max-w-5xl mx-auto lg:mx-0 ${
                   isTransitioning ? "opacity-0" : "opacity-100"
                 }`}
               >
-                {getCurrentItems(projects).map((project) => (
-                  <ProjectCard
+                {getCurrentItems(projects).map((project, index) => (
+                  <div
                     key={project.id}
-                    title={project.title}
-                    description={project.description}
-                    image={project.image}
-                    tech={project.tech}
-                    link={project.link}
-                    githubLink={project.githubLink}
-                    onClick={() => handleProjectClick(project)}
-                  />
+                    data-scroll="fade-up"
+                  >
+                    <ProjectCard
+                      title={project.title}
+                      description={project.description}
+                      image={project.image}
+                      tech={project.tech}
+                      link={project.link}
+                      githubLink={project.githubLink}
+                      onClick={() => handleProjectClick(project)}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -174,22 +223,26 @@ export default function ProjectsSection() {
         {/* Certificates Grid */}
         {activeTab === "certificates" && (
           <>
-            {/* Grid de certificados */}
             <div className="mb-4">
               <div
-                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 ${
+                ref={gridRef}
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 max-w-4xl sm:max-w-5xl mx-auto lg:mx-0 ${
                   isTransitioning ? "opacity-0" : "opacity-100"
                 }`}
               >
-                {getCurrentItems(certificates).map((cert) => (
-                  <CertificateCard
+                {getCurrentItems(certificates).map((cert, index) => (
+                  <div
                     key={cert.id}
-                    title={cert.title}
-                    issuer={cert.issuer}
-                    date={cert.date}
-                    link={cert.link}
-                    credentialId={cert.credentialId}
-                  />
+                    data-scroll="fade-up"
+                  >
+                    <CertificateCard
+                      title={cert.title}
+                      issuer={cert.issuer}
+                      date={cert.date}
+                      link={cert.link}
+                      credentialId={cert.credentialId}
+                    />
+                  </div>
                 ))}
               </div>
             </div>

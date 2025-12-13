@@ -23,9 +23,13 @@ export default function ProfileModal({ show }: ProfileModalProps) {
         <div className="absolute inset-0 bg-blue-500/30 rounded-3xl blur-2xl"></div>
         <div className="relative bg-black/90 backdrop-blur-xl rounded-2xl p-4 border-2 border-blue-500/50 shadow-2xl">
           <img
-            src="/imgs/AnthonyPerfil.jpg"
+            src="/imgs/AnthonyPerfil.webp"
             alt="Anthony"
             className="rounded-xl shadow-2xl w-56 h-56 object-cover"
+            loading="lazy"
+            decoding="async"
+            width={224}
+            height={224}
           />
           <p className="text-white text-center mt-3 font-semibold text-base">
             Anthony Avila

@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lighthouse": "lighthouse http://localhost:4321/portfolio --view --only-categories=performance",
+    "lighthouse:mobile": "lighthouse http://localhost:4321/portfolio --view --only-categories=performance --emulated-form-factor=mobile --throttling.cpuSlowdownMultiplier=4",
+    "lighthouse:desktop": "lighthouse http://localhost:4321/portfolio --view --only-categories=performance --emulated-form-factor=desktop"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
