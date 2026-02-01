@@ -1,4 +1,5 @@
 import { Eye, Code2 } from "lucide-react";
+import TechTooltip from "./TechTooltip";
 
 interface ProjectCardProps {
   title: string;
@@ -22,28 +23,27 @@ export default function ProjectCard({
   return (
     <button
       onClick={onClick}
-      className="group relative bg-linear-to-br from-white/2 to-white/8 backdrop-blur-sm rounded-lg border border-white/10 hover:border-blue-400/50 transition-all duration-300 flex flex-col will-change-transform hover:z-20 overflow-hidden w-full text-left hover:scale-[1.02] active:scale-[0.98]"
+      className="group relative bg-linear-to-br from-white/2 to-white/8 backdrop-blur-sm rounded-lg border border-white/10 hover:border-blue-400/50 transition-all duration-300 flex flex-col will-change-transform hover:z-20 w-full text-left hover:scale-[1.02] active:scale-[0.98]"
     >
       {/* Destello azul estilo Star Wars */}
-      <div className="absolute inset-0 bg-linear-to-br from-blue-500/0 via-blue-400/0 to-cyan-500/0 lg:group-hover:from-blue-500/20 lg:group-hover:via-blue-400/15 lg:group-hover:to-cyan-500/20 transition-all duration-300 pointer-events-none z-10"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-blue-500/0 via-blue-400/0 to-cyan-500/0 lg:group-hover:from-blue-500/20 lg:group-hover:via-blue-400/15 lg:group-hover:to-cyan-500/20 transition-all duration-300 pointer-events-none z-10 rounded-lg"></div>
 
       {/* Header con imagen de fondo */}
-      <div className="relative w-full p-3 sm:p-4 md:p-5 flex items-center gap-2 sm:gap-3 md:gap-4 min-h-[80px] sm:min-h-[100px] md:min-h-[120px]">
+      <div className="relative w-full p-3 sm:p-4 md:p-5 flex items-center gap-2 sm:gap-3 md:gap-4 min-h-20 sm:min-h-[100px] md:min-h-[120px] rounded-lg" style={{ overflow: 'visible' }}>
         {/* Imagen de fondo */}
         {image && (
           <>
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
               <img
                 src={image}
                 alt={title}
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"
-                fetchpriority="low"
               />
             </div>
             {/* Overlay oscuro con gradiente */}
-            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-950/90 to-slate-950/70 z-1"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-950/90 to-slate-950/70 z-1 rounded-lg"></div>
           </>
         )}
 
@@ -52,7 +52,7 @@ export default function ProjectCard({
           <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1.5 sm:mb-2 line-clamp-1 tracking-tight drop-shadow-lg">
             {title}
           </h3>
-          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap relative">
             {tech.slice(0, 3).map((t, index) => (
               <span
                 key={index}
@@ -62,15 +62,16 @@ export default function ProjectCard({
               </span>
             ))}
             {tech.length > 3 && (
-              <span className="text-[8px] sm:text-[9px] md:text-[10px] text-white/40">
-                +{tech.length - 3}
-              </span>
+              <TechTooltip
+                remainingTech={tech.slice(3)}
+                count={tech.length - 3}
+              />
             )}
           </div>
         </div>
 
         {/* Botón de ver detalles */}
-        <div className="relative z-10 shrink-0">
+        <div className="relative z-5 shrink-0">
           <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg bg-white/10 group-hover:bg-blue-500/30 border border-white/20 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-200 backdrop-blur-sm">
             <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white/70 group-hover:text-blue-400 transition-all duration-300" />
           </div>

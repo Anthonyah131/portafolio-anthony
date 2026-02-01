@@ -84,7 +84,7 @@ export const projects: Project[] = [
     description:
       "Digital implementation of Monopoly Junior with property management, chance cards, construction mechanics and save/load functionality.",
     image: "/imgs/projects/Monopoly.webp",
-    tech: ["Java 17", "JavaFX", "Oracle 18c XE", "NetBeans"],
+    tech: ["Java 17", "JavaFX", "Oracle 18c XE"],
     githubLink: "https://github.com/Anthonyah131/MonopolyJunior",
     link: "",
   },

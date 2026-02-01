@@ -40,27 +40,27 @@ export default function ProjectModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8"
+      className="fixed inset-0 z-200 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8"
       onClick={onClose}
     >
       {/* Backdrop oscuro elegante */}
-      <div 
+      <div
         className={`fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300 ${
-          isAnimating ? 'opacity-100' : 'opacity-0'
+          isAnimating ? "opacity-100" : "opacity-0"
         }`}
       />
 
       {/* Modal Container - Slide up en móvil, fade/zoom en desktop */}
       <div
         className={`relative w-full sm:w-auto sm:max-w-2xl bg-[#0a0a0f] sm:bg-white/95 sm:dark:bg-zinc-950/95 backdrop-blur-md rounded-t-3xl sm:rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 ease-out ${
-          isAnimating 
-            ? 'translate-y-0 opacity-100 scale-100' 
-            : 'translate-y-full sm:translate-y-0 opacity-0 sm:opacity-0 scale-95 sm:scale-95'
+          isAnimating
+            ? "translate-y-0 opacity-100 scale-100"
+            : "translate-y-full sm:translate-y-0 opacity-0 sm:opacity-0 scale-95 sm:scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}
         style={{
-          maxHeight: '90vh',
-          height: 'auto'
+          maxHeight: "90vh",
+          height: "auto",
         }}
       >
         {/* Handle bar para móvil */}
@@ -79,13 +79,13 @@ export default function ProjectModal({
 
         {/* Scrollable Content */}
         <div className="max-h-[85vh] overflow-y-auto custom-scrollbar">
-          {/* Image Header con aspect ratio responsivo */}
+          {/* Image Header - mantiene aspect ratio original */}
           {project.image && (
-            <div className="relative w-full aspect-video overflow-hidden bg-transparent dark:bg-transparent">
+            <div className="relative w-full flex items-center justify-center bg-slate-950/50 dark:bg-zinc-900/50 py-4 sm:py-6">
               <img
                 src={project.image || "/placeholder.svg"}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="max-w-full max-h-[40vh] sm:max-h-[50vh] object-contain"
                 loading="lazy"
                 decoding="async"
               />
@@ -128,7 +128,7 @@ export default function ProjectModal({
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 sm:bg-zinc-900 sm:hover:bg-zinc-800 sm:dark:bg-zinc-50 sm:dark:hover:bg-zinc-200 text-white sm:text-zinc-50 sm:dark:text-zinc-900 rounded-xl sm:rounded-lg transition-all duration-300 font-medium shadow-lg sm:shadow-none"
+                  className="flex items-center justify-center gap-2 px-5 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 sm:bg-zinc-900 sm:hover:bg-zinc-800 sm:dark:bg-zinc-50 sm:dark:hover:bg-zinc-200 text-white sm:text-zinc-50 sm:dark:text-zinc-900 rounded-xl sm:rounded-lg transition-all duration-300 font-medium shadow-lg sm:shadow-none"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span className="text-sm font-semibold">View Demo</span>
@@ -150,6 +150,6 @@ export default function ProjectModal({
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

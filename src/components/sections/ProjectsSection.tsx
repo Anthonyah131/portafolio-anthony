@@ -11,7 +11,7 @@ export default function ProjectsSection() {
   const gridRef = useRef<HTMLDivElement>(null);
 
   const [activeTab, setActiveTab] = useState<"projects" | "certificates">(
-    "projects"
+    "projects",
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -37,11 +37,11 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
-    
+
     const timer = setTimeout(() => {
       if (gridRef.current) {
         const elements = gridRef.current.querySelectorAll("[data-scroll]");
-        
+
         observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -54,27 +54,27 @@ export default function ProjectsSection() {
           {
             threshold: 0.1,
             rootMargin: "0px",
-          }
+          },
         );
-        
+
         elements.forEach((el) => {
           const rect = el.getBoundingClientRect();
-          const isInViewport = 
+          const isInViewport =
             rect.top < window.innerHeight &&
             rect.bottom > 0 &&
             rect.left < window.innerWidth &&
             rect.right > 0;
-          
+
           if (isInViewport) {
             el.classList.add("is-visible");
             el.classList.remove("is-hidden");
           }
-          
+
           observer?.observe(el);
         });
       }
     }, 100);
-    
+
     return () => {
       clearTimeout(timer);
       if (observer) {
@@ -104,10 +104,11 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="section-container min-h-screen lg:min-h-screen flex items-center justify-center lg:justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-16 md:py-20 lg:py-12 xl:py-16 relative overflow-hidden"
+      className="section-container min-h-screen lg:min-h-screen flex items-center justify-center lg:justify-start px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-16 md:py-20 lg:py-12 xl:py-16 relative"
+      style={{ overflow: "visible" }}
     >
       <div className="w-full lg:w-[60%] max-w-4xl sm:max-w-5xl mx-auto lg:mx-0 px-2 sm:px-4">
-        <h2 
+        <h2
           data-scroll="fade-up"
           className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold mb-5 sm:mb-6 md:mb-7 text-center lg:text-left font-starwars tracking-wider block"
         >
@@ -115,7 +116,7 @@ export default function ProjectsSection() {
           <span className="text-gray-400">Achievements</span>
         </h2>
 
-        <div 
+        <div
           data-scroll="fade-up"
           className="flex gap-2 sm:gap-3 justify-center lg:justify-start mb-3 sm:mb-4"
         >
@@ -150,12 +151,10 @@ export default function ProjectsSection() {
                 className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-opacity duration-200 max-w-4xl sm:max-w-5xl mx-auto lg:mx-0 ${
                   isTransitioning ? "opacity-0" : "opacity-100"
                 }`}
+                style={{ overflow: "visible" }}
               >
                 {getCurrentItems(projects).map((project, index) => (
-                  <div
-                    key={project.id}
-                    data-scroll="fade-up"
-                  >
+                  <div key={project.id} data-scroll="fade-up" style={{ overflow: "visible" }}>
                     <ProjectCard
                       title={project.title}
                       description={project.description}
@@ -185,7 +184,7 @@ export default function ProjectsSection() {
                 </button>
                 {Array.from(
                   { length: totalPages(projects) },
-                  (_, i) => i + 1
+                  (_, i) => i + 1,
                 ).map((page) => (
                   <button
                     key={page}
@@ -204,7 +203,7 @@ export default function ProjectsSection() {
                 <button
                   onClick={() =>
                     handlePageChange(
-                      Math.min(totalPages(projects), currentPage + 1)
+                      Math.min(totalPages(projects), currentPage + 1),
                     )
                   }
                   disabled={currentPage === totalPages(projects)}
@@ -231,10 +230,7 @@ export default function ProjectsSection() {
                 }`}
               >
                 {getCurrentItems(certificates).map((cert, index) => (
-                  <div
-                    key={cert.id}
-                    data-scroll="fade-up"
-                  >
+                  <div key={cert.id} data-scroll="fade-up">
                     <CertificateCard
                       title={cert.title}
                       issuer={cert.issuer}
@@ -262,7 +258,7 @@ export default function ProjectsSection() {
                 </button>
                 {Array.from(
                   { length: totalPages(certificates) },
-                  (_, i) => i + 1
+                  (_, i) => i + 1,
                 ).map((page) => (
                   <button
                     key={page}
@@ -281,7 +277,7 @@ export default function ProjectsSection() {
                 <button
                   onClick={() =>
                     handlePageChange(
-                      Math.min(totalPages(certificates), currentPage + 1)
+                      Math.min(totalPages(certificates), currentPage + 1),
                     )
                   }
                   disabled={currentPage === totalPages(certificates)}
