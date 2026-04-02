@@ -1,5 +1,6 @@
-import { personal } from '../../data/personal';
+import { getPersonal } from '../../data/personal';
 import { useAboutContent } from '../../hooks/useAboutContent';
+import { useTranslation } from '../../context/LanguageContext';
 import { AboutBio } from './about/AboutBio';
 import { AboutInterests } from './about/AboutInterests';
 import { AboutPhoto } from './about/AboutPhoto';
@@ -7,7 +8,13 @@ import { AboutTimeline } from './about/AboutTimeline';
 import { AboutTitle } from './about/AboutTitle';
 
 export default function AboutSection() {
-  const { timelineItems, interests } = useAboutContent(personal);
+  const { t, locale } = useTranslation();
+  const personal = getPersonal(locale);
+  const { timelineItems, interests } = useAboutContent(personal, {
+    educationLabel: t.about.educationLabel,
+    experienceLabel: t.about.experienceLabel,
+    educationStatus: t.about.educationStatus,
+  });
 
   return (
     <section id="about" className="flex min-h-svh items-center px-6 py-16 md:px-12 lg:py-20 xl:px-24 xl:py-24">

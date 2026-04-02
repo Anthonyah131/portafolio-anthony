@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "greeting": "Hola, soy",
+    "roles": [
+      "Ingeniero de Software",
+      "Desarrollador Full-Stack",
+      "Desarrollador Backend",
+      "Desarrollador Mobile",
+      "Desarrollador Frontend"
+    ],
+    "bio": [
+      "Soy un desarrollador full-stack con experiencia diseñando, construyendo y publicando aplicaciones web y móviles. Disfruto trabajar en toda la pila — APIs backend, diseño de bases de datos, autenticación, despliegue — mientras también creo experiencias de interfaz intuitivas y responsivas.",
+      "Mi enfoque combina disciplina de ingeniería con diseño limpio y pensamiento orientado al producto."
+    ],
+    "basedInLabel": "Ubicación",
+    "backgroundLabel": "Formación",
+    "latestRoleLabel": "Cargo reciente",
+    "hireMe": "Contáctame",
+    "downloadCV": "Descargar CV",
+    "scrollHint": "Desplázate para explorar"
+  },
+  "about": {
+    "title": "Sobre",
+    "titleHighlight": "mí",
+    "educationLabel": "Educación",
+    "experienceLabel": "Experiencia",
+    "educationStatus": "Completado",
+    "interestsLabel": "Intereses y Hobbies"
+  },
+  "skills": {
+    "subtitle": "Especialidad",
+    "title": "Habilidades y",
+    "titleHighlight": "Tecnologías."
+  },
+  "projects": {
+    "subtitle": "Proyectos Seleccionados // MMXXV",
+    "title": "Desarrollo.",
+    "description": "Una selección curada de productos digitales centrados en ingeniería, arquitectura y experiencia de usuario. Pasa el cursor para explorar cada proyecto.",
+    "hoverHint": "Cursor para explorar",
+    "tabProjects": "Proyectos",
+    "tabCertificates": "Certificados"
+  },
+  "projectDetail": {
+    "backToProjects": "Volver a Proyectos",
+    "projectOverview": "Resumen del Proyecto",
+    "synopsisEyebrow": "El Proyecto",
+    "synopsisTitle": "Resumen",
+    "technicalEyebrow": "Enfoque Técnico",
+    "technicalTitle": "Implementación",
+    "lessonsEyebrow": "Aprendizajes Clave",
+    "lessonsTitle": "Insights",
+    "stackLabel": "Stack Tecnológico",
+    "statusLabel": "Estado",
+    "yearLabel": "Año",
+    "liveCta": "Ver Demo",
+    "repositoryCta": "Repositorio",
+    "finalCtaLead": "¿Te interesa trabajar",
+    "finalCtaAccent": "juntos?",
+    "finalCtaDescription": "Siempre abierto a nuevos proyectos y colaboraciones. Conectemos y exploremos qué podemos construir juntos.",
+    "finalBackCta": "Todos los Proyectos",
+    "finalContactCta": "Ponte en Contacto",
+    "statusValues": {
+      "LIVE": "En Vivo",
+      "COMPLETE": "Completado",
+      "ARCHIVED": "Archivado",
+      "WIP": "En Progreso"
+    }
+  },
+  "contact": {
+    "subtitle": "Ponte en contacto",
+    "titleLine1": "Trabajemos",
+    "titleLine2": "juntos.",
+    "emailLabel": "Correo",
+    "socialsLabel": "Redes Sociales",
+    "nameLabel": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailFieldLabel": "Correo",
+    "emailPlaceholder": "tu@correo.com",
+    "subjectLabel": "Asunto",
+    "subjectPlaceholder": "¿De qué se trata?",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre tu proyecto...",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando…",
+    "sent": "✓ ¡Mensaje enviado!",
+    "error": "Algo salió mal. Inténtalo de nuevo.",
+    "notConfigured": "El formulario no esta configurado todavia. Agrega variables PUBLIC de EmailJS para habilitar el envio."
+  }
+}

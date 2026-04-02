@@ -6,10 +6,14 @@ import AboutSection from './sections/AboutSection';
 import SkillsSection from './sections/SkillsSection';
 import ProjectsSection from './sections/ProjectsSection';
 import ContactSection from './sections/ContactSection';
+import { LanguageProvider } from '../context/LanguageContext';
+import { useTranslation } from '../context/LanguageContext';
+import { LanguageSwitcher } from './ui/LanguageSwitcher';
 
-export default function App() {
+function PortfolioContent() {
   useLenis();
   useScrollReveal();
+  const { locale } = useTranslation();
 
   const projectsContentRef = useRef<HTMLDivElement>(null);
   const contactContentRef  = useRef<HTMLDivElement>(null);
@@ -18,6 +22,7 @@ export default function App() {
 
   const [stickyTop,     setStickyTop]     = useState(0);
   const [wrapperHeight, setWrapperHeight] = useState<number | undefined>(undefined);
+  const [activeSection, setActiveSection] = useState('hero');
 
   const compute = useCallback(() => {
     const proj    = projectsContentRef.current;
@@ -102,10 +107,86 @@ export default function App() {
       cancelAnimationFrame(rafId);
       window.removeEventListener('hashchange', scrollToHash);
     };
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = ['hero', 'about', 'skills', 'projects', 'contact'];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible?.target?.id) {
+          setActiveSection(visible.target.id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '-35% 0px -52% 0px',
+        threshold: [0.1, 0.25, 0.5],
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
   }, [wrapperHeight]);
+
+  const sectionLinks = [
+    { id: 'hero', label: locale === 'es' ? 'Inicio' : 'Home' },
+    { id: 'about', label: locale === 'es' ? 'Sobre Mi' : 'About' },
+    { id: 'skills', label: locale === 'es' ? 'Skills' : 'Skills' },
+    { id: 'projects', label: locale === 'es' ? 'Proyectos' : 'Projects' },
+    { id: 'contact', label: locale === 'es' ? 'Contacto' : 'Contact' },
+  ];
 
   return (
     <>
+      <LanguageSwitcher />
+
+      <a
+        href="/"
+        aria-label={locale === 'es' ? 'Volver al inicio' : 'Back to home'}
+          className="fixed left-6 top-5 z-70 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(133,149,130,0.28)] bg-[rgba(10,12,10,0.78)] font-label text-[0.62rem] font-bold uppercase tracking-[0.2em] text-surface shadow-[0_10px_26px_rgba(0,0,0,0.34)] backdrop-blur-[10px] transition-[transform,border-color,color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-[0_12px_30px_rgba(67,254,109,0.2)]"
+      >
+        AAH
+      </a>
+
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-50 h-24">
+        <div className="group relative h-full w-full">
+          <div className="pointer-events-auto h-8 w-full" aria-hidden="true" />
+          <nav
+            aria-label={locale === 'es' ? 'Navegacion de secciones' : 'Section navigation'}
+            className="pointer-events-auto absolute left-1/2 top-2 flex -translate-x-1/2 -translate-y-2 items-center gap-1 rounded-full border border-[rgba(133,149,130,0.22)] bg-[rgba(10,12,10,0.82)] p-1 opacity-0 shadow-[0_10px_24px_rgba(0,0,0,0.3)] backdrop-blur-[14px] transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+          >
+            {sectionLinks.map((section) => {
+              const isActive = activeSection === section.id;
+              return (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`rounded-full px-3 py-1.5 font-label text-[0.56rem] uppercase tracking-[0.14em] transition-colors ${
+                    isActive
+                      ? 'bg-primary text-[#002a0d]'
+                      : 'text-outline hover:text-surface'
+                  }`}
+                >
+                  {section.label}
+                </a>
+              );
+            })}
+          </nav>
+        </div>
+      </div>
+
       <div id="three-bg" style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }} />
 
       <div id="content" style={{ position: 'relative', zIndex: 1 }}>
@@ -156,5 +237,13 @@ export default function App() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <PortfolioContent />
+    </LanguageProvider>
   );
 }

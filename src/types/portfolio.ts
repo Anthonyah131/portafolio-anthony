@@ -1,4 +1,4 @@
-export type ProjectStatus = 'LIVE' | 'COMPLETE' | 'ARCHIVED';
+export type ProjectStatus = 'LIVE' | 'COMPLETE' | 'ARCHIVED' | 'WIP';
 
 export interface ProjectBTSItem {
   icon: string;
@@ -19,7 +19,6 @@ export interface Project {
   description: string;
   image: string;
   heroImage?: string;
-  synopsis?: string;
   bts?: ProjectBTSItem[];
   lessons?: ProjectLessonItem[];
   stack?: string[];

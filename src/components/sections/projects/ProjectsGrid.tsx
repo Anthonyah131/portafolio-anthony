@@ -1,16 +1,20 @@
 import { memo } from 'react';
-import { projects } from '../../../data/projects';
+import { getProjects } from '../../../data/projects';
+import { useTranslation } from '../../../context/LanguageContext';
 import ProjectCard from '../../ui/ProjectCard';
 import { TALL_INDICES } from './constants';
 
 function ProjectsGridBase() {
+  const { locale } = useTranslation();
+  const projects = getProjects(locale);
+
   return (
     <>
       <div className="grid grid-cols-1 auto-rows-[360px] gap-3 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project, i) => (
           <div
             key={project.id}
-            className={TALL_INDICES.has(i) ? 'min-h-0 xl:[grid-row:span_2]' : 'min-h-0'}
+            className={TALL_INDICES.has(i) ? 'min-h-0 xl:row-[span_2]' : 'min-h-0'}
           >
             <ProjectCard project={project} />
           </div>

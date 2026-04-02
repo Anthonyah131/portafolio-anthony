@@ -1,7 +1,9 @@
 import { memo } from 'react';
-import { certificates } from '../../../data/certificates';
+import { getCertificates } from '../../../data/certificates';
+import type { Certificate } from '../../../types/portfolio';
+import { useTranslation } from '../../../context/LanguageContext';
 
-function CertificateCardBase({ cert }: { cert: (typeof certificates)[number] }) {
+function CertificateCardBase({ cert }: { cert: Certificate }) {
   return (
     <a
       href={cert.link ?? '#'}
@@ -11,7 +13,7 @@ function CertificateCardBase({ cert }: { cert: (typeof certificates)[number] }) 
     >
       <span className="font-label text-[0.6rem] uppercase tracking-[0.25em] text-secondary">{cert.issuer}</span>
       <span className="font-headline text-base font-semibold italic leading-[1.2] text-surface">{cert.title}</span>
-      <span className="mt-auto font-label text-[0.65rem] tracking-[0.1em] text-outline">{cert.date}</span>
+      <span className="mt-auto font-label text-[0.65rem] tracking-widest text-outline">{cert.date}</span>
     </a>
   );
 }
@@ -19,6 +21,9 @@ function CertificateCardBase({ cert }: { cert: (typeof certificates)[number] }) 
 const CertificateCard = memo(CertificateCardBase);
 
 function CertificatesGridBase() {
+  const { locale } = useTranslation();
+  const certificates = getCertificates(locale);
+
   return (
     <div className="stagger grid grid-cols-1 gap-px border border-(--outline-var) bg-(--outline-var) md:grid-cols-2 xl:grid-cols-3">
       {certificates.map(cert => (

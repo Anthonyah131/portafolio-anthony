@@ -1,0 +1,23 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  body: string;
+}
+
+const { icon, title, body } = Astro.props;
+---
+
+<article
+  class="relative overflow-hidden border-l-2 border-primary bg-(--bg-mid) p-7 transition-[transform,border-color,background,box-shadow] duration-300 before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(67,254,109,0.08),transparent_40%,rgba(255,183,135,0.05))] before:opacity-0 before:transition-opacity before:duration-300 before:content-[''] hover:-translate-y-1.5 hover:shadow-[0_24px_48px_rgba(0,0,0,0.28)] hover:before:opacity-100"
+>
+  <span class="mb-4 block text-2xl" aria-hidden="true">
+    {icon}
+  </span>
+  <h3 class="mb-2 font-headline text-[1.15rem] font-semibold italic text-surface">
+    {title}
+  </h3>
+  <p class="text-sm leading-[1.7] text-surface-muted">
+    {body}
+  </p>
+</article>

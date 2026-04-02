@@ -1,0 +1,97 @@
+---
+import { Image } from "../../ui/Image";
+
+interface Props {
+  title: string;
+  heroImage: string;
+  year: string | number;
+  status: string;
+  statusClass: Record<string, string>;
+  statusText: string;
+  caseStudyLabel: string;
+  backToLabel: string;
+  homeProjectsHref: string;
+  transitionNames: { poster: string; title: string };
+}
+
+const {
+  title,
+  heroImage,
+  year,
+  status,
+  statusClass,
+  statusText,
+  caseStudyLabel,
+  backToLabel,
+  homeProjectsHref,
+  transitionNames,
+} = Astro.props;
+---
+
+<section
+  class="relative flex min-h-130 items-end overflow-hidden sm:min-h-152 lg:min-h-176 xl:min-h-205"
+>
+  <!-- Background gradient -->
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_18%,rgba(67,254,109,0.14),transparent_34%),radial-gradient(circle_at_80%_24%,rgba(255,183,135,0.1),transparent_28%)]"
+  >
+  </div>
+
+  <!-- Hero image with overlay -->
+  <div
+    class="absolute inset-0 z-10"
+    style={`view-transition-name:${transitionNames.poster}`}
+  >
+    <Image
+      src={heroImage}
+      alt={title}
+      className="mx-auto block h-full w-auto object-contain contrast-110"
+      loading="eager"
+      decoding="async"
+    />
+    <div
+      class="absolute inset-0 z-20 bg-[linear-gradient(to_top,rgba(8,8,8,1)_0%,rgba(8,8,8,0.5)_50%,rgba(8,8,8,0.08)_100%),linear-gradient(to_right,rgba(8,8,8,0.6)_0%,transparent_60%)]"
+    >
+    </div>
+  </div>
+
+  <!-- Content overlay -->
+  <div
+    class="section-inner relative z-30 flex flex-col gap-8 px-8 pb-14 pt-24 sm:px-12 xl:px-0"
+  >
+    <a
+      href={homeProjectsHref}
+      class="fade-up inline-flex items-center gap-2 font-label text-[0.72rem] uppercase tracking-[0.18em] text-outline transition-[transform,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:text-surface-muted hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+      style="transition-delay:120ms"
+    >
+      <span aria-hidden="true">←</span>
+      {backToLabel}
+    </a>
+
+    <div class="fade-up" style="transition-delay:220ms">
+      <span
+        class="mb-3 block font-label text-[0.65rem] uppercase tracking-[0.35em] text-secondary"
+      >
+        {caseStudyLabel}
+      </span>
+      <h1
+        class="font-headline text-5xl font-extrabold italic leading-[0.92] tracking-[-0.03em] text-surface sm:text-6xl lg:text-7xl xl:text-[6.5rem]"
+        style={`view-transition-name:${transitionNames.title}`}
+      >
+        {title}
+      </h1>
+
+      <div class="stagger mt-5 flex flex-wrap items-center gap-6">
+        <span class="font-label text-xs uppercase tracking-[0.15em] text-outline">
+          {year}
+        </span>
+        <span
+          class={`font-label text-[0.7rem] font-semibold uppercase tracking-[0.15em] ${statusClass[status] ?? "text-surface-muted"}`}
+        >
+          ● {statusText}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

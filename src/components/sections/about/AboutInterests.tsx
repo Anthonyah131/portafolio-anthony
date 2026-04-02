@@ -1,13 +1,15 @@
 import { memo } from 'react';
+import { useTranslation } from '../../../context/LanguageContext';
 
 type AboutInterestsProps = {
   interests: string[];
 };
 
 function AboutInterestsBase({ interests }: AboutInterestsProps) {
+  const { t } = useTranslation();
   return (
     <div className="fade-up" style={{ transitionDelay: '420ms' }}>
-      <p className="mb-3 font-label text-xs uppercase tracking-widest text-secondary">Interests & Hobbies</p>
+      <p className="mb-3 font-label text-xs uppercase tracking-widest text-secondary">{t.about.interestsLabel}</p>
       <div className="stagger flex flex-wrap gap-2">
         {interests.map((item) => (
           <span

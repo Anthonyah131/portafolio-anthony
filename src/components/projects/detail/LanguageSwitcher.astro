@@ -1,0 +1,37 @@
+---
+interface Props {
+  locale: "en" | "es";
+  enHref: string;
+  esHref: string;
+}
+
+const { locale, enHref, esHref } = Astro.props;
+---
+
+<nav
+  aria-label="Language switcher"
+  class="fixed right-7 top-5 z-60 flex gap-0.5 rounded-full border border-[rgba(133,149,130,0.22)] bg-[rgba(10,12,10,0.72)] p-[3px] shadow-[0_2px_16px_rgba(0,0,0,0.35)] backdrop-blur-[14px]"
+>
+  <a
+    href={enHref}
+    aria-current={locale === "en" ? "true" : undefined}
+    class={`rounded-full px-3.5 py-1.5 font-label text-[0.6rem] font-bold uppercase tracking-[0.18em] transition-colors ${
+      locale === "en"
+        ? "bg-primary text-[#002a0d]"
+        : "text-outline hover:text-surface"
+    }`}
+  >
+    EN
+  </a>
+  <a
+    href={esHref}
+    aria-current={locale === "es" ? "true" : undefined}
+    class={`rounded-full px-3.5 py-1.5 font-label text-[0.6rem] font-bold uppercase tracking-[0.18em] transition-colors ${
+      locale === "es"
+        ? "bg-primary text-[#002a0d]"
+        : "text-outline hover:text-surface"
+    }`}
+  >
+    ES
+  </a>
+</nav>

@@ -1,18 +1,21 @@
-import { personal } from "../../data/personal";
+import { getPersonal } from "../../data/personal";
 import { useEffect, useRef } from "react";
 import { useTypewriterRoles } from "../../hooks/useTypewriterRoles";
 import { HeroScrollHint } from "./hero/HeroScrollHint";
 import { HeroActions } from "./hero/HeroActions";
 import { HeroSignals } from "./hero/HeroSignals";
 import { HeroSocialLinks } from "./hero/HeroSocialLinks";
+import { useTranslation } from "../../context/LanguageContext";
 
 export default function HeroSection() {
-  const roleRef = useTypewriterRoles(personal.roles);
+  const { t, locale } = useTranslation();
+  const personal = getPersonal(locale);
+  const roleRef = useTypewriterRoles(t.hero.roles);
   const heroRef = useRef<HTMLElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
-  const longestRole = personal.roles.reduce(
+  const longestRole = t.hero.roles.reduce(
     (max, role) => (role.length > max.length ? role : max),
-    personal.roles[0] ?? "",
+    t.hero.roles[0] ?? "",
   );
 
   useEffect(() => {
@@ -113,12 +116,13 @@ export default function HeroSection() {
       <div className="mx-auto flex w-full max-w-6xl justify-center">
         <div className="w-full max-w-3xl text-left">
           <h1
-            aria-label="Hi, I'm Anthony"
+            aria-label={`${t.hero.greeting} Anthony`}
             className="mb-8 whitespace-nowrap font-headline text-4xl leading-tight tracking-tight text-surface italic font-bold sm:text-5xl lg:text-6xl"
           >
             <div className="split-line-wrap">
               <span className="split-line" style={{ transitionDelay: "80ms" }}>
-                <span className="text-secondary">Hi,</span> I&apos;m{" "}
+                <span className="text-secondary">{t.hero.greeting.split(' ')[0]}</span>{' '}
+                {t.hero.greeting.split(' ').slice(1).join(' ')}{" "}
                 <span className="text-primary">Anthony</span>
               </span>
             </div>
@@ -138,7 +142,7 @@ export default function HeroSection() {
               </span>
             </p>
 
-            {personal.bio.map((line, i) => (
+            {t.hero.bio.map((line, i) => (
               <p
                 key={i}
                 className="max-w-[62ch] font-body text-base leading-7 text-[color-mix(in_srgb,var(--color-surface-muted)_88%,white_12%)] sm:text-lg sm:leading-8"
@@ -151,6 +155,9 @@ export default function HeroSection() {
               location={personal.location}
               degree={personal.education.degree}
               experience={personal.experience.role}
+              basedInLabel={t.hero.basedInLabel}
+              backgroundLabel={t.hero.backgroundLabel}
+              latestRoleLabel={t.hero.latestRoleLabel}
             />
 
             <HeroActions cvLink={personal.cvLink} />

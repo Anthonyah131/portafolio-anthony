@@ -1,0 +1,409 @@
+[
+  {
+    "id": 10,
+    "slug": "project-ledger-web",
+    "title": "Project Ledger Web",
+    "genre": "Web App",
+    "year": "2026",
+    "status": "WIP",
+    "description": "Financial dashboard for managing projects, teams, and monthly project cash flow, with modules for operations, collaboration, reporting, billing plans, and workspace-based organization.",
+    "image": "/imgs/projects/projectledger_original.webp",
+    "tech": ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "shadcn/ui", "Vitest"],
+    "bts": [
+      {
+        "icon": "📊",
+        "title": "Product Scope and Operational Modules",
+        "body": "The app currently includes authentication flows, monthly KPI dashboards, complete project finance modules (expenses, incomes, categories, obligations, budgets, partners, settlements, and members), reports with Excel/PDF export, billing plans, workspace grouping, and an integrated chatbot in the protected shell."
+      },
+      {
+        "icon": "🧱",
+        "title": "Architecture and Technical Approach",
+        "body": "Built with Next.js App Router and route groups for auth/dashboard, using thin pages that delegate to views, centralized route protection by role, a shared API client (refresh, cancelation, GET dedup, typed errors), domain services, and orchestration hooks for complex project-detail coordination."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Domain-Driven Frontend Structure Scales Better",
+        "body": "Using the page → view → hooks → services pattern keeps pages lightweight and allows business features to grow without inflating routing layers or creating coupling between modules."
+      },
+      {
+        "num": "02",
+        "title": "Strong Foundations Expose the Next Maturity Step",
+        "body": "Centralized HTTP behavior and i18n-by-feature improved consistency and maintenance speed. The next logical improvements are stronger unit coverage for hooks/services, deeper observability, and more advanced reporting hardening."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/project-ledger-web",
+    "link": "https://project-ledger-web.vercel.app/"
+  },
+  {
+    "id": 11,
+    "slug": "project-ledger-api",
+    "title": "Project Ledger API",
+    "genre": "Backend API",
+    "year": "2026",
+    "status": "WIP",
+    "description": "Multi-tenant backend built with ASP.NET Core 10 and PostgreSQL, deployed on Azure free tier. Powers expenses, incomes, obligations, budgets, OCR-assisted drafts, AI-related workflows, and Stripe billing integration.",
+    "image": "/imgs/projects/projectledger_original_api.webp",
+    "tech": [".NET 10", "ASP.NET Core", "EF Core", "PostgreSQL", "JWT", "Stripe", "Azure", "OpenAPI"],
+    "bts": [
+      {
+        "icon": "🏗️",
+        "title": "Azure + PostgreSQL Deployment",
+        "body": "Deployed the API to Azure free tier while keeping PostgreSQL as the main data store, balancing cost constraints with a stable backend environment for ongoing feature work."
+      },
+      {
+        "icon": "📄",
+        "title": "Core Financial + OCR Flow",
+        "body": "Implemented and connected core finance modules with OCR-assisted transaction drafts so users can capture document data first and validate before it impacts totals."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Strong C# and .NET Foundations",
+        "body": "This project helped me improve a lot in C# and .NET, especially around API structure, clean layering, and writing more maintainable backend code."
+      },
+      {
+        "num": "02",
+        "title": "Clean Code Improves Delivery",
+        "body": "Applying cleaner practices and better organization made feature delivery smoother as the API grew to include OCR, billing, and AI-related integrations."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/project-ledger-api",
+    "link": ""
+  },
+  {
+    "id": 2,
+    "slug": "cinematch-backend",
+    "title": "CineMatch Backend",
+    "genre": "Backend API",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "NestJS + Firebase backend for CineMatch, focused on secure authentication, movie and series interactions, social features, and recommendation flows inspired by cinematic preference patterns.",
+    "image": "/imgs/projects/welcome.webp",
+    "bts": [
+      {
+        "icon": "🧱",
+        "title": "Modular NestJS Architecture",
+        "body": "Structured backend modules around auth, users, media, lists, friends, and recommendations, making responsibilities explicit and easier to scale as the platform grew."
+      },
+      {
+        "icon": "🔥",
+        "title": "Firebase Sync + Social Core",
+        "body": "Implemented Firestore-backed synchronization and social interactions including activity tracking, user media actions, and real-time behavior needed by the CineMatch experience."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Clear Backend Boundaries Improve Quality",
+        "body": "Designing each responsibility as a dedicated module improved maintainability and made endpoint behavior easier to reason about as features evolved."
+      },
+      {
+        "num": "02",
+        "title": "Security and Recommendation Logic Must Coexist",
+        "body": "I strengthened auth and API protection while implementing recommendation-related flows, learning to balance product features with secure backend practices."
+      }
+    ],
+    "tech": ["NestJS", "TypeScript", "Firebase", "JWT", "TMDB API", "Swagger"],
+    "githubLink": "https://github.com/Anthonyah131/CineMatch-Backend",
+    "link": ""
+  },
+  {
+    "id": 1,
+    "slug": "cinematch",
+    "title": "CineMatch",
+    "genre": "Mobile App",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Mobile social app for movie lovers with user matching by film taste, real-time chat powered by Firebase, forums, and TMDB integration.",
+    "image": "/imgs/projects/movieDetails.webp",
+    "tech": ["React Native", "TypeScript", "Firebase", "TMDB API", "Metro"],
+    "bts": [
+      {
+        "icon": "🎯",
+        "title": "Taste-Based Matching",
+        "body": "Implemented matching logic focused on connecting users with similar movie preferences to strengthen community discovery and interaction quality."
+      },
+      {
+        "icon": "💬",
+        "title": "Firebase Real-Time Chat",
+        "body": "Implemented Firebase-powered real-time messaging for matched users, enabling responsive conversations as a core social feature of the app."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Mobile Best Practices Matter",
+        "body": "This project helped me improve my mobile development practices, especially around cleaner architecture, reusable components, and scalable feature organization."
+      },
+      {
+        "num": "02",
+        "title": "Scalability Starts Early",
+        "body": "As social features expanded, I learned to keep code quality high from the start so new capabilities can be added without destabilizing the app."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/CineMatch",
+    "link": ""
+  },
+  {
+    "id": 3,
+    "slug": "sgi-avalom",
+    "title": "SGI Avalom",
+    "genre": "Web App",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Complete property administration platform for rentals, contracts, clients, payments, accounting visibility, and operational control across buildings and units.",
+    "image": "/imgs/projects/sgi_avalom.webp",
+    "bts": [
+      {
+        "icon": "🏢",
+        "title": "Property and Rental Operations",
+        "body": "Built modules for buildings, properties, clients, rentals, and payment flows to replace spreadsheet-heavy processes with a centralized web system."
+      },
+      {
+        "icon": "📊",
+        "title": "Accounting and Reporting",
+        "body": "Added dashboards, filtering, and export-ready reporting to improve financial supervision and day-to-day administration for property managers."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Domain-Driven Modules Improve Maintainability",
+        "body": "Structuring the app by real operations (rentals, accounting, clients, properties) made it easier to extend features without creating coupling between unrelated areas."
+      },
+      {
+        "num": "02",
+        "title": "Business Workflows Need Clear Data Boundaries",
+        "body": "The project reinforced the importance of consistent data models and lifecycle states for contracts and payments in systems with operational and financial impact."
+      }
+    ],
+    "tech": ["React", "TypeScript", "Next.js", "PostgreSQL", "Prisma", "Tailwind CSS"],
+    "githubLink": "https://github.com/Anthonyah131/SGI_Avalom",
+    "link": ""
+  },
+  {
+    "id": 4,
+    "slug": "colyseus-multiplayer",
+    "title": "Colyseus Multiplayer",
+    "genre": "Game Server",
+    "year": "2023",
+    "status": "ARCHIVED",
+    "description": "Multiplayer backend for Whispers in the Woods, my first 3D game project in PlayCanvas. Handles real-time sync, room events, and matchmaking for a 1v1 horror experience.",
+    "image": "/imgs/projects/WhisperITW_poster.webp",
+    "bts": [
+      {
+        "icon": "🎮",
+        "title": "First 3D Game Journey",
+        "body": "This was my first full 3D game project, from initial concept and art direction to implementation, which made the development process both challenging and fun."
+      },
+      {
+        "icon": "🌐",
+        "title": "Multiplayer Implementation",
+        "body": "Implemented the multiplayer layer with Colyseus to keep both players synchronized in real time, handling room events and gameplay state updates."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Building a Game from Zero Is Different",
+        "body": "Designing a game from scratch required learning beyond code, including concept planning, iteration flow, and close alignment between design and implementation."
+      },
+      {
+        "num": "02",
+        "title": "Real-Time Multiplayer Is a Great Teacher",
+        "body": "Working on multiplayer synchronization taught me practical lessons about state handling, event timing, and debugging interactive systems."
+      }
+    ],
+    "tech": ["Colyseus", "PlayCanvas", "TypeScript", "JavaScript"],
+    "githubLink": "https://github.com/Anthonyah131/colyseus-server",
+    "link": "https://playcanvas.com/project/1332766/overview/whispers-in-the-woods"
+  },
+  {
+    "id": 5,
+    "slug": "clinicauna",
+    "title": "ClinicaUNA",
+    "genre": "Desktop App",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "JavaFX medical record and appointment system connected to Payara and Oracle 21c XE, with multilingual support (Spanish/English), role-based access, and Jasper Reports.",
+    "image": "/imgs/projects/clinica_poster.webp",
+    "bts": [
+      {
+        "icon": "🏥",
+        "title": "Complete Clinic Workflow",
+        "body": "Implemented end-to-end modules for users, doctors, patients, appointments, and medical records, including schedule handling, consultation history, and follow-up data capture."
+      },
+      {
+        "icon": "📈",
+        "title": "Reporting and Operations",
+        "body": "Integrated Jasper Reports plus dynamic reporting capabilities to generate agenda and patient history outputs, supporting administrative and clinical operations."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Enterprise Structure in Desktop Apps",
+        "body": "I learned to handle larger business workflows in JavaFX by organizing modules around real clinic processes and maintaining clear separation between UI, service, and persistence layers."
+      },
+      {
+        "num": "02",
+        "title": "Data Accuracy Is Critical in Health Systems",
+        "body": "Building medical and appointment flows reinforced the importance of validation, role permissions, and consistent data handling when software supports sensitive operations."
+      }
+    ],
+    "tech": ["JavaFX", "Java", "JPA", "REST", "Oracle 21c XE", "Jasper Reports"],
+    "githubLink": "https://github.com/Anthonyah131/ClinicaUNA",
+    "link": ""
+  },
+  {
+    "id": 6,
+    "slug": "proyecto-pac-man",
+    "title": "Proyecto Pac-Man",
+    "genre": "Game",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Enhanced Pac-Man built in JavaFX with dynamic mazes, advanced ghost pathfinding (A*, BFS, DFS, Dijkstra), power-ups, trophies, and 10 themed levels.",
+    "image": "/imgs/projects/pacman_poster.webp",
+    "bts": [
+      {
+        "icon": "🧠",
+        "title": "Advanced Ghost AI",
+        "body": "Implemented multiple pathfinding behaviors for ghost personalities and difficulty settings, creating varied and more challenging gameplay."
+      },
+      {
+        "icon": "🌀",
+        "title": "Dynamic Gameplay Systems",
+        "body": "Added random maze generation, power-ups, trophies, stats, and save/load flow to extend the classic Pac-Man loop into a richer game experience."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Game Feel Depends on Systems Working Together",
+        "body": "Balancing movement, AI behavior, scoring, and power-up timing taught me that small gameplay systems must be tuned as a whole, not in isolation."
+      },
+      {
+        "num": "02",
+        "title": "Feature-Rich Games Need Strong Structure",
+        "body": "As mechanics grew, organizing code by responsibilities became essential to keep iteration speed high and avoid regressions."
+      }
+    ],
+    "tech": ["Java 17", "JavaFX", "Maven", "AI Algorithms"],
+    "githubLink": "https://github.com/Anthonyah131/Proyecto-Pac-Man",
+    "link": ""
+  },
+  {
+    "id": 7,
+    "slug": "tours-control",
+    "title": "Tours Control",
+    "genre": "Desktop App",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "JavaFX tourism management desktop app with map-based route visualization, 3D image carousel, drag-and-drop assets, billing workflows, and PDF invoice generation.",
+    "image": "/imgs/projects/tours_poster.webp",
+    "bts": [
+      {
+        "icon": "🗺️",
+        "title": "Map and Route Visualization",
+        "body": "Implemented itinerary visualization with interactive mapping to show route stops and improve tour planning clarity for users."
+      },
+      {
+        "icon": "🧾",
+        "title": "Billing and Operations",
+        "body": "Built tour billing flow with PDF export and support utilities like searchable maintenance modules and drag-and-drop media management."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Desktop UX Still Demands Product Thinking",
+        "body": "Working on this project reinforced that desktop tools also need smooth workflows, discoverable controls, and clear visual hierarchy."
+      },
+      {
+        "num": "02",
+        "title": "Complex Modules Benefit from Shared UI Patterns",
+        "body": "Reusing interaction and form patterns across maintenance views helped reduce inconsistencies and improve long-term maintainability."
+      }
+    ],
+    "tech": ["JavaFX", "Java 17", "Oracle 18c XE", "MapJFX"],
+    "githubLink": "https://github.com/Anthonyah131/Tours_Control",
+    "link": ""
+  },
+  {
+    "id": 8,
+    "slug": "monopoly-junior",
+    "title": "Monopoly Junior",
+    "genre": "Game",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Digital Monopoly Junior implementation in JavaFX with interactive board gameplay, property and bank management, chance cards, and save/load support.",
+    "image": "/imgs/projects/Monopoly_poster.webp",
+    "bts": [
+      {
+        "icon": "🎲",
+        "title": "Interactive Board Mechanics",
+        "body": "Implemented turn-based board interactions including dice flow, tile actions, property purchases, rent handling, and chance-card effects."
+      },
+      {
+        "icon": "🏦",
+        "title": "Game State and Persistence",
+        "body": "Added player economy and state management with save/load functionality so sessions could continue without losing progression."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Board-Game Logic Needs Clear Rules Modeling",
+        "body": "I learned to model game rules explicitly to avoid ambiguous states and keep turns, transactions, and outcomes predictable."
+      },
+      {
+        "num": "02",
+        "title": "Persistence Is Part of User Experience",
+        "body": "Supporting saved sessions highlighted how important state recovery is for playability in longer game loops."
+      }
+    ],
+    "tech": ["Java 17", "JavaFX", "Oracle 18c XE"],
+    "githubLink": "https://github.com/Anthonyah131/MonopolyJunior",
+    "link": ""
+  },
+  {
+    "id": 9,
+    "slug": "chrome-dev-assistant",
+    "title": "Chrome Dev Assistant",
+    "genre": "Extension",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Chrome extension that automates debugging prompt workflows by capturing developer error input and sending structured prompts through configurable modes.",
+    "image": "/imgs/projects/chrome_dev_assistant.webp",
+    "bts": [
+      {
+        "icon": "🧩",
+        "title": "Prompt Workflow Automation",
+        "body": "Built an extension flow where users paste errors, choose a workflow mode, and trigger automated prompt handling to speed up debugging iterations."
+      },
+      {
+        "icon": "🧭",
+        "title": "Lightweight Developer UX",
+        "body": "Designed a straightforward popup interface in React and Tailwind so developers can quickly configure context and send prompts without leaving their browser workflow."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Developer Tools Need Fast Interaction Loops",
+        "body": "I learned that tool adoption depends heavily on reducing friction and keeping each action path short and predictable."
+      },
+      {
+        "num": "02",
+        "title": "Clear Prompt Structure Improves Outcomes",
+        "body": "Providing consistent workflow options and context inputs helps produce better responses and a more repeatable debugging process."
+      }
+    ],
+    "tech": ["React", "TypeScript", "Vite", "Tailwind CSS"],
+    "githubLink": "https://github.com/Anthonyah131/ChromeDevAssistant",
+    "link": ""
+  }
+]

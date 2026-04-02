@@ -1,0 +1,43 @@
+{
+  "name": "Anthony Avila",
+  "greeting": "Hola, soy Anthony",
+  "roles": [
+    "Ingeniero de Software",
+    "Desarrollador Full-Stack",
+    "Desarrollador Backend",
+    "Desarrollador Mobile",
+    "Desarrollador Frontend"
+  ],
+  "bio": [
+    "Soy un desarrollador full-stack con experiencia diseñando, construyendo y publicando aplicaciones web y móviles. Disfruto trabajar en toda la pila — APIs backend, diseño de bases de datos, autenticación, despliegue — mientras también creo experiencias de interfaz intuitivas y responsivas.",
+    "Mi enfoque combina disciplina de ingeniería con diseño limpio y pensamiento orientado al producto."
+  ],
+  "location": "Costa Rica",
+  "education": {
+    "degree": "Bachillerato en Ingeniería en Sistemas",
+    "institution": "Universidad Nacional de Costa Rica",
+    "status": "Completado"
+  },
+  "experience": {
+    "role": "Practicante de Desarrollo de Software",
+    "company": "Hyperreality Company",
+    "period": "Julio 2025 – Noviembre 2025"
+  },
+  "interests": [
+    "Gráficos 3D",
+    "Diseño Web",
+    "Código Abierto",
+    "Videojuegos",
+    "Música",
+    "Cine",
+    "F1",
+    "Voleibol"
+  ],
+  "social": {
+    "github": "https://github.com/Anthonyah131",
+    "linkedin": "https://www.linkedin.com/in/anthonyah-webdev/",
+    "instagram": "https://www.instagram.com/anthah_131/"
+  },
+  "cvLink": "/cv/Anthony_Avila_CV.pdf",
+  "hireEmail": "anthonyah131@gmail.com"
+}

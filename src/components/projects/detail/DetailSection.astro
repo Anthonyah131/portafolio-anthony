@@ -3,12 +3,13 @@ interface Props {
   eyebrow: string;
   title: string;
   class?: string;
+  id?: string;
 }
 
-const { eyebrow, title, class: className = "" } = Astro.props;
+const { eyebrow, title, class: className = "", id } = Astro.props;
 ---
 
-<section class={className}>
+<section id={id} class={className}>
   <span
     class="mb-2 block font-label text-[0.6rem] uppercase tracking-[0.35em] text-secondary"
     >{eyebrow}</span

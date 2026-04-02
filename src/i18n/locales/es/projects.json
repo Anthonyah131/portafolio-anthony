@@ -1,0 +1,409 @@
+[
+  {
+    "id": 10,
+    "slug": "project-ledger-web",
+    "title": "Project Ledger Web",
+    "genre": "Aplicación Web",
+    "year": "2026",
+    "status": "WIP",
+    "description": "Dashboard financiero para gestionar proyectos, equipos y flujo de caja mensual por proyecto, con módulos operativos, colaboración, reportería, planes de facturación y organización por workspaces.",
+    "image": "/imgs/projects/projectledger_original.webp",
+    "tech": ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "shadcn/ui", "Vitest"],
+    "bts": [
+      {
+        "icon": "📊",
+        "title": "Alcance de Producto y Módulos Operativos",
+        "body": "Hoy incluye autenticación completa, dashboard mensual con KPIs, módulos financieros de proyecto (gastos, ingresos, categorías, obligaciones, presupuesto, partners, liquidaciones y miembros), reportes con exportación Excel/PDF, planes de facturación, workspaces y chatbot integrado en la shell protegida."
+      },
+      {
+        "icon": "🧱",
+        "title": "Arquitectura y Enfoque Técnico",
+        "body": "Se implementó con App Router y route groups (auth/dashboard), páginas delgadas delegadas a vistas, protección por rol centralizada, cliente HTTP compartido (refresh, cancelación, deduplicación GET y errores tipados), servicios por dominio y hooks de orquestación para flujos complejos en detalle de proyecto."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Estructura por Dominios Escala Mejor",
+        "body": "El patrón page → view → hooks → services permite crecer funcionalidades de negocio sin inflar las páginas ni acoplar módulos entre sí."
+      },
+      {
+        "num": "02",
+        "title": "Base Sólida, Siguiente Paso de Madurez",
+        "body": "Centralizar el comportamiento HTTP y la i18n por feature mejoró consistencia y mantenimiento. El siguiente paso natural es fortalecer cobertura unitaria de hooks/servicios, observabilidad interna y robustez de reportes avanzados."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/project-ledger-web",
+    "link": "https://project-ledger-web.vercel.app/"
+  },
+  {
+    "id": 11,
+    "slug": "project-ledger-api",
+    "title": "Project Ledger API",
+    "genre": "API Backend",
+    "year": "2026",
+    "status": "WIP",
+    "description": "Backend financiero multi-tenant en ASP.NET Core 10. Maneja gastos, ingresos, obligaciones, presupuestos, facturación, OCR y endpoints MCP.",
+    "image": "/imgs/projects/projectledger_original_api.webp",
+    "tech": [".NET 10", "ASP.NET Core", "EF Core", "PostgreSQL", "JWT", "Stripe", "Azure", "OpenAPI"],
+    "bts": [
+      {
+        "icon": "🏗️",
+        "title": "Arquitectura Multi-Tenant",
+        "body": "Diseño de un modelo de acceso por proyecto donde usuarios pueden pertenecer a múltiples espacios con políticas por rol para aislar datos sin perder flexibilidad."
+      },
+      {
+        "icon": "📄",
+        "title": "Borradores Asistidos por OCR",
+        "body": "Se integró Azure Document Intelligence para extraer datos de recibos y facturas, creando borradores que requieren confirmación manual antes de impactar totales."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "El Diseño de Políticas Escala la Complejidad",
+        "body": "Comenzar con roles de grano grueso quedó corto conforme crecieron permisos. Migrar a políticas finas a mitad de desarrollo confirmó que auth debe diseñarse temprano."
+      },
+      {
+        "num": "02",
+        "title": "Multimoneda es una Capa Base",
+        "body": "Tratar conversión de moneda como algo secundario obligó una refactorización fuerte de agregaciones. Diseñarlo desde el inicio habría evitado retrabajo."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/project-ledger-api",
+    "link": ""
+  },
+  {
+    "id": 2,
+    "slug": "cinematch-backend",
+    "title": "CineMatch Backend",
+    "genre": "API Backend",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Backend en NestJS + Firebase para CineMatch, enfocado en autenticación segura, interacción con películas y series, funciones sociales y flujos de recomendación basados en preferencias cinematográficas.",
+    "image": "/imgs/projects/welcome.webp",
+    "bts": [
+      {
+        "icon": "🧱",
+        "title": "Arquitectura Modular en NestJS",
+        "body": "Se estructuró el backend en módulos de auth, users, media, lists, friends y recommendations para separar responsabilidades y facilitar el crecimiento del proyecto."
+      },
+      {
+        "icon": "🔥",
+        "title": "Sincronización Firebase + Núcleo Social",
+        "body": "Se implementó sincronización con Firestore y funcionalidades sociales como actividad de usuario, interacciones de media y comportamiento en tiempo real dentro del ecosistema CineMatch."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Límites Claros Mejoran la Calidad",
+        "body": "Diseñar responsabilidades por módulo mejoró la mantenibilidad y volvió más predecible el comportamiento de endpoints conforme crecieron las funcionalidades."
+      },
+      {
+        "num": "02",
+        "title": "Seguridad y Producto Deben Avanzar Juntos",
+        "body": "Fortalecí autenticación y protección de API mientras desarrollaba lógica de recomendaciones, aprendiendo a balancear seguridad con evolución funcional."
+      }
+    ],
+    "tech": ["NestJS", "TypeScript", "Firebase", "JWT", "TMDB API", "Swagger"],
+    "githubLink": "https://github.com/Anthonyah131/CineMatch-Backend",
+    "link": ""
+  },
+  {
+    "id": 1,
+    "slug": "cinematch",
+    "title": "CineMatch",
+    "genre": "App Mobile",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Plataforma social para amantes del cine con matching inteligente, chat en tiempo real, foros y base de datos de películas con TMDB.",
+    "image": "/imgs/projects/movieDetails.webp",
+    "tech": ["React Native", "TypeScript", "Firebase", "TMDB API", "Metro"],
+    "bts": [
+      {
+        "icon": "🎯",
+        "title": "Sistema de Matching Inteligente",
+        "body": "Se construyó un algoritmo de matching personalizado usando preferencias, categorías e historial de actividad para conectar perfiles afines."
+      },
+      {
+        "icon": "💬",
+        "title": "Comunicación en Tiempo Real",
+        "body": "Se implementó Firebase Realtime Database para mensajería instantánea entre usuarios con presencia, historial y notificaciones push."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Los Algoritmos Necesitan Contexto de Dominio",
+        "body": "El matching simple por categorías no entregó conexiones de calidad. Incluir señales de comportamiento mejoró significativamente la relevancia."
+      },
+      {
+        "num": "02",
+        "title": "Rendimiento Mobile es Parte del Producto",
+        "body": "Optimizar con lazy loading y batch rendering redujo el arranque en frío de 3.2s a 1.9s, demostrando que rendimiento también es funcionalidad."
+      }
+    ],
+    "githubLink": "https://github.com/Anthonyah131/CineMatch",
+    "link": ""
+  },
+  {
+    "id": 3,
+    "slug": "sgi-avalom",
+    "title": "SGI Avalom",
+    "genre": "Aplicación Web",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Plataforma completa de administración inmobiliaria para gestionar alquileres, contratos, clientes, pagos, contabilidad e indicadores operativos por edificio y propiedad.",
+    "image": "/imgs/projects/sgi_avalom.webp",
+    "bts": [
+      {
+        "icon": "🏢",
+        "title": "Operación Inmobiliaria Centralizada",
+        "body": "Se construyeron módulos de edificios, propiedades, clientes, alquileres y pagos para reemplazar procesos manuales y centralizar la operación en una sola plataforma."
+      },
+      {
+        "icon": "📊",
+        "title": "Contabilidad y Reportería",
+        "body": "Se integraron paneles, filtros y exportación de reportes para mejorar el control financiero y la supervisión diaria de la administración."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Módulos por Dominio Mejoran el Mantenimiento",
+        "body": "Organizar la app por procesos reales del negocio (alquileres, contabilidad, clientes, propiedades) facilitó escalar funcionalidades sin acoplar áreas no relacionadas."
+      },
+      {
+        "num": "02",
+        "title": "Los Flujos de Negocio Requieren Modelos Claros",
+        "body": "El proyecto reforzó la importancia de definir estados y límites de datos consistentes para contratos y pagos en sistemas con impacto operativo y financiero."
+      }
+    ],
+    "tech": ["React", "TypeScript", "Next.js", "PostgreSQL", "Prisma", "Tailwind CSS"],
+    "githubLink": "https://github.com/Anthonyah131/SGI_Avalom",
+    "link": ""
+  },
+  {
+    "id": 4,
+    "slug": "colyseus-multiplayer",
+    "title": "Colyseus Multiplayer",
+    "genre": "Servidor de Juego",
+    "year": "2023",
+    "status": "ARCHIVED",
+    "description": "Backend multiplayer para Whispers in the Woods, mi primer proyecto de juego 3D en PlayCanvas. Maneja sincronización en tiempo real, eventos de sala y matchmaking 1v1.",
+    "image": "/imgs/projects/WhisperITW_poster.webp",
+    "bts": [
+      {
+        "icon": "🎮",
+        "title": "Primer Proyecto 3D",
+        "body": "Fue mi primer desarrollo completo de juego 3D, desde la idea y dirección visual hasta la implementación técnica, con un proceso de aprendizaje muy práctico."
+      },
+      {
+        "icon": "🌐",
+        "title": "Implementación Multiplayer",
+        "body": "Se implementó la capa multiplayer con Colyseus para mantener ambos jugadores sincronizados, gestionando eventos de sala y estado de juego en tiempo real."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Crear un Juego Desde Cero Cambia el Enfoque",
+        "body": "Diseñar un juego desde cero exige combinar diseño, iteración y desarrollo técnico de forma constante para llegar a una experiencia jugable sólida."
+      },
+      {
+        "num": "02",
+        "title": "El Tiempo Real Enseña Muchísimo",
+        "body": "Trabajar sincronización multiplayer me ayudó a mejorar en manejo de estado, eventos y depuración de sistemas interactivos."
+      }
+    ],
+    "tech": ["Colyseus", "PlayCanvas", "TypeScript", "JavaScript"],
+    "githubLink": "https://github.com/Anthonyah131/colyseus-server",
+    "link": "https://playcanvas.com/project/1332766/overview/whispers-in-the-woods"
+  },
+  {
+    "id": 5,
+    "slug": "clinicauna",
+    "title": "ClinicaUNA",
+    "genre": "Aplicación de Escritorio",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Sistema JavaFX para expedientes médicos y citas conectado a Payara y Oracle 21c XE, con soporte bilingüe, roles por usuario y reportería con Jasper Reports.",
+    "image": "/imgs/projects/clinica_poster.webp",
+    "bts": [
+      {
+        "icon": "🏥",
+        "title": "Flujo Clínico Completo",
+        "body": "Se implementaron módulos de usuarios, médicos, pacientes, citas y expedientes, incluyendo historial de consultas, seguimiento clínico y gestión de agenda."
+      },
+      {
+        "icon": "📈",
+        "title": "Reportes y Operación",
+        "body": "Se integró Jasper Reports y capacidades de reportería para agendas médicas e historial de pacientes, apoyando procesos administrativos y clínicos."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Estructura Empresarial en Desktop",
+        "body": "Aprendí a manejar flujos de negocio más amplios en JavaFX manteniendo separación clara entre interfaz, servicios y persistencia."
+      },
+      {
+        "num": "02",
+        "title": "La Precisión de Datos es Crítica",
+        "body": "Desarrollar módulos médicos y de citas reforzó la importancia de validaciones, permisos por rol y consistencia de datos en sistemas sensibles."
+      }
+    ],
+    "tech": ["JavaFX", "Java", "JPA", "REST", "Oracle 21c XE", "Jasper Reports"],
+    "githubLink": "https://github.com/Anthonyah131/ClinicaUNA",
+    "link": ""
+  },
+  {
+    "id": 6,
+    "slug": "proyecto-pac-man",
+    "title": "Proyecto Pac-Man",
+    "genre": "Juego",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Versión mejorada de Pac-Man en JavaFX con laberintos dinámicos, pathfinding avanzado de fantasmas (A*, BFS, DFS, Dijkstra), power-ups, trofeos y 10 niveles temáticos.",
+    "image": "/imgs/projects/pacman_poster.webp",
+    "bts": [
+      {
+        "icon": "🧠",
+        "title": "IA de Fantasmas",
+        "body": "Se implementaron comportamientos de fantasmas con múltiples algoritmos y variaciones por dificultad para crear partidas más retadoras."
+      },
+      {
+        "icon": "🌀",
+        "title": "Sistemas Dinámicos de Juego",
+        "body": "Se añadieron generación de laberintos, power-ups, trofeos, estadísticas y guardado/carga para extender la experiencia clásica de Pac-Man."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "El Balance de Gameplay es Sistémico",
+        "body": "Ajustar movimiento, IA, puntaje y tiempos de power-ups me enseñó que el game feel depende de cómo conviven todos los sistemas."
+      },
+      {
+        "num": "02",
+        "title": "Más Mecánicas Exigen Mejor Arquitectura",
+        "body": "Conforme crecieron las funcionalidades, estructurar el código por responsabilidades fue clave para mantener velocidad de iteración."
+      }
+    ],
+    "tech": ["Java 17", "JavaFX", "Maven", "AI Algorithms"],
+    "githubLink": "https://github.com/Anthonyah131/Proyecto-Pac-Man",
+    "link": ""
+  },
+  {
+    "id": 7,
+    "slug": "tours-control",
+    "title": "Tours Control",
+    "genre": "Aplicación de Escritorio",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Aplicación JavaFX de gestión turística con visualización de rutas en mapa, carrusel 3D, carga de imágenes por drag-and-drop, facturación y exportación PDF.",
+    "image": "/imgs/projects/tours_poster.webp",
+    "bts": [
+      {
+        "icon": "🗺️",
+        "title": "Visualización de Rutas",
+        "body": "Se implementó visualización interactiva de rutas e itinerarios para mejorar la claridad operativa en la planificación de tours."
+      },
+      {
+        "icon": "🧾",
+        "title": "Facturación y Gestión",
+        "body": "Se desarrolló el flujo de facturación con exportación PDF junto con utilidades de mantenimiento, búsquedas y carga de recursos multimedia."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "UX Desktop También Requiere Enfoque de Producto",
+        "body": "Este proyecto reforzó que una herramienta de escritorio también necesita flujos claros, controles intuitivos y buena jerarquía visual."
+      },
+      {
+        "num": "02",
+        "title": "Patrones Compartidos Reducen Complejidad",
+        "body": "Reutilizar patrones de formularios e interacciones entre módulos ayudó a mantener consistencia y facilitar mantenimiento."
+      }
+    ],
+    "tech": ["JavaFX", "Java 17", "Oracle 18c XE", "MapJFX"],
+    "githubLink": "https://github.com/Anthonyah131/Tours_Control",
+    "link": ""
+  },
+  {
+    "id": 8,
+    "slug": "monopoly-junior",
+    "title": "Monopoly Junior",
+    "genre": "Juego",
+    "year": "2023",
+    "status": "COMPLETE",
+    "description": "Implementación digital de Monopoly Junior en JavaFX con tablero interactivo, gestión de propiedades y banca, tarjetas de suerte y soporte de guardado/carga.",
+    "image": "/imgs/projects/Monopoly_poster.webp",
+    "bts": [
+      {
+        "icon": "🎲",
+        "title": "Mecánicas de Tablero",
+        "body": "Se implementó la lógica de turnos, dados y acciones por casilla incluyendo compra de propiedades, cobro de renta y eventos de cartas."
+      },
+      {
+        "icon": "🏦",
+        "title": "Estado de Juego Persistente",
+        "body": "Se incorporó manejo de economía de jugadores y persistencia de partida para continuar sesiones sin perder progreso."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Reglas Claras Evitan Estados Inconsistentes",
+        "body": "Modelar explícitamente las reglas del juego fue clave para evitar comportamientos ambiguos en turnos, transacciones y resultados."
+      },
+      {
+        "num": "02",
+        "title": "Persistencia Mejora la Experiencia",
+        "body": "Soportar guardado/carga confirmó que la recuperación de estado es parte fundamental de la jugabilidad en partidas largas."
+      }
+    ],
+    "tech": ["Java 17", "JavaFX", "Oracle 18c XE"],
+    "githubLink": "https://github.com/Anthonyah131/MonopolyJunior",
+    "link": ""
+  },
+  {
+    "id": 9,
+    "slug": "chrome-dev-assistant",
+    "title": "Chrome Dev Assistant",
+    "genre": "Extensión",
+    "year": "2024",
+    "status": "COMPLETE",
+    "description": "Extensión de Chrome que automatiza flujos de prompts para debugging, permitiendo capturar errores y enviarlos con modos de trabajo configurables.",
+    "image": "/imgs/projects/chrome_dev_assistant.webp",
+    "bts": [
+      {
+        "icon": "🧩",
+        "title": "Automatización de Workflows",
+        "body": "Se creó un flujo donde el usuario pega el error, elige el modo (Tool Use o Reflection) y dispara automáticamente el proceso para acelerar debugging."
+      },
+      {
+        "icon": "🧭",
+        "title": "UX Ligera para Desarrolladores",
+        "body": "Se diseñó una interfaz simple en React y Tailwind para configurar contexto rápidamente y enviar prompts sin salir del flujo del navegador."
+      }
+    ],
+    "lessons": [
+      {
+        "num": "01",
+        "title": "Las Herramientas Dev Deben Ser Rápidas",
+        "body": "Aprendí que la adopción depende mucho de reducir fricción y mantener rutas de interacción cortas y predecibles."
+      },
+      {
+        "num": "02",
+        "title": "La Estructura del Prompt Importa",
+        "body": "Definir opciones de workflow y contexto de entrada mejora la consistencia de resultados y vuelve más repetible el proceso de depuración."
+      }
+    ],
+    "tech": ["React", "TypeScript", "Vite", "Tailwind CSS"],
+    "githubLink": "https://github.com/Anthonyah131/ChromeDevAssistant",
+    "link": ""
+  }
+]

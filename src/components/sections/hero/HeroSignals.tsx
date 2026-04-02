@@ -5,13 +5,16 @@ type HeroSignalsProps = {
   location: string;
   degree: string;
   experience: string;
+  basedInLabel: string;
+  backgroundLabel: string;
+  latestRoleLabel: string;
 };
 
-function HeroSignalsBase({ location, degree, experience }: HeroSignalsProps) {
+function HeroSignalsBase({ location, degree, experience, basedInLabel, backgroundLabel, latestRoleLabel }: HeroSignalsProps) {
   const items = [
-    { icon: MapPin, label: 'Based in', value: location },
-    { icon: GraduationCap, label: 'Background', value: degree },
-    { icon: BriefcaseBusiness, label: 'Latest role', value: experience },
+    { icon: MapPin, label: basedInLabel, value: location },
+    { icon: GraduationCap, label: backgroundLabel, value: degree },
+    { icon: BriefcaseBusiness, label: latestRoleLabel, value: experience },
   ];
 
   return (

@@ -1,107 +1,15 @@
 import type { Certificate } from "../types/portfolio";
+import type { Locale } from "../i18n";
+import certificatesEn from "../i18n/locales/en/certificates.json";
+import certificatesEs from "../i18n/locales/es/certificates.json";
 
-export const certificates: Certificate[] = [
-  // Programming Languages
-  {
-    id: 1,
-    title: "Python",
-    issuer: "freecodecamp",
-    date: "January 2026",
-    link: "https://www.freecodecamp.org/certification/fcc-69a2c57f-f5c1-4133-8d29-bd2af1f952d2/python-v9",
-    credentialId: "fcc-69a2c57f-f5c1-4133-8d29-bd2af1f952d2-pyv9",
-  },
-  {
-    id: 2,
-    title: "Programming Beginner G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "December 2022",
-    link: "https://app.aluracursos.com/degree/certificate/7e3792e6-97e1-433f-bc11-eac32ab9c7c2",
-    credentialId: "7e3792e6-97e1-433f-bc11-eac32ab9c7c2",
-  },
-  {
-    id: 3,
-    title: "Object-Oriented Java G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "February 2023",
-    link: "https://app.aluracursos.com/degree/certificate/9556e0db-12df-4e43-9c6b-9a325b5f3df8",
-    credentialId: "9556e0db-12df-4e43-9c6b-9a325b5f3df8",
-  },
-  {
-    id: 4,
-    title: "Java with Database Integration",
-    issuer: "Alura Latam",
-    date: "May 2023",
-    link: "https://app.aluracursos.com/degree/certificate/8a9e25e0-2404-402e-993c-7ef14792b2eb",
-    credentialId: "8a9e25e0-2404-402e-993c-7ef14792b2eb",
-  },
-  {
-    id: 5,
-    title: "Java Web Development",
-    issuer: "Alura Latam",
-    date: "May 2023",
-    link: "https://app.aluracursos.com/degree/certificate/9a576c7e-07cf-437f-a687-b067a5b461d0",
-    credentialId: "9a576c7e-07cf-437f-a687-b067a5b461d0",
-  },
-  {
-    id: 6,
-    title: "Java & Spring Boot G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "May 2023",
-    link: "https://app.aluracursos.com/degree/certificate/b8b5fcaf-ccef-4e79-841f-95ead32903d1",
-    credentialId: "b8b5fcaf-ccef-4e79-841f-95ead32903d1",
-  },
-  
-  // Database & SQL
-  {
-    id: 7,
-    title: "SQL with MySQL",
-    issuer: "Alura Latam",
-    date: "July 2023",
-    link: "https://app.aluracursos.com/degree/certificate/b09d8b8d-11be-4e9c-9097-e2974b140047",
-    credentialId: "b09d8b8d-11be-4e9c-9097-e2974b140047",
-  },
-  {
-    id: 8,
-    title: "SQL with MySQL Server - Oracle ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "July 2023",
-    link: "https://app.aluracursos.com/degree/certificate/bc324d6a-4b4e-4b6c-815d-ceae69d42471",
-    credentialId: "bc324d6a-4b4e-4b6c-815d-ceae69d42471",
-  },
-  
-  // Cloud Infrastructure
-  {
-    id: 9,
-    title: "Oracle Cloud Infrastructure - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "July 2023",
-    link: "https://app.aluracursos.com/degree/certificate/396c097a-1186-496a-a74e-0076a8c6c7f7",
-    credentialId: "396c097a-1186-496a-a74e-0076a8c6c7f7",
-  },
-  
-  // Business & Soft Skills
-  {
-    id: 10,
-    title: "Personal Development G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "November 2022",
-    link: "https://app.aluracursos.com/degree/certificate/7388b755-6852-433d-a46f-0fb4ea869e64",
-    credentialId: "7388b755-6852-433d-a46f-0fb4ea869e64",
-  },
-  {
-    id: 11,
-    title: "Business Agility G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "February 2023",
-    link: "https://app.aluracursos.com/degree/certificate/ba9b701e-a7e1-429b-9eb8-0b8c0bfd45fa",
-    credentialId: "ba9b701e-a7e1-429b-9eb8-0b8c0bfd45fa",
-  },
-  {
-    id: 12,
-    title: "Entrepreneurship G4 - ONE",
-    issuer: "Oracle & Alura Latam",
-    date: "March 2023",
-    link: "https://app.aluracursos.com/degree/certificate/da713653-26b7-4ec0-a0cc-ee76d1ae73f6",
-    credentialId: "da713653-26b7-4ec0-a0cc-ee76d1ae73f6",
-  }
-];
+const certificatesByLocale: Record<Locale, Certificate[]> = {
+  en: certificatesEn as Certificate[],
+  es: certificatesEs as Certificate[],
+};
+
+export const certificates: Certificate[] = certificatesByLocale.en;
+
+export function getCertificates(locale: Locale): Certificate[] {
+  return certificatesByLocale[locale] ?? certificatesByLocale.en;
+}

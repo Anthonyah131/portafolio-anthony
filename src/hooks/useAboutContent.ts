@@ -1,30 +1,38 @@
 import { useMemo } from 'react';
 import type { PersonalInfo } from '../types/portfolio';
 
-export function useAboutContent(personal: PersonalInfo) {
+type TimelineLabels = {
+  educationLabel: string;
+  experienceLabel: string;
+  educationStatus: string;
+};
+
+export function useAboutContent(personal: PersonalInfo, labels: TimelineLabels) {
   const timelineItems = useMemo(
     () => [
       {
         key: 'education',
         icon: '🎓',
-        title: 'Education',
+        title: labels.educationLabel,
         primary: personal.education.degree,
         secondary: personal.education.institution,
-        tertiary: personal.education.status,
+        tertiary: labels.educationStatus,
       },
       {
         key: 'experience',
         icon: '💼',
-        title: 'Experience',
+        title: labels.experienceLabel,
         primary: personal.experience.role,
         secondary: personal.experience.company,
         tertiary: personal.experience.period,
       },
     ],
     [
+      labels.educationLabel,
+      labels.experienceLabel,
+      labels.educationStatus,
       personal.education.degree,
       personal.education.institution,
-      personal.education.status,
       personal.experience.role,
       personal.experience.company,
       personal.experience.period,

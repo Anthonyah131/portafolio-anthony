@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from '../../../context/LanguageContext';
 
 type SkillsHeaderProps = {
   isMobile: boolean;
@@ -7,18 +8,19 @@ type SkillsHeaderProps = {
 };
 
 function SkillsHeaderBase({ isMobile, progress, reduceMotion }: SkillsHeaderProps) {
+  const { t } = useTranslation();
   return (
     <div className="z-2 flex shrink-0 items-end justify-between gap-8 px-[1.1rem] pb-5 pt-8 md:px-10 md:pb-6 md:pt-10 xl:px-20">
       <div>
         <div className="split-line-wrap mb-2">
-          <span className="split-line font-label text-[0.65rem] uppercase tracking-[0.35em] text-secondary">Expertise</span>
+          <span className="split-line font-label text-[0.65rem] uppercase tracking-[0.35em] text-secondary">{t.skills.subtitle}</span>
         </div>
 
         <h2
           className="fade-up font-headline text-[clamp(2.1rem,4.8vw,3.75rem)] font-bold italic leading-[0.95] text-surface"
           style={{ transitionDelay: '120ms' }}
         >
-          Skills &amp; <span className="text-primary">Technologies.</span>
+          {t.skills.title} <span className="text-primary">{t.skills.titleHighlight}</span>
         </h2>
       </div>
 
