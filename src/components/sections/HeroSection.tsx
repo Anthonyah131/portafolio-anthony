@@ -10,13 +10,19 @@ export default function HeroSection() {
   const roleRef = useTypewriterRoles(personal.roles);
   const heroRef = useRef<HTMLElement | null>(null);
   const glowRef = useRef<HTMLDivElement | null>(null);
+  const longestRole = personal.roles.reduce(
+    (max, role) => (role.length > max.length ? role : max),
+    personal.roles[0] ?? "",
+  );
 
   useEffect(() => {
     const el = heroRef.current;
     const glow = glowRef.current;
     if (!el || !glow) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
     if (reduceMotion || coarsePointer) {
@@ -32,9 +38,9 @@ export default function HeroSection() {
     let targetX = 0;
     let targetY = 0;
 
-    const maxOffsetX = 46;
-    const maxOffsetY = 30;
-    const easing = 0.11;
+    const maxOffsetX = 200;
+    const maxOffsetY = 100;
+    const easing = 0.13;
 
     const render = () => {
       raf = 0;
@@ -44,7 +50,10 @@ export default function HeroSection() {
 
       glow.style.transform = `translate3d(calc(-50% + ${currentX.toFixed(2)}px), calc(-26% + ${currentY.toFixed(2)}px), 0)`;
 
-      if (Math.abs(targetX - currentX) > 0.08 || Math.abs(targetY - currentY) > 0.08) {
+      if (
+        Math.abs(targetX - currentX) > 0.08 ||
+        Math.abs(targetY - currentY) > 0.08
+      ) {
         raf = requestAnimationFrame(render);
       }
     };
@@ -109,8 +118,8 @@ export default function HeroSection() {
           >
             <div className="split-line-wrap">
               <span className="split-line" style={{ transitionDelay: "80ms" }}>
-                <span className="text-secondary">Hi,</span>{" "}
-                I&apos;m <span className="text-primary">Anthony</span>
+                <span className="text-secondary">Hi,</span> I&apos;m{" "}
+                <span className="text-primary">Anthony</span>
               </span>
             </div>
           </h1>
@@ -119,9 +128,14 @@ export default function HeroSection() {
             className="fade-up flex flex-col gap-4"
             style={{ transitionDelay: "400ms" }}
           >
-            <p className="inline-flex flex-wrap items-center gap-1 font-label text-sm font-medium uppercase tracking-wider text-surface-muted sm:text-base lg:text-lg">
-              <span ref={roleRef} className="text-surface" />
-              <span className="ml-0.5 inline-block h-4 w-0.5 animate-[blink_1s_step-end_infinite] bg-primary align-text-bottom" />
+            <p className="inline-flex items-center font-label text-sm font-medium uppercase tracking-wider text-surface-muted sm:text-base lg:text-lg">
+              <span className="relative inline-block align-baseline">
+                <span className="invisible block whitespace-nowrap">{longestRole}</span>
+                <span className="absolute inset-0 inline-flex items-center whitespace-nowrap">
+                  <span ref={roleRef} className="inline-block text-surface" />
+                  <span className="ml-0.5 inline-block h-4 w-0.5 animate-[blink_1s_step-end_infinite] bg-primary align-text-bottom" />
+                </span>
+              </span>
             </p>
 
             {personal.bio.map((line, i) => (
@@ -139,10 +153,7 @@ export default function HeroSection() {
               experience={personal.experience.role}
             />
 
-            <HeroActions
-              hireEmail={personal.hireEmail}
-              cvLink={personal.cvLink}
-            />
+            <HeroActions cvLink={personal.cvLink} />
             <HeroSocialLinks social={personal.social} />
           </div>
         </div>

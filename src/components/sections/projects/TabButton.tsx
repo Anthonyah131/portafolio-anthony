@@ -11,7 +11,14 @@ type TabButtonProps = {
 
 function TabButtonBase({ tab, active, onClick }: TabButtonProps) {
   return (
-    <button onClick={onClick} className={`section-tab-button${active ? ' is-active' : ''}`}>
+    <button
+      onClick={onClick}
+      className={`mb-[-1px] border-b-2 px-7 py-3.5 font-label text-[0.7rem] font-semibold uppercase tracking-[0.15em] transition-[color,border-color] duration-300 ${
+        active
+          ? 'border-b-primary text-surface'
+          : 'border-b-transparent text-outline hover:text-surface-muted'
+      }`}
+    >
       {tab === 'projects' ? `Projects (${projects.length})` : `Certificates (${certificates.length})`}
     </button>
   );

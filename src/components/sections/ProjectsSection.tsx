@@ -8,14 +8,8 @@ export default function ProjectsSection() {
   const [tab, setTab] = useState<Tab>('projects');
 
   return (
-    <section
-      id="projects"
-      style={{
-        background: 'var(--bg-low)',
-        padding: 'clamp(4rem, 8vw, 8rem) clamp(2rem, 6vw, 6rem)',
-      }}
-    >
-      <div className="section-inner">
+    <section id="projects" className="bg-(--bg-low) py-16 sm:py-20 lg:py-24">
+      <div className="section-inner px-8 sm:px-12 xl:px-0">
         <HeaderBlock tab={tab} onTabChange={setTab} />
         {tab === 'projects' ? <ProjectsGrid /> : <CertificatesGrid />}
       </div>

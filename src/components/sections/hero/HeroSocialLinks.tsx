@@ -27,10 +27,10 @@ function HeroSocialLinksBase({ social }: { social: SocialMap }) {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-between gap-2 rounded-full border border-[rgba(133,149,130,0.17)] bg-white/3 px-4 py-3 font-label text-xs font-semibold uppercase tracking-wider text-surface-muted transition-[transform,border-color,color,background] duration-300 hover:-translate-y-0.5 hover:border-[rgba(255,183,135,0.42)] hover:bg-[rgba(255,183,135,0.08)] hover:text-surface sm:w-auto sm:justify-start"
+              className="inline-flex w-full items-center justify-between gap-2 font-label text-xs font-semibold uppercase tracking-wider text-surface-muted transition-[transform,color] duration-300 hover:-translate-y-0.5 hover:text-primary sm:w-auto sm:justify-start"
               aria-label={`Open ${key}`}
             >
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/5" aria-hidden="true">
+              <span className="inline-flex h-5 w-5 items-center justify-center" aria-hidden="true">
                 <Icon size={15} strokeWidth={1.9} />
               </span>
               <span>{key}</span>

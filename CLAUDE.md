@@ -51,3 +51,10 @@ This is an **Astro + React** portfolio site with a **Three.js / React Three Fibe
 ### Data
 - Project and certificate data live in `src/data/projects.ts` and `src/data/certificates.ts` with types in `src/types/portfolio.ts`.
 - Contact form uses `@emailjs/browser`.
+
+## Styling Conventions
+
+- Prefer Tailwind utility classes in components and Astro templates for layout, spacing, typography, hover states, and responsive behavior.
+- Avoid adding page-specific styling to `src/styles/global.css` unless the style is a truly shared primitive used across multiple areas.
+- Avoid CSS `clamp(...)` for spacing, sizing, and typography in new code. Prefer breakpoint-based Tailwind classes such as `sm:`, `md:`, `lg:`, `xl:` and explicit scale or arbitrary values when necessary.
+- If a visual treatment is one-off for a single page or component, keep it in the markup with Tailwind classes instead of introducing new custom CSS selectors.

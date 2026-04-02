@@ -1,10 +1,28 @@
 export type ProjectStatus = 'LIVE' | 'COMPLETE' | 'ARCHIVED';
 
+export interface ProjectBTSItem {
+  icon: string;
+  title: string;
+  body: string;
+}
+
+export interface ProjectLessonItem {
+  num: string;
+  title: string;
+  body: string;
+}
+
 export interface Project {
   id: number;
+  slug: string;
   title: string;
   description: string;
   image: string;
+  heroImage?: string;
+  synopsis?: string;
+  bts?: ProjectBTSItem[];
+  lessons?: ProjectLessonItem[];
+  stack?: string[];
   tech: string[];
   link: string;
   githubLink?: string;

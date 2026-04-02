@@ -1,0 +1,304 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import DetailSection from "../../components/projects/detail/DetailSection.astro";
+import { Image } from "../../components/ui/Image";
+import { getProject, projects } from "../../data/projects";
+import { getProjectTransitionNames } from "../../utils/projectTransitions";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return projects.map((project) => ({ params: { slug: project.slug } }));
+};
+
+const { slug } = Astro.params;
+const normalizedSlug = typeof slug === "string" ? slug : String(slug ?? "");
+const project = normalizedSlug ? getProject(normalizedSlug) : undefined;
+
+if (!project) {
+  return Astro.redirect("/");
+}
+
+const statusClass: Record<string, string> = {
+  LIVE: "text-primary",
+  COMPLETE: "text-[#b9e4ff]",
+  ARCHIVED: "text-secondary",
+};
+
+const synopsis = project.synopsis ?? "";
+const heroImage = project.heroImage ?? project.image;
+const bts = project.bts ?? [];
+const lessons = project.lessons ?? [];
+const tech = project.tech ?? [];
+const transitionNames = getProjectTransitionNames(project.slug);
+
+const backToLabel = "Back to Projects";
+const caseStudyLabel = "Project Overview";
+const synopsisEyebrow = "The Project";
+const synopsisTitle = "Summary";
+const technicalEyebrow = "Technical Approach";
+const technicalTitle = "Implementation";
+const lessonsEyebrow = "Key Learnings";
+const lessonsTitle = "Insights";
+const stackLabel = "Tech Stack";
+const statusLabel = "Status";
+const yearLabel = "Year";
+const liveCtaLabel = "View Demo";
+const repositoryCtaLabel = "Repository";
+const finalCtaLead = "Interested in working";
+const finalCtaAccent = "together?";
+const finalCtaDescription =
+  "Open for freelance opportunities and collaboration on innovative projects.";
+const finalBackCtaLabel = "All Projects";
+const finalContactCtaLabel = "Get in Touch";
+---
+
+<Layout title={`${project.title} | Anthony Avila`}>
+  <main class="project-detail-page bg-(--bg) text-surface">
+    <section
+      class="relative flex min-h-130 items-end overflow-hidden sm:min-h-152 lg:min-h-176 xl:min-h-205"
+    >
+      <div
+        aria-hidden="true"
+        class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_18%,rgba(67,254,109,0.14),transparent_34%),radial-gradient(circle_at_80%_24%,rgba(255,183,135,0.1),transparent_28%)]"
+      ></div>
+
+      <div class="absolute inset-0 z-10" style={`view-transition-name:${transitionNames.poster}`}>
+        <Image
+          src={heroImage}
+          alt={project.title}
+          className="mx-auto block h-full w-auto object-contain contrast-110"
+          loading="eager"
+          decoding="async"
+        />
+        <div
+          class="absolute inset-0 z-20 bg-[linear-gradient(to_top,rgba(8,8,8,1)_0%,rgba(8,8,8,0.5)_50%,rgba(8,8,8,0.08)_100%),linear-gradient(to_right,rgba(8,8,8,0.6)_0%,transparent_60%)]"
+        >
+        </div>
+      </div>
+
+      <div
+        class="section-inner relative z-30 flex flex-col gap-8 px-8 pb-14 pt-24 sm:px-12 xl:px-0"
+      >
+        <a
+          href="/#projects"
+          class="fade-up inline-flex items-center gap-2 font-label text-[0.72rem] uppercase tracking-[0.18em] text-outline transition-[transform,color,box-shadow] duration-150 hover:-translate-y-0.5 hover:text-surface-muted hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+          style="transition-delay:120ms"
+        >
+          <span aria-hidden="true">←</span>
+          {backToLabel}
+        </a>
+
+        <div class="fade-up" style="transition-delay:220ms">
+          <span
+            class="mb-3 block font-label text-[0.65rem] uppercase tracking-[0.35em] text-secondary"
+            >{caseStudyLabel}</span
+          >
+          <h1
+            class="font-headline text-5xl font-extrabold italic leading-[0.92] tracking-[-0.03em] text-surface sm:text-6xl lg:text-7xl xl:text-[6.5rem]"
+            style={`view-transition-name:${transitionNames.title}`}
+          >
+            {project.title}
+          </h1>
+
+          <div class="stagger mt-5 flex flex-wrap items-center gap-6">
+            <span
+              class="font-label text-xs uppercase tracking-[0.15em] text-outline"
+              >{project.year}</span
+            >
+            <span
+              class={`font-label text-[0.7rem] font-semibold uppercase tracking-[0.15em] ${statusClass[project.status] ?? "text-surface-muted"}`}
+            >
+              ● {project.status}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-(--bg) py-16 sm:py-20">
+      <div
+        class="section-inner grid gap-14 px-8 sm:px-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-20 xl:px-0"
+      >
+        <div>
+          <DetailSection
+            eyebrow={synopsisEyebrow}
+            title={synopsisTitle}
+            class="fade-up mb-14"
+          >
+            <p
+              class="max-w-[66ch] text-[1.05rem] leading-[1.85] text-surface-muted"
+            >
+              {synopsis}
+            </p>
+          </DetailSection>
+
+          <DetailSection
+            eyebrow={technicalEyebrow}
+            title={technicalTitle}
+            class="fade-up mb-14"
+          >
+            <div class="stagger grid gap-4 sm:grid-cols-2">
+              {
+                bts.map((item) => (
+                  <article class="relative overflow-hidden border-l-2 border-primary bg-(--bg-mid) p-7 transition-[transform,border-color,background,box-shadow] duration-300 before:absolute before:inset-0 before:bg-[linear-gradient(135deg,rgba(67,254,109,0.08),transparent_40%,rgba(255,183,135,0.05))] before:opacity-0 before:transition-opacity before:duration-300 before:content-[''] hover:-translate-y-1.5 hover:shadow-[0_24px_48px_rgba(0,0,0,0.28)] hover:before:opacity-100">
+                    <span class="mb-4 block text-2xl" aria-hidden="true">
+                      {item.icon}
+                    </span>
+                    <h3 class="mb-2 font-headline text-[1.15rem] font-semibold italic text-surface">
+                      {item.title}
+                    </h3>
+                    <p class="text-sm leading-[1.7] text-surface-muted">
+                      {item.body}
+                    </p>
+                  </article>
+                ))
+              }
+            </div>
+          </DetailSection>
+
+          <DetailSection
+            eyebrow={lessonsEyebrow}
+            title={lessonsTitle}
+            class="fade-up"
+          >
+            <div class="stagger flex flex-col gap-10">
+              {
+                lessons.map((item) => (
+                  <article>
+                    <div class="mb-3 flex items-center gap-4">
+                      <span class="shrink-0 font-label text-xs font-semibold tracking-widest text-secondary">
+                        {item.num}
+                      </span>
+                      <span class="h-px flex-1 bg-[rgba(60,75,58,0.25)]" />
+                    </div>
+                    <h3 class="mb-2 text-[1.1rem] font-bold text-surface">
+                      {item.title}
+                    </h3>
+                    <p class="max-w-[58ch] text-[0.9rem] leading-[1.75] text-surface-muted">
+                      {item.body}
+                    </p>
+                  </article>
+                ))
+              }
+            </div>
+          </DetailSection>
+        </div>
+
+        <aside class="fade-up flex flex-col gap-8 lg:sticky lg:top-24 lg:self-start" style="transition-delay:220ms">
+          <div class="border-b border-[rgba(60,75,58,0.15)] pb-7 transition-[border-color,transform] duration-300 hover:-translate-x-[3px] hover:border-[rgba(67,254,109,0.26)]">
+            <span
+              class="mb-4 block font-label text-[0.6rem] uppercase tracking-[0.3em] text-outline"
+              >{stackLabel}</span
+            >
+            <div class="stagger flex flex-wrap gap-2">
+              {
+                tech.map((item) => (
+                  <span class="border border-[rgba(60,75,58,0.3)] bg-(--bg-highest) px-3 py-1.5 font-label text-[0.65rem] uppercase tracking-widest text-surface-muted transition-[transform,border-color,color,background] duration-150 hover:-translate-y-0.5 hover:border-[rgba(67,254,109,0.4)] hover:bg-[rgba(67,254,109,0.08)] hover:text-surface">
+                    {item}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="border-b border-[rgba(60,75,58,0.15)] pb-7 transition-[border-color,transform] duration-300 hover:-translate-x-[3px] hover:border-[rgba(67,254,109,0.26)]">
+            <span
+              class="mb-4 block font-label text-[0.6rem] uppercase tracking-[0.3em] text-outline"
+              >{statusLabel}</span
+            >
+            <p
+              class={`font-headline text-[1.35rem] font-bold italic leading-none ${statusClass[project.status] ?? "text-surface-muted"}`}
+            >
+              {project.status}
+            </p>
+          </div>
+
+          <div class="border-b border-[rgba(60,75,58,0.15)] pb-7 transition-[border-color,transform] duration-300 hover:-translate-x-[3px] hover:border-[rgba(67,254,109,0.26)]">
+            <span
+              class="mb-4 block font-label text-[0.6rem] uppercase tracking-[0.3em] text-outline"
+              >{yearLabel}</span
+            >
+            <p
+              class="font-headline text-[1.35rem] font-semibold italic leading-none text-surface"
+            >
+              {project.year}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a
+              href={project.link || "#"}
+              class="inline-flex items-center gap-2 bg-primary px-5 py-3 font-label text-xs font-semibold uppercase tracking-[0.15em] text-on-primary transition-[transform,background-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-[#5fff7a] hover:shadow-[0_18px_32px_rgba(67,254,109,0.2)]"
+            >
+              {liveCtaLabel} →
+            </a>
+            <a
+              href={project.githubLink || "#"}
+              class="inline-flex items-center gap-2 border border-(--outline-var) px-5 py-3 font-label text-xs font-semibold uppercase tracking-[0.15em] text-surface-muted transition-[transform,color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-outline hover:text-surface hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+            >
+              {repositoryCtaLabel}
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      class="border-t border-[rgba(60,75,58,0.2)] bg-(--bg-low) py-18 sm:py-24"
+    >
+      <div
+        class="section-inner grid items-center gap-12 px-8 sm:px-12 lg:grid-cols-[minmax(0,1fr)_auto] xl:px-0"
+      >
+        <div class="fade-up">
+          <h2
+            class="font-headline text-4xl font-bold italic leading-[1.08] text-surface sm:text-5xl lg:text-[3.8rem]"
+          >
+            {finalCtaLead}
+            <span class="text-primary">{finalCtaAccent}</span>
+          </h2>
+          <p class="mt-6 max-w-[55ch] text-lg text-surface-muted">
+            {finalCtaDescription}
+          </p>
+        </div>
+
+        <div class="fade-up flex flex-wrap gap-3 lg:justify-end" style="transition-delay:120ms">
+          <a
+            href="/#projects"
+            class="inline-flex items-center gap-2 border border-(--outline-var) px-8 py-4 font-label text-xs font-semibold uppercase tracking-[0.15em] text-surface-muted transition-[transform,color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-outline hover:text-surface hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+            >← {finalBackCtaLabel}</a
+          >
+          <a
+            href="/#contact"
+            class="inline-flex items-center gap-2 bg-primary px-8 py-4 font-label text-xs font-semibold uppercase tracking-[0.15em] text-on-primary transition-[transform,background-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-[#5fff7a] hover:shadow-[0_18px_32px_rgba(67,254,109,0.2)]"
+            >{finalContactCtaLabel}</a
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const revealDetailMotion = () => {
+        const root = document.querySelector('.project-detail-page');
+        if (!(root instanceof HTMLElement)) return;
+
+        requestAnimationFrame(() => {
+          root.querySelectorAll('.fade-up, .stagger').forEach((element) => {
+            element.classList.add('is-visible');
+          });
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', revealDetailMotion, {
+          once: true,
+        });
+      } else {
+        revealDetailMotion();
+      }
+
+      document.addEventListener('astro:page-load', revealDetailMotion);
+    })();
+  </script>
+</Layout>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useLenis } from '../hooks/useLenis';
+import { getLenis, useLenis } from '../hooks/useLenis';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import HeroSection from './sections/HeroSection';
 import AboutSection from './sections/AboutSection';
@@ -75,6 +75,34 @@ export default function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
+
+      const target = document.getElementById(hash);
+      if (!target) return;
+
+      const top = target.getBoundingClientRect().top + window.scrollY;
+      const lenis = getLenis();
+
+      if (lenis) {
+        lenis.scrollTo(top, { immediate: true });
+        return;
+      }
+
+      window.scrollTo({ top, behavior: 'auto' });
+    };
+
+    const rafId = requestAnimationFrame(() => requestAnimationFrame(scrollToHash));
+    window.addEventListener('hashchange', scrollToHash);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('hashchange', scrollToHash);
+    };
+  }, [wrapperHeight]);
 
   return (
     <>
