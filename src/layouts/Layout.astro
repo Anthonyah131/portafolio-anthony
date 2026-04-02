@@ -2,7 +2,7 @@
 import '../styles/global.css';
 
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -10,24 +10,18 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		
-		<!-- Preload recursos críticos -->
-		<link rel="preload" href="/fonts/star_jedi/starjedi/Starjedi.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
-		<link rel="preload" href="/imgs/AnthonyPerfil.webp" as="image" />
-		
-		<!-- DNS prefetch para recursos externos -->
-		<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-		
-		<!-- Preconnect para recursos críticos -->
-		<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
