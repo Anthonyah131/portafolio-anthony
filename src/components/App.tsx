@@ -187,8 +187,6 @@ function PortfolioContent() {
         </div>
       </div>
 
-      <div id="three-bg" style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }} />
-
       <div id="content" style={{ position: 'relative', zIndex: 1 }}>
         <HeroSection />
         <AboutSection />

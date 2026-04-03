@@ -11,25 +11,10 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    optimizeDeps: {
-      include: ['@theatre/core', '@theatre/r3f'],
-    },
-    ssr: {
-      noExternal: ['@theatre/core', '@theatre/r3f', '@theatre/studio'],
-    },
     build: {
       rollupOptions: {
         output: {
           manualChunks: (id) => {
-            // NO separar React/React-DOM - deben estar en el chunk principal para hidratación
-            // Separar Three.js y dependencias relacionadas
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'three';
-            }
-            // Separar Theatre.js
-            if (id.includes('@theatre')) {
-              return 'theatre';
-            }
             // Separar lucide-react
             if (id.includes('lucide-react')) {
               return 'lucide';
