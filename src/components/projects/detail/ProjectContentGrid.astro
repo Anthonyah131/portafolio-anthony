@@ -1,0 +1,165 @@
+---
+import DetailSection from "./DetailSection.astro";
+import TechnicalBtsCard from "./TechnicalBtsCard.astro";
+import LessonItem from "./LessonItem.astro";
+import ProjectMetadataCard from "./ProjectMetadataCard.astro";
+
+interface BtsItem {
+  icon: string;
+  title: string;
+  body: string;
+}
+
+interface LessonItemType {
+  num: string;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  summaryText: string;
+  synopsisEyebrow: string;
+  synopsisTitle: string;
+  technicalEyebrow: string;
+  technicalTitle: string;
+  lessonsEyebrow: string;
+  lessonsTitle: string;
+  bts: BtsItem[];
+  lessons: LessonItemType[];
+  stackLabel: string;
+  tech: string[];
+  statusLabel: string;
+  statusClass: Record<string, string>;
+  statusText: string;
+  yearLabel: string;
+  year: string | number;
+  liveCtaLabel: string;
+  repositoryCtaLabel: string;
+  projectLink?: string;
+  githubLink?: string;
+  projectStatus: string;
+}
+
+const {
+  summaryText,
+  synopsisEyebrow,
+  synopsisTitle,
+  technicalEyebrow,
+  technicalTitle,
+  lessonsEyebrow,
+  lessonsTitle,
+  bts,
+  lessons,
+  stackLabel,
+  tech,
+  statusLabel,
+  statusClass,
+  statusText,
+  yearLabel,
+  year,
+  liveCtaLabel,
+  repositoryCtaLabel,
+  projectLink,
+  githubLink,
+  projectStatus,
+} = Astro.props;
+---
+
+<section class="bg-(--bg) py-16 sm:py-20">
+  <div
+    class="section-inner grid gap-14 px-8 sm:px-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-20 xl:px-0"
+  >
+    <!-- Main content -->
+    <div>
+      <!-- Synopsis -->
+      <DetailSection
+        id="project-summary"
+        eyebrow={synopsisEyebrow}
+        title={synopsisTitle}
+        class="fade-up mb-14"
+      >
+        <p
+          class="max-w-[66ch] text-[1.05rem] leading-[1.85] text-surface-muted"
+        >
+          {summaryText}
+        </p>
+      </DetailSection>
+
+      <!-- Technical BTS -->
+      <DetailSection
+        id="project-implementation"
+        eyebrow={technicalEyebrow}
+        title={technicalTitle}
+        class="fade-up mb-14"
+      >
+        <div class="stagger grid gap-4 sm:grid-cols-2">
+          {bts.map((item) => (
+            <TechnicalBtsCard
+              icon={item.icon}
+              title={item.title}
+              body={item.body}
+            />
+          ))}
+        </div>
+      </DetailSection>
+
+      <!-- Lessons -->
+      <DetailSection
+        id="project-insights"
+        eyebrow={lessonsEyebrow}
+        title={lessonsTitle}
+        class="fade-up"
+      >
+        <div class="stagger flex flex-col gap-10">
+          {lessons.map((item) => (
+            <LessonItem
+              num={item.num}
+              title={item.title}
+              body={item.body}
+            />
+          ))}
+        </div>
+      </DetailSection>
+    </div>
+
+    <!-- Aside: Stack, Status, Year, CTAs -->
+    <aside
+      class="fade-up flex flex-col gap-8 lg:sticky lg:top-24 lg:self-start"
+      style="transition-delay:220ms"
+    >
+      <!-- Tech Stack -->
+      <ProjectMetadataCard label={stackLabel} type="tags" values={tech} />
+
+      <!-- Status -->
+      <ProjectMetadataCard
+        label={statusLabel}
+        type="colored-text"
+        value={statusText}
+        colorClass={statusClass[projectStatus] ?? "text-surface-muted"}
+      />
+
+      <!-- Year -->
+      <ProjectMetadataCard label={yearLabel} type="text" value={String(year)} />
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap gap-3">
+        {projectLink && (
+          <a
+            href={projectLink}
+            class="inline-flex items-center gap-2 bg-primary px-5 py-3 font-label text-xs font-semibold uppercase tracking-[0.15em] text-on-primary transition-[transform,background-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-[#5fff7a] hover:shadow-[0_18px_32px_rgba(67,254,109,0.2)]"
+          >
+            {liveCtaLabel} →
+          </a>
+        )}
+        {githubLink && (
+          <a
+            href={githubLink}
+            class="inline-flex items-center gap-2 border border-(--outline-var) px-5 py-3 font-label text-xs font-semibold uppercase tracking-[0.15em] text-surface-muted transition-[transform,color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-outline hover:text-surface hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+          >
+            {repositoryCtaLabel}
+          </a>
+        )}
+      </div>
+    </aside>
+  </div>
+</section>

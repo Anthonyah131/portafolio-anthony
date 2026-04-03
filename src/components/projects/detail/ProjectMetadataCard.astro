@@ -1,0 +1,45 @@
+---
+interface Props {
+  label: string;
+  type?: "text" | "tags" | "colored-text";
+  value?: string;
+  values?: string[];
+  colorClass?: string;
+}
+
+const { label, type = "text", value, values, colorClass } = Astro.props;
+---
+
+<div
+  class="border-b border-[rgba(60,75,58,0.15)] pb-7 transition-[border-color,transform] duration-300 hover:-translate-x-[3px] hover:border-[rgba(67,254,109,0.26)]"
+>
+  <span
+    class="mb-4 block font-label text-[0.6rem] uppercase tracking-[0.3em] text-outline"
+  >
+    {label}
+  </span>
+
+  {type === "text" && (
+    <p class="font-headline text-[1.35rem] font-semibold italic leading-none text-surface">
+      {value}
+    </p>
+  )}
+
+  {type === "colored-text" && (
+    <p
+      class={`font-headline text-[1.35rem] font-bold italic leading-none ${colorClass || "text-surface-muted"}`}
+    >
+      {value}
+    </p>
+  )}
+
+  {type === "tags" && (
+    <div class="stagger flex flex-wrap gap-2">
+      {values?.map((item) => (
+        <span class="border border-[rgba(60,75,58,0.3)] bg-(--bg-highest) px-3 py-1.5 font-label text-[0.65rem] uppercase tracking-widest text-surface-muted transition-[transform,border-color,color,background] duration-150 hover:-translate-y-0.5 hover:border-[rgba(67,254,109,0.4)] hover:bg-[rgba(67,254,109,0.08)] hover:text-surface">
+          {item}
+        </span>
+      ))}
+    </div>
+  )}
+</div>

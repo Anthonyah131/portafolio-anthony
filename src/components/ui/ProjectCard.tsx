@@ -1,85 +1,104 @@
-import { Eye, Code2 } from "lucide-react";
-import TechTooltip from "./TechTooltip";
+import { getProjectTransitionNames } from "../../utils/projectTransitions";
+import { Image } from "./Image";
+import type { Project } from "../../types/portfolio";
+import { useTranslation } from "../../context/LanguageContext";
 
-interface ProjectCardProps {
-  title: string;
-  description: string;
-  image: string;
-  tech: string[];
-  link: string;
-  githubLink?: string;
-  onClick: () => void;
+const STATUS_COLOR: Record<string, string> = {
+  LIVE: "#43fe6d",
+  COMPLETE: "#b9e4ff",
+  ARCHIVED: "#ffb787",
+};
+
+const FALLBACK_IMG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%231c1b1b'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23859582' font-size='14' font-family='monospace'%3ENo image%3C/text%3E%3C/svg%3E";
+
+interface Props {
+  project: Project;
 }
 
-export default function ProjectCard({
-  title,
-  description,
-  image,
-  tech,
-  link,
-  githubLink,
-  onClick,
-}: ProjectCardProps) {
+export default function ProjectCard({ project }: Props) {
+  const { locale } = useTranslation();
+  const href = `/${locale}/projects/${project.slug}`;
+  const transitionNames = getProjectTransitionNames(project.slug);
+
   return (
-    <button
-      onClick={onClick}
-      className="group relative bg-linear-to-br from-white/2 to-white/8 backdrop-blur-sm rounded-lg border border-white/10 hover:border-blue-400/50 transition-all duration-300 flex flex-col will-change-transform hover:z-20 w-full text-left hover:scale-[1.02] active:scale-[0.98]"
-    >
-      {/* Destello azul estilo Star Wars */}
-      <div className="absolute inset-0 bg-linear-to-br from-blue-500/0 via-blue-400/0 to-cyan-500/0 lg:group-hover:from-blue-500/20 lg:group-hover:via-blue-400/15 lg:group-hover:to-cyan-500/20 transition-all duration-300 pointer-events-none z-10 rounded-lg"></div>
+    <article className="group relative h-full w-full cursor-pointer overflow-hidden bg-(--bg-card) before:pointer-events-none before:absolute before:inset-0 before:z-0 before:bg-[radial-gradient(circle_at_45%_18%,rgba(67,254,109,0.2)_0%,transparent_34%),radial-gradient(circle_at_74%_82%,rgba(255,183,135,0.12)_0%,transparent_28%),linear-gradient(180deg,rgba(67,254,109,0.05)_0%,transparent_26%),linear-gradient(0deg,rgba(255,183,135,0.05)_0%,transparent_30%)] before:opacity-0 before:transition-opacity before:duration-450 before:content-[''] hover:before:opacity-100">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 z-10 overflow-hidden"
+        style={{
+          viewTransitionName: transitionNames.poster,
+        }}
+      >
+        <Image
+          src={project.image || FALLBACK_IMG}
+          alt={project.title}
+          className="h-full w-full object-cover filter-[grayscale(30%)_contrast(1.1)] transform-[scale(1.04)] transition-[transform,filter] duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:filter-[grayscale(0%)_contrast(1.05)] group-hover:transform-[scale(1.12)]"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
 
-      {/* Header con imagen de fondo */}
-      <div className="relative w-full p-3 sm:p-4 md:p-5 flex items-center gap-2 sm:gap-3 md:gap-4 min-h-20 sm:min-h-[100px] md:min-h-[120px] rounded-lg" style={{ overflow: 'visible' }}>
-        {/* Imagen de fondo */}
-        {image && (
-          <>
-            <div className="absolute inset-0 z-0 overflow-hidden rounded-lg">
-              <img
-                src={image}
-                alt={title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            {/* Overlay oscuro con gradiente */}
-            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-950/90 to-slate-950/70 z-1 rounded-lg"></div>
-          </>
-        )}
+      {/* Base info — always visible, hidden on hover */}
+      <div className="absolute right-0 bottom-0 left-0 z-20 bg-[linear-gradient(to_top,rgba(10,10,10,0.97)_0%,rgba(10,10,10,0.7)_50%,transparent_100%)] px-6 pt-8 pb-6 transition-opacity duration-300 group-hover:opacity-0">
+        <span className="mb-2 block font-label text-[0.6rem] uppercase tracking-[0.3em] text-secondary">
+          {project.genre}
+        </span>
+        <h3
+          className="mb-1.5 font-headline text-xl font-bold italic leading-[1.05] text-surface sm:text-2xl xl:text-[1.75rem]"
+          style={{
+            viewTransitionName: transitionNames.title,
+          }}
+        >
+          {project.title}
+        </h3>
+        <span className="font-label text-[0.65rem] tracking-[0.15em] text-outline">
+          {project.year}
+        </span>
+      </div>
 
-        {/* Título y tecnologías */}
-        <div className="relative z-10 flex-1 min-w-0">
-          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-white mb-1.5 sm:mb-2 line-clamp-1 tracking-tight drop-shadow-lg">
-            {title}
-          </h3>
-          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap relative">
-            {tech.slice(0, 3).map((t, index) => (
+      {/* Hover overlay */}
+      <div
+        className="absolute inset-0 z-30 flex items-end bg-[rgba(8,8,8,0.92)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        aria-hidden="true"
+      >
+        <div className="flex translate-y-3 flex-col gap-4 px-6 py-8 transition-transform duration-450 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-y-0">
+          <p className="line-clamp-3 text-[0.85rem] leading-[1.6] text-surface-muted">
+            {project.description}
+          </p>
+
+          <div className="flex flex-wrap gap-1.5">
+            {project.tech.slice(0, 3).map((t) => (
               <span
-                key={index}
-                className="px-1.5 sm:px-2 py-0.5 text-[8px] sm:text-[9px] md:text-[10px] text-blue-200 border border-blue-400/30 rounded font-mono uppercase tracking-wide"
+                key={t}
+                className="border border-[rgba(67,254,109,0.2)] bg-[rgba(67,254,109,0.08)] px-[0.65rem] py-1 font-label text-[0.6rem] uppercase tracking-[0.12em] text-primary"
               >
                 {t}
               </span>
             ))}
-            {tech.length > 3 && (
-              <TechTooltip
-                remainingTech={tech.slice(3)}
-                count={tech.length - 3}
-              />
-            )}
           </div>
-        </div>
 
-        {/* Botón de ver detalles */}
-        <div className="relative z-5 shrink-0">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg bg-white/10 group-hover:bg-blue-500/30 border border-white/20 group-hover:border-blue-400/50 flex items-center justify-center transition-all duration-200 backdrop-blur-sm">
-            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white/70 group-hover:text-blue-400 transition-all duration-300" />
-          </div>
+          <a
+            href={href}
+            className="relative z-40 inline-flex self-start bg-primary px-5 py-3 font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#002a0e] transition-[background-color,box-shadow] duration-200 hover:bg-[#5fff7a] hover:shadow-[0_0_20px_rgba(67,254,109,0.4)]"
+          >
+            <span>View Project</span>
+            <span className="ml-2 transition-transform duration-200 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
         </div>
       </div>
 
-      {/* Línea decorativa inferior */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    </button>
+      {/* Status pill */}
+      <div
+        className="absolute top-4 right-4 z-40 bg-[rgba(0,0,0,0.6)] px-2.5 py-1 font-label text-[0.55rem] uppercase tracking-[0.2em] backdrop-blur-xs"
+        style={{
+          color: STATUS_COLOR[project.status] ?? "var(--on-surface-var)",
+        }}
+      >
+        {project.status}
+      </div>
+    </article>
   );
 }

@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../data/projects";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return projects.map((project) => ({ params: { slug: project.slug } }));
+};
+
+const { slug } = Astro.params;
+const normalizedSlug = typeof slug === "string" ? slug : String(slug ?? "");
+const fallbackHref = `/en/projects/${normalizedSlug}`;
+---
+
+<Layout title="Redirecting...">
+  <main class="min-h-svh bg-(--bg) text-surface">
+    <div class="section-inner px-8 py-24 sm:px-12 xl:px-0">
+      <p class="font-label text-xs uppercase tracking-[0.2em] text-outline">
+        Redirecting...
+      </p>
+      <a
+        href={fallbackHref}
+        class="mt-4 inline-flex font-label text-sm text-surface-muted underline"
+      >
+        Continue
+      </a>
+    </div>
+  </main>
+
+  <script is:inline define:vars={{ normalizedSlug }}>
+    (() => {
+      const slug = normalizedSlug;
+      const params = new URLSearchParams(window.location.search);
+      const fromQuery = params.get("lang");
+      const fromStorage = window.localStorage.getItem("portfolio-lang");
+      const lang = fromQuery === "es" || fromStorage === "es" ? "es" : "en";
+      window.location.replace(`/${lang}/projects/${slug}`);
+    })();
+  </script>
+</Layout>

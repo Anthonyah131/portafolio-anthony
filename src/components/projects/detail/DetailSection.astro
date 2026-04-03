@@ -1,0 +1,23 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  class?: string;
+  id?: string;
+}
+
+const { eyebrow, title, class: className = "", id } = Astro.props;
+---
+
+<section id={id} class={className}>
+  <span
+    class="mb-2 block font-label text-[0.6rem] uppercase tracking-[0.35em] text-secondary"
+    >{eyebrow}</span
+  >
+  <h2
+    class="mb-6 font-headline text-3xl font-bold italic leading-none text-surface sm:text-4xl lg:text-[2.6rem]"
+  >
+    {title}
+  </h2>
+  <slot />
+</section>

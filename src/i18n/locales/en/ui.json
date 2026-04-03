@@ -1,0 +1,89 @@
+{
+  "hero": {
+    "greeting": "Hi, I'm",
+    "roles": [
+      "Software Engineer",
+      "Full-Stack Developer",
+      "Backend Developer",
+      "Mobile Developer",
+      "Frontend Developer"
+    ],
+    "bio": [
+      "I'm a full-stack developer with experience designing, building, and shipping web and mobile applications. I enjoy working across the stack — backend APIs, database design, authentication, deployment — while also crafting intuitive and responsive UI experiences.",
+      "My approach combines engineering discipline with clean design and product thinking."
+    ],
+    "basedInLabel": "Based in",
+    "backgroundLabel": "Background",
+    "latestRoleLabel": "Latest role",
+    "hireMe": "Hire Me",
+    "downloadCV": "Download CV",
+    "scrollHint": "Scroll to explore"
+  },
+  "about": {
+    "title": "About",
+    "titleHighlight": "me",
+    "educationLabel": "Education",
+    "experienceLabel": "Experience",
+    "educationStatus": "Completed",
+    "interestsLabel": "Interests & Hobbies"
+  },
+  "skills": {
+    "subtitle": "Expertise",
+    "title": "Skills &",
+    "titleHighlight": "Technologies."
+  },
+  "projects": {
+    "subtitle": "Selected Projects // MMXXV",
+    "title": "Development.",
+    "description": "A curated selection of digital products focused on engineering, architecture, and user experience. Hover to explore each project.",
+    "hoverHint": "Hover to explore",
+    "tabProjects": "Projects",
+    "tabCertificates": "Certificates"
+  },
+  "projectDetail": {
+    "backToProjects": "Back to Projects",
+    "projectOverview": "Project Overview",
+    "synopsisEyebrow": "The Project",
+    "synopsisTitle": "Summary",
+    "technicalEyebrow": "Technical Approach",
+    "technicalTitle": "Implementation",
+    "lessonsEyebrow": "Key Learnings",
+    "lessonsTitle": "Insights",
+    "stackLabel": "Tech Stack",
+    "statusLabel": "Status",
+    "yearLabel": "Year",
+    "liveCta": "View Demo",
+    "repositoryCta": "Repository",
+    "finalCtaLead": "Interested in working",
+    "finalCtaAccent": "together?",
+    "finalCtaDescription": "Always open to new projects and collaborations. Let's connect and explore what we can build together.",
+    "finalBackCta": "All Projects",
+    "finalContactCta": "Get in Touch",
+    "statusValues": {
+      "LIVE": "Live",
+      "COMPLETE": "Complete",
+      "ARCHIVED": "Archived",
+      "WIP": "In Progress"
+    }
+  },
+  "contact": {
+    "subtitle": "Get in touch",
+    "titleLine1": "Let's work",
+    "titleLine2": "together.",
+    "emailLabel": "Email",
+    "socialsLabel": "Socials",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailFieldLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "What's this about?",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell me about your project...",
+    "send": "Send Message",
+    "sending": "Sending…",
+    "sent": "✓ Message sent!",
+    "error": "Something went wrong. Try again.",
+    "notConfigured": "Contact form is not configured yet. Add EmailJS PUBLIC vars to enable sending."
+  }
+}

@@ -1,0 +1,183 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../../layouts/Layout.astro";
+import LanguageSwitcher from "../../../components/projects/detail/LanguageSwitcher.astro";
+import ProjectHeroSection from "../../../components/projects/detail/ProjectHeroSection.astro";
+import ProjectContentGrid from "../../../components/projects/detail/ProjectContentGrid.astro";
+import ProjectCtaSection from "../../../components/projects/detail/ProjectCtaSection.astro";
+import { getProject, getProjectPagination, projects } from "../../../data/projects";
+import { getProjectTransitionNames } from "../../../utils/projectTransitions";
+import type { Locale } from "../../../i18n";
+import enUi from "../../../i18n/locales/en/ui.json";
+import esUi from "../../../i18n/locales/es/ui.json";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const locales: Locale[] = ["en", "es"];
+  return locales.flatMap((lang) =>
+    projects.map((project) => ({ params: { lang, slug: project.slug } })),
+  );
+};
+
+const { slug, lang } = Astro.params;
+const locale: Locale = lang === "es" ? "es" : "en";
+const ui = locale === "es" ? esUi : enUi;
+const normalizedSlug = typeof slug === "string" ? slug : String(slug ?? "");
+const project = normalizedSlug ? getProject(normalizedSlug, locale) : undefined;
+
+if (!project) {
+  return Astro.redirect("/");
+}
+
+// Status styling
+const statusClass: Record<string, string> = {
+  LIVE: "text-primary",
+  COMPLETE: "text-[#b9e4ff]",
+  ARCHIVED: "text-secondary",
+  WIP: "text-[#ffd580]",
+};
+
+// Data extraction with defaults
+const summaryText = project.description;
+const heroImage = project.heroImage ?? project.image;
+const bts = project.bts ?? [];
+const lessons = project.lessons ?? [];
+const tech = project.tech ?? [];
+const transitionNames = getProjectTransitionNames(project.slug);
+
+// Translation keys
+const t = ui.projectDetail;
+const statusText =
+  t.statusValues[project.status as keyof typeof t.statusValues] ?? project.status;
+
+// URLs
+const detailEnHref = `/en/projects/${project.slug}`;
+const detailEsHref = `/es/projects/${project.slug}`;
+const homeProjectsHref = `/?lang=${locale}#projects`;
+const homeContactHref = `/?lang=${locale}#contact`;
+const { previous, next } = getProjectPagination(project.slug, locale);
+
+const paginationLabel = locale === "es" ? "Navegacion de proyectos" : "Project navigation";
+const previousProjectLabel = locale === "es" ? "Proyecto anterior" : "Previous project";
+const nextProjectLabel = locale === "es" ? "Proyecto siguiente" : "Next project";
+---
+
+<Layout title={`${project.title} | Anthony Avila`}>
+  <main id="project-top" class="project-detail-page bg-(--bg) text-surface">
+    <!-- Language switcher -->
+    <LanguageSwitcher locale={locale} enHref={detailEnHref} esHref={detailEsHref} />
+
+    <!-- Hero section -->
+    <ProjectHeroSection
+      title={project.title}
+      heroImage={heroImage}
+      year={project.year}
+      status={project.status}
+      statusClass={statusClass}
+      statusText={statusText}
+      caseStudyLabel={t.projectOverview}
+      backToLabel={t.backToProjects}
+      homeProjectsHref={homeProjectsHref}
+      transitionNames={transitionNames}
+    />
+
+    <!-- Main content grid -->
+    <ProjectContentGrid
+      summaryText={summaryText}
+      synopsisEyebrow={t.synopsisEyebrow}
+      synopsisTitle={t.synopsisTitle}
+      technicalEyebrow={t.technicalEyebrow}
+      technicalTitle={t.technicalTitle}
+      lessonsEyebrow={t.lessonsEyebrow}
+      lessonsTitle={t.lessonsTitle}
+      bts={bts}
+      lessons={lessons}
+      stackLabel={t.stackLabel}
+      tech={tech}
+      statusLabel={t.statusLabel}
+      statusClass={statusClass}
+      statusText={statusText}
+      yearLabel={t.yearLabel}
+      year={project.year}
+      liveCtaLabel={t.liveCta}
+      repositoryCtaLabel={t.repositoryCta}
+      projectLink={project.link}
+      githubLink={project.githubLink}
+      projectStatus={project.status}
+    />
+
+    <section class="bg-(--bg) pb-8 pt-2 sm:pb-10">
+      <div class="section-inner px-8 sm:px-12 xl:px-0">
+        <nav aria-label={paginationLabel} class="fade-up grid gap-3 sm:grid-cols-2">
+          {
+            previous ? (
+              <a
+                href={`/${locale}/projects/${previous.slug}`}
+                class="group rounded-2xl border border-[rgba(60,75,58,0.32)] bg-(--bg-mid) px-5 py-4 transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[rgba(67,254,109,0.45)] hover:shadow-[0_20px_36px_rgba(0,0,0,0.22)]"
+              >
+                <span class="block font-label text-[0.58rem] uppercase tracking-[0.16em] text-outline">{previousProjectLabel}</span>
+                <span class="mt-2 block font-headline text-[1.1rem] font-semibold italic text-surface group-hover:text-primary">{previous.title}</span>
+              </a>
+            ) : (
+              <div class="rounded-2xl border border-dashed border-[rgba(60,75,58,0.24)] px-5 py-4 opacity-60">
+                <span class="block font-label text-[0.58rem] uppercase tracking-[0.16em] text-outline">{previousProjectLabel}</span>
+              </div>
+            )
+          }
+          {
+            next ? (
+              <a
+                href={`/${locale}/projects/${next.slug}`}
+                class="group rounded-2xl border border-[rgba(60,75,58,0.32)] bg-(--bg-mid) px-5 py-4 text-right transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[rgba(67,254,109,0.45)] hover:shadow-[0_20px_36px_rgba(0,0,0,0.22)]"
+              >
+                <span class="block font-label text-[0.58rem] uppercase tracking-[0.16em] text-outline">{nextProjectLabel}</span>
+                <span class="mt-2 block font-headline text-[1.1rem] font-semibold italic text-surface group-hover:text-primary">{next.title}</span>
+              </a>
+            ) : (
+              <div class="rounded-2xl border border-dashed border-[rgba(60,75,58,0.24)] px-5 py-4 text-right opacity-60">
+                <span class="block font-label text-[0.58rem] uppercase tracking-[0.16em] text-outline">{nextProjectLabel}</span>
+              </div>
+            )
+          }
+        </nav>
+      </div>
+    </section>
+
+    <!-- Final CTA section -->
+    <div id="project-contact">
+      <ProjectCtaSection
+        lead={t.finalCtaLead}
+        accent={t.finalCtaAccent}
+        description={t.finalCtaDescription}
+        backLabel={t.finalBackCta}
+        contactLabel={t.finalContactCta}
+        backHref={homeProjectsHref}
+        contactHref={homeContactHref}
+      />
+    </div>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const revealDetailMotion = () => {
+        const root = document.querySelector(".project-detail-page");
+        if (!(root instanceof HTMLElement)) return;
+
+        requestAnimationFrame(() => {
+          root.querySelectorAll(".fade-up, .stagger").forEach((element) => {
+            element.classList.add("is-visible");
+          });
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", revealDetailMotion, {
+          once: true,
+        });
+      } else {
+        revealDetailMotion();
+      }
+
+      document.addEventListener("astro:page-load", revealDetailMotion);
+    })();
+  </script>
+</Layout>

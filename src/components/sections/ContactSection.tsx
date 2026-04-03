@@ -1,331 +1,36 @@
-import { useState } from "react";
-import {
-  Mail,
-  Copy,
-  CheckCircle,
-  Linkedin,
-  Github,
-  MessageCircle,
-  Send,
-} from "lucide-react";
-import { useScrollAnimation } from "../../hooks/useScrollAnimation";
-import emailjs from "@emailjs/browser";
+import { getPersonal } from '../../data/personal';
+import { useTranslation } from '../../context/LanguageContext';
+import { ContactFooter } from './contact/ContactFooter';
+import { ContactFormPanel } from './contact/ContactFormPanel';
+import { ContactInfoPanel } from './contact/ContactInfoPanel';
+import { useContactForm } from '../../hooks/useContactForm';
 
 export default function ContactSection() {
-  useScrollAnimation();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [copied, setCopied] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-
-  const myEmail = "anthonyah131@gmail.com";
-  const whatsappNumber = "50685983050"; // Formato: código país + número sin espacios
-  const telegramUsername = "AnthonyAH";
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSending(true);
-    setStatus("idle");
-
-    try {
-      const result = await emailjs.send(
-        "service_n32ow8a",
-        "template_mpinvfr",
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_email: myEmail,
-        },
-        "tjYwlu5aiKPvOrHAz"
-      );
-
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
-
-      setTimeout(() => setStatus("idle"), 5000);
-    } catch (error) {
-      setStatus("error");
-
-      setTimeout(() => setStatus("idle"), 5000);
-    } finally {
-      setSending(false);
-    }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText(myEmail);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const { t, locale } = useTranslation();
+  const personal = getPersonal(locale);
+  const { formRef, handleSubmit, status } = useContactForm();
 
   return (
     <section
       id="contact"
-      className="section-container min-h-screen lg:min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-12 sm:py-16 md:py-20 lg:py-16 xl:py-20 relative overflow-hidden"
+      className="relative flex min-h-svh items-center rounded-t-2xl bg-(--bg) px-6 py-16 md:px-12 lg:py-20 xl:px-24 xl:py-24"
     >
-      {/* Hint central - Solo visible en pantallas grandes */}
-      <div
-        data-scroll="fade-down"
-        className="hidden lg:block fixed bottom-10 left-1/2 -translate-x-1/2 z-10 animate-pulse"
-      >
-        <div className="bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-2xl">
-          <p className="text-white font-medium text-center flex flex-col items-center gap-2">
-            <span className="text-3xl animate-bounce">🌍</span>
-            <span className="text-sm">
-              <span className="text-cyan-400 font-bold">Hover</span> over the
-              planet and <span className="text-purple-400 font-bold">drag</span>{" "}
-              to rotate it!
-            </span>
-          </p>
-        </div>
+      <div className="section-inner mx-auto grid w-full max-w-[1180px] gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-24">
+        <ContactInfoPanel
+          contactT={t.contact}
+          hireEmail={personal.hireEmail}
+          social={personal.social}
+        />
+
+        <ContactFormPanel
+          contactT={t.contact}
+          formRef={formRef}
+          status={status}
+          onSubmit={handleSubmit}
+        />
       </div>
-
-      <div className="w-full max-w-6xl sm:max-w-7xl mx-auto relative px-2 sm:px-4">
-        <div 
-          data-scroll="slide-left"
-          className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-3 sm:p-4 md:p-5 lg:p-6 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] mb-6 lg:mb-0 relative z-10 w-full lg:w-auto"
-        >
-          <h2 
-            data-scroll="fade-up"
-            className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-white font-starwars tracking-wider text-center lg:text-left block"
-          >
-            send message
-          </h2>
-          <p className="text-xs sm:text-sm text-white/60 mb-4 sm:mb-5 md:mb-6 text-center lg:text-left block">Quick contact form</p>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm text-white/80 mb-2"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all"
-                placeholder="Your name"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm text-white/80 mb-2"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all"
-                placeholder="your@email.com"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm text-white/80 mb-2"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm focus:border-blue-400/50 focus:outline-none focus:ring-1 focus:ring-blue-400/20 transition-all resize-none"
-                placeholder="Your message..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={sending}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-colors duration-300"
-            >
-              {sending ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  Send Message
-                </>
-              )}
-            </button>
-
-            {/* Status Messages */}
-            {status === "success" && (
-              <div className="p-3 bg-green-500/20 border border-green-400/40 rounded-lg">
-                <p className="text-sm text-green-400 text-center">
-                  ✓ Message sent successfully!
-                </p>
-              </div>
-            )}
-            {status === "error" && (
-              <div className="p-3 bg-red-500/20 border border-red-400/40 rounded-lg">
-                <p className="text-sm text-red-400 text-center">
-                  ✗ Error sending message. Try WhatsApp or Email.
-                </p>
-              </div>
-            )}
-          </form>
-        </div>
-
-        {/* COLUMNA CENTRAL - Espacio libre (sin contenedor, sin pointer-events) */}
-        {/* El centro queda completamente vacío para que los eventos pasen al Canvas 3D */}
-
-        <div 
-          data-scroll="slide-right"
-          className="bg-linear-to-br from-white/3 to-white/8 rounded-2xl border border-white/10 p-3 sm:p-4 md:p-5 lg:p-6 pointer-events-auto backdrop-blur-none lg:backdrop-blur-sm lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[26%] relative z-10 w-full lg:w-auto"
-        >
-          <h2 
-            data-scroll="fade-up"
-            className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-white font-starwars tracking-wider text-center lg:text-left block"
-          >
-            get in touch
-          </h2>
-          <p className="text-xs sm:text-sm text-white/60 mb-4 sm:mb-5 md:mb-6 text-center lg:text-left block">Direct contact options</p>
-
-          {/* Email con botón copiar */}
-          <div className="mb-6">
-            <label className="block text-sm text-white/80 mb-2">Email</label>
-            <div className="flex items-center gap-2">
-              <div className="flex-1 px-4 py-2.5 bg-slate-800/30 border border-white/10 rounded-lg text-white text-sm truncate">
-                {myEmail}
-              </div>
-              <button
-                onClick={copyEmail}
-                className="p-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300"
-                title="Copy email"
-              >
-                {copied ? (
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                ) : (
-                  <Copy className="w-5 h-5 text-white/60" />
-                )}
-              </button>
-            </div>
-            {copied && (
-              <p className="text-xs text-green-400 mt-1">Email copied!</p>
-            )}
-          </div>
-
-          {/* Botones de contacto directo */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-md mx-auto lg:mx-0">
-            <a
-              href={`mailto:${myEmail}`}
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300 group"
-            >
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 shrink-0">
-                <Mail className="w-4 h-4 text-blue-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">Gmail</p>
-                <p className="text-[10px] text-white/50">Send email</p>
-              </div>
-            </a>
-
-            <a
-              href={`https://wa.me/${whatsappNumber}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-green-400/40 rounded-lg transition-all duration-300 group"
-            >
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-400/30 group-hover:border-green-400/50 shrink-0">
-                <MessageCircle className="w-4 h-4 text-green-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">
-                  WhatsApp
-                </p>
-                <p className="text-[10px] text-white/50">Chat now</p>
-              </div>
-            </a>
-
-            <a
-              href={`https://t.me/${telegramUsername}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-cyan-400/40 rounded-lg transition-all duration-300 group"
-            >
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center border border-cyan-400/30 group-hover:border-cyan-400/50 shrink-0">
-                <Send className="w-4 h-4 text-cyan-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">
-                  Telegram
-                </p>
-                <p className="text-[10px] text-white/50">Message me</p>
-              </div>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/anthonyah-webdev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-blue-400/40 rounded-lg transition-all duration-300 group"
-            >
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center border border-blue-400/30 group-hover:border-blue-400/50 shrink-0">
-                <Linkedin className="w-4 h-4 text-blue-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">
-                  LinkedIn
-                </p>
-                <p className="text-[10px] text-white/50">Connect</p>
-              </div>
-            </a>
-
-            <a
-              href="https://github.com/Anthonyah131"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 px-3 py-2.5 bg-slate-800/30 hover:bg-slate-700/40 border border-white/10 hover:border-purple-400/40 rounded-lg transition-all duration-300 group sm:col-span-2"
-            >
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-400/30 group-hover:border-purple-400/50 shrink-0">
-                <Github className="w-4 h-4 text-purple-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">
-                  GitHub
-                </p>
-                <p className="text-[10px] text-white/50">View profile</p>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
+      <ContactFooter />
     </section>
   );
 }
+

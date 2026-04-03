@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import HeroScene from "../components/scene/HeroScene.tsx";
+import Layout from '../layouts/Layout.astro';
+import App from '../components/App';
 ---
 
-<Layout title="Portfolio - Anthony">
-  <HeroScene editorMode={true} client:only="react" />
+<Layout title="Anthony Avila — Portfolio">
+  <App client:only="react" />
 </Layout>

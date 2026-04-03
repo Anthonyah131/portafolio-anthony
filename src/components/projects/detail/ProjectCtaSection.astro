@@ -1,0 +1,51 @@
+---
+interface Props {
+  lead: string;
+  accent: string;
+  description: string;
+  backLabel: string;
+  contactLabel: string;
+  backHref: string;
+  contactHref: string;
+}
+
+const { lead, accent, description, backLabel, contactLabel, backHref, contactHref } = Astro.props;
+---
+
+<section
+  class="border-t border-[rgba(60,75,58,0.2)] bg-(--bg-low) py-18 sm:py-24"
+>
+  <div
+    class="section-inner grid items-center gap-12 px-8 sm:px-12 lg:grid-cols-[minmax(0,1fr)_auto] xl:px-0"
+  >
+    <div class="fade-up">
+      <h2
+        class="font-headline text-4xl font-bold italic leading-[1.08] text-surface sm:text-5xl lg:text-[3.8rem]"
+      >
+        {lead}
+        <span class="text-primary">{accent}</span>
+      </h2>
+      <p class="mt-6 max-w-[55ch] text-lg text-surface-muted">
+        {description}
+      </p>
+    </div>
+
+    <div
+      class="fade-up flex flex-wrap gap-3 lg:justify-end"
+      style="transition-delay:120ms"
+    >
+      <a
+        href={backHref}
+        class="inline-flex items-center gap-2 border border-(--outline-var) px-8 py-4 font-label text-xs font-semibold uppercase tracking-[0.15em] text-surface-muted transition-[transform,color,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-outline hover:text-surface hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+      >
+        ← {backLabel}
+      </a>
+      <a
+        href={contactHref}
+        class="inline-flex items-center gap-2 bg-primary px-8 py-4 font-label text-xs font-semibold uppercase tracking-[0.15em] text-on-primary transition-[transform,background-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:bg-[#5fff7a] hover:shadow-[0_18px_32px_rgba(67,254,109,0.2)]"
+      >
+        {contactLabel}
+      </a>
+    </div>
+  </div>
+</section>
