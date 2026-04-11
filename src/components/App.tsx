@@ -111,32 +111,25 @@ function PortfolioContent() {
 
   useEffect(() => {
     const sectionIds = ['hero', 'about', 'skills', 'projects', 'contact'];
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((element): element is HTMLElement => element instanceof HTMLElement);
 
-    if (!sections.length) return;
+    const getActive = () => {
+      const midpoint = window.innerHeight * 0.4;
+      const sections = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter((el): el is HTMLElement => el instanceof HTMLElement);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-        if (visible?.target?.id) {
-          setActiveSection(visible.target.id);
+      let active = sections[0]?.id ?? 'hero';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= midpoint) {
+          active = section.id;
         }
-      },
-      {
-        root: null,
-        rootMargin: '-35% 0px -52% 0px',
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
+      }
+      setActiveSection(active);
+    };
 
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
+    getActive();
+    window.addEventListener('scroll', getActive, { passive: true });
+    return () => window.removeEventListener('scroll', getActive);
   }, [wrapperHeight]);
 
   const sectionLinks = [
@@ -164,7 +157,7 @@ function PortfolioContent() {
           <div className="pointer-events-auto h-8 w-full" aria-hidden="true" />
           <nav
             aria-label={locale === 'es' ? 'Navegacion de secciones' : 'Section navigation'}
-            className="pointer-events-auto absolute left-1/2 top-2 flex -translate-x-1/2 -translate-y-2 items-center gap-1 rounded-full border border-[rgba(133,149,130,0.22)] bg-[rgba(10,12,10,0.82)] p-1 opacity-0 shadow-[0_10px_24px_rgba(0,0,0,0.3)] backdrop-blur-[14px] transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100"
+            className="pointer-events-auto absolute left-1/2 top-2 flex -translate-x-1/2 items-center gap-1 rounded-full border border-[rgba(133,149,130,0.22)] bg-[rgba(10,12,10,0.82)] p-1 shadow-[0_10px_24px_rgba(0,0,0,0.3)] backdrop-blur-[14px]"
           >
             {sectionLinks.map((section) => {
               const isActive = activeSection === section.id;
