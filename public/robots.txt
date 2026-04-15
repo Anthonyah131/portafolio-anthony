@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portafolio-anthony-khaki.vercel.app/sitemap-index.xml

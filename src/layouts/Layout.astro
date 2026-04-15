@@ -4,19 +4,61 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  lang?: string;
+  hreflang?: { en: string; es: string };
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  canonical,
+  lang = 'en',
+  hreflang,
+} = Astro.props;
+
+const siteUrl = 'https://portafolio-anthony-khaki.vercel.app';
+const resolvedCanonical = canonical ?? siteUrl;
+const resolvedOgImage = ogImage ? (ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`) : `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    {description && <meta name="description" content={description} />}
+    <meta name="author" content="Anthony Avila" />
+    <link rel="canonical" href={resolvedCanonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={resolvedCanonical} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={resolvedOgImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <!-- hreflang alternates -->
+    {hreflang && (
+      <>
+        <link rel="alternate" hreflang="en" href={`${siteUrl}${hreflang.en}`} />
+        <link rel="alternate" hreflang="es" href={`${siteUrl}${hreflang.es}`} />
+        <link rel="alternate" hreflang="x-default" href={`${siteUrl}${hreflang.en}`} />
+      </>
+    )}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -3,6 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import App from '../components/App';
 ---
 
-<Layout title="Anthony Avila — Portfolio">
+<Layout
+  title="Anthony Avila — Frontend Developer"
+  description="Portfolio de Anthony Avila, desarrollador frontend especializado en React, TypeScript y experiencias web 3D interactivas."
+  canonical="https://portafolio-anthony-khaki.vercel.app"
+  lang="es"
+>
   <App client:only="react" />
+
+  <script type="application/ld+json" set:text={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Anthony Avila",
+    "url": "https://portafolio-anthony-khaki.vercel.app",
+    "jobTitle": "Full Stack Developer",
+    "email": "anthonyah131@gmail.com"
+  })} />
 </Layout>

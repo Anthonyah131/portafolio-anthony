@@ -61,7 +61,14 @@ const previousProjectLabel = locale === "es" ? "Proyecto anterior" : "Previous p
 const nextProjectLabel = locale === "es" ? "Proyecto siguiente" : "Next project";
 ---
 
-<Layout title={`${project.title} | Anthony Avila`}>
+<Layout
+  title={`${project.title} | Anthony Avila`}
+  description={project.description}
+  ogImage={project.heroImage ?? project.image}
+  canonical={`https://portafolio-anthony-khaki.vercel.app/${locale}/projects/${project.slug}`}
+  lang={locale}
+  hreflang={{ en: detailEnHref, es: detailEsHref }}
+>
   <main id="project-top" class="project-detail-page bg-(--bg) text-surface">
     <!-- Language switcher -->
     <LanguageSwitcher locale={locale} enHref={detailEnHref} esHref={detailEsHref} />
